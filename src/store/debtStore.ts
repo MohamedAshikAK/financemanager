@@ -1,0 +1,97 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { v4 as uuidv4 } from 'uuid';
+
+export interface DebtRecord {
+  id: string;
+  amount: number;
+  type: 'owed-to-me' | 'owed-by-me';
+  personId: string;
+  dueDate?: string; // ISO string
+  note?: string;
+  isPaid: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface DebtState {
+  debts: DebtRecord[];
+  isHydrated: boolean;
+  
+  // Actions
+  addDebt: (debt: Omit<DebtRecord, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  updateDebt: (id: string, debt: Partial<DebtRecord>) => void;
+  deleteDebt: (id: string) => void;
+  getDebt: (id: string) => DebtRecord | undefined;
+  markAsPaid: (id: string) => void;
+  getDebtsByType: (type: 'owed-to-me' | 'owed-by-me') => DebtRecord[];
+  getPendingDebts: () => DebtRecord[];
+  setHydrated: (hydrated: boolean) => void;
+}
+
+export const useDebtStore = create<DebtState>()(
+  persist(
+    (set, get) => ({
+      debts: [],
+      isHydrated: false,
+      
+      addDebt: (debt) => {
+        const newDebt: DebtRecord = {
+          ...debt,
+          id: uuidv4(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        set((state) => ({ debts: [...state.debts, newDebt] }));
+      },
+      
+      updateDebt: (id, updatedFields) => {
+        set((state) => ({
+          debts: state.debts.map((debt) =>
+            debt.id === id
+              ? { ...debt, ...updatedFields, updatedAt: new Date().toISOString() }
+              : debt
+          ),
+        }));
+      },
+      
+      deleteDebt: (id) => {
+        set((state) => ({
+          debts: state.debts.filter((debt) => debt.id !== id),
+        }));
+      },
+      
+      getDebt: (id) => {
+        return get().debts.find((debt) => debt.id === id);
+      },
+      
+      markAsPaid: (id) => {
+        set((state) => ({
+          debts: state.debts.map((debt) =>
+            debt.id === id
+              ? { ...debt, isPaid: true, updatedAt: new Date().toISOString() }
+              : debt
+          ),
+        }));
+      },
+      
+      getDebtsByType: (type) => {
+        return get().debts.filter((debt) => debt.type === type);
+      },
+      
+      getPendingDebts: () => {
+        return get().debts.filter((debt) => !debt.isPaid);
+      },
+      
+      setHydrated: (hydrated) => {
+        set({ isHydrated: hydrated });
+      },
+    }),
+    {
+      name: 'pocket-finances-debts',
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true);
+      },
+    }
+  )
+);
