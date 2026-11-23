@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
