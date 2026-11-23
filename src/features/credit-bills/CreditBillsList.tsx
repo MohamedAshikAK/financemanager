@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check, CreditCard, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, Edit, Check, CreditCard, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
@@ -31,7 +31,15 @@ export default function CreditBillsList() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Credit Bills</h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold text-slate-800">Credit Bills</h1>
+      </div>
 
       <button onClick={() => navigate('/bills/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2">
         <Plus size={20} />

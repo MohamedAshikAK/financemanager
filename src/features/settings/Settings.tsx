@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, Shield, Globe } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, Shield, Globe, ArrowLeft } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 
 export default function Settings() {
+  const navigate = useNavigate();
   const currency = useSettingsStore((state) => state.currency);
   const pin = useSettingsStore((state) => state.pin);
   const setCurrency = useSettingsStore((state) => state.setCurrency);
@@ -83,7 +85,15 @@ export default function Settings() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
+      </div>
 
       <div className="card p-5">
         <div className="flex items-center gap-3 mb-3">

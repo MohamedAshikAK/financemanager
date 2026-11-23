@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, User, Phone, Mail } from 'lucide-react';
+import { Plus, Trash2, Edit, User, Phone, Mail, ArrowLeft } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
 
 export default function ContactsList() {
@@ -22,7 +22,15 @@ export default function ContactsList() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Contacts</h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold text-slate-800">Contacts</h1>
+      </div>
 
       <button onClick={() => navigate('/contacts/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2">
         <Plus size={20} />

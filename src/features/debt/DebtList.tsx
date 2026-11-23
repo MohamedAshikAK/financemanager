@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard } from 'lucide-react';
+import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -46,7 +46,15 @@ export default function DebtList() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Debts</h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold text-slate-800">Debts</h1>
+      </div>
 
       <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
         <button

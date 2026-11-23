@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check, Wallet } from 'lucide-react';
+import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
@@ -47,7 +47,13 @@ export default function FinanceList() {
   return (
     <div className="p-5 space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Monthly Expenses</h1>
           <p className="text-sm text-slate-500">{currentMonthDisplay}</p>

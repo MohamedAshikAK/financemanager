@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Download, Upload, AlertCircle, CheckCircle, Database, Shield } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Download, Upload, AlertCircle, CheckCircle, Database, Shield, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
@@ -7,6 +8,7 @@ import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 
 export default function Backup() {
+  const navigate = useNavigate();
   const [showImportConfirm, setShowImportConfirm] = useState(false);
   const [importData, setImportData] = useState<any>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -86,7 +88,15 @@ export default function Backup() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => navigate('/')}
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+        >
+          <ArrowLeft size={24} />
+        </button>
+        <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
+      </div>
 
       {message && (
         <div className={`p-4 rounded-2xl flex items-center gap-3 ${
