@@ -36,13 +36,18 @@ export const useDebtStore = create<DebtState>()(
       isHydrated: false,
       
       addDebt: (debt) => {
-        const newDebt: DebtRecord = {
-          ...debt,
-          id: uuidv4(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        set((state) => ({ debts: [...state.debts, newDebt] }));
+        try {
+          const newDebt: DebtRecord = {
+            ...debt,
+            id: uuidv4(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          set((state) => ({ debts: [...state.debts, newDebt] }));
+        } catch (error) {
+          console.error('Error adding debt:', error);
+          throw new Error('Failed to add debt');
+        }
       },
       
       updateDebt: (id, updatedFields) => {

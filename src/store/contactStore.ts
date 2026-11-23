@@ -30,13 +30,18 @@ export const useContactStore = create<ContactState>()(
       isHydrated: false,
       
       addContact: (contact) => {
-        const newContact: Contact = {
-          ...contact,
-          id: uuidv4(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        set((state) => ({ contacts: [...state.contacts, newContact] }));
+        try {
+          const newContact: Contact = {
+            ...contact,
+            id: uuidv4(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          set((state) => ({ contacts: [...state.contacts, newContact] }));
+        } catch (error) {
+          console.error('Error adding contact:', error);
+          throw new Error('Failed to add contact');
+        }
       },
       
       updateContact: (id, updatedFields) => {

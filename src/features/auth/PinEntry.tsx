@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
+import { CONFIG } from '../../config/constants';
 
 interface PinEntryProps {
   onSuccess: () => void;
@@ -9,6 +10,9 @@ interface PinEntryProps {
 export default function PinEntry({ onSuccess }: PinEntryProps) {
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockTime, setLockTime] = useState(0);
   const storedPin = useSettingsStore((state) => state.pin);
 
   const handlePinChange = (value: string) => {
@@ -19,11 +23,35 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
   };
 
   const handleSubmit = () => {
+    if (isLocked) return;
+    
     if (verifyPin(pin, storedPin)) {
       onSuccess();
+      setPin('');
+      setError(false);
+      setAttempts(0);
     } else {
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
       setError(true);
       setPin('');
+      
+      if (newAttempts >= CONFIG.PIN.MAX_ATTEMPTS) {
+        setIsLocked(true);
+        const lockSeconds = 30;
+        setLockTime(lockSeconds);
+        const timer = setInterval(() => {
+          setLockTime((prev) => {
+            if (prev <= 1) {
+              clearInterval(timer);
+              setIsLocked(false);
+              setAttempts(0);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
     }
   };
 
@@ -50,9 +78,16 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
           ))}
         </div>
 
-        {error && (
+        {isLocked && (
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4 text-center">
+            <p className="text-red-600 font-semibold">Too many attempts</p>
+            <p className="text-red-500 text-sm">Try again in {lockTime} seconds</p>
+          </div>
+        )}
+        
+        {error && !isLocked && (
           <p className="text-red-500 text-sm text-center mb-4">
-            Incorrect PIN. Please try again.
+            Incorrect PIN. {CONFIG.PIN.MAX_ATTEMPTS - attempts} attempts remaining.
           </p>
         )}
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
 import PinEntry from './PinEntry';
+import { CONFIG } from '../../config/constants';
 
-const AUTO_LOCK_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
+const AUTO_LOCK_TIME = CONFIG.PIN.AUTO_LOCK_MINUTES * 60 * 1000;
 
 interface AuthGuardProps {
   children: React.ReactNode;

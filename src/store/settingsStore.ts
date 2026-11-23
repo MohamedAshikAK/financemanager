@@ -13,14 +13,29 @@ interface SettingsState {
   setHydrated: (hydrated: boolean) => void;
 }
 
-// Simple encryption for PIN (not military-grade, but prevents casual access)
+// Simple encryption using XOR with a key (better than Base64)
+const ENCRYPTION_KEY = 'pocket-finances-secret-key-2024';
+
 const encrypt = (text: string): string => {
-  return btoa(text); // Base64 encoding (simple obfuscation)
+  let result = '';
+  for (let i = 0; i < text.length; i++) {
+    result += String.fromCharCode(
+      text.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length)
+    );
+  }
+  return btoa(result);
 };
 
 const decrypt = (encoded: string): string => {
   try {
-    return atob(encoded);
+    const decoded = atob(encoded);
+    let result = '';
+    for (let i = 0; i < decoded.length; i++) {
+      result += String.fromCharCode(
+        decoded.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(i % ENCRYPTION_KEY.length)
+      );
+    }
+    return result;
   } catch {
     return '';
   }

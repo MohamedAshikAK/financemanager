@@ -34,13 +34,18 @@ export const useCreditBillStore = create<CreditBillState>()(
       isHydrated: false,
       
       addBill: (bill) => {
-        const newBill: CreditBill = {
-          ...bill,
-          id: uuidv4(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        set((state) => ({ bills: [...state.bills, newBill] }));
+        try {
+          const newBill: CreditBill = {
+            ...bill,
+            id: uuidv4(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          set((state) => ({ bills: [...state.bills, newBill] }));
+        } catch (error) {
+          console.error('Error adding bill:', error);
+          throw new Error('Failed to add bill');
+        }
       },
       
       updateBill: (id, updatedFields) => {

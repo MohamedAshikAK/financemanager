@@ -95,6 +95,7 @@ export default function DebtForm() {
       navigate('/debt');
     } catch (error) {
       console.error('Error saving debt:', error);
+      alert('Failed to save debt. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
