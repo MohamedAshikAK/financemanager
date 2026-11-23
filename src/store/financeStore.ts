@@ -40,6 +40,12 @@ export const useFinanceStore = create<FinanceState>()(
       
       addEntry: (entry) => {
         try {
+          if (!entry.title || entry.title.trim() === '') {
+            throw new Error('Title is required');
+          }
+          if (entry.amount <= 0) {
+            throw new Error('Amount must be greater than 0');
+          }
           const newEntry: FinanceEntry = {
             ...entry,
             id: uuidv4(),
@@ -50,7 +56,7 @@ export const useFinanceStore = create<FinanceState>()(
           set((state) => ({ entries: [...state.entries, newEntry] }));
         } catch (error) {
           console.error('Error adding entry:', error);
-          throw new Error('Failed to add entry');
+          throw error;
         }
       },
       

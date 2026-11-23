@@ -49,7 +49,15 @@ export const useSettingsStore = create<SettingsState>()(
       isHydrated: false,
       
       setPin: (pin) => {
-        set({ pin: pin ? encrypt(pin) : null });
+        try {
+          set({ pin: pin ? encrypt(pin) : null });
+        } catch (error) {
+          console.error('Error saving PIN:', error);
+          if (error instanceof Error && error.name === 'QuotaExceededError') {
+            alert('Storage is full. Please clear some data.');
+          }
+          throw new Error('Failed to save PIN');
+        }
       },
       
       setCurrency: (currency) => {
