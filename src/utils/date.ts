@@ -1,8 +1,13 @@
 import { format, parseISO, startOfMonth, endOfMonth, differenceInDays } from 'date-fns';
 
 export const formatDate = (date: string | Date, formatStr: string = 'MMM dd, yyyy'): string => {
-  const dateObj = typeof date === 'string' ? parseISO(date) : date;
-  return format(dateObj, formatStr);
+  try {
+    const dateObj = typeof date === 'string' ? parseISO(date) : date;
+    return format(dateObj, formatStr);
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'Invalid date';
+  }
 };
 
 export const getMonthStart = (date: Date): Date => {
