@@ -6,6 +6,10 @@ export interface FinanceEntry {
   id: string;
   title: string;
   amount: number;
+  type: 'income' | 'expense';
+  category: string;
+  date: string;
+  note?: string;
   paidMonths: string[]; // Array of month keys like "2024-01", "2024-02"
   createdAt: string;
   updatedAt: string;
@@ -17,7 +21,7 @@ interface FinanceState {
   
   // Actions
   addEntry: (entry: Omit<FinanceEntry, 'id' | 'paidMonths' | 'createdAt' | 'updatedAt'>) => void;
-  updateEntry: (id: string, entry: Partial<Pick<FinanceEntry, 'title' | 'amount'>>) => void;
+  updateEntry: (id: string, entry: Partial<FinanceEntry>) => void;
   deleteEntry: (id: string) => void;
   getEntry: (id: string) => FinanceEntry | undefined;
   togglePayment: (id: string, monthKey: string) => void;

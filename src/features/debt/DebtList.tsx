@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check, ArrowDownLeft, ArrowUpRight, ChevronRight } from 'lucide-react';
+import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
-import { formatDate, isOverdue, isDueSoon } from '../../utils/date';
+import { isOverdue, isDueSoon } from '../../utils/date';
 
 export default function DebtList() {
   const navigate = useNavigate();
   const debts = useDebtStore((state) => state.debts);
-  const deleteDebt = useDebtStore((state) => state.deleteDebt);
-  const markAsPaid = useDebtStore((state) => state.markAsPaid);
   const getContact = useContactStore((state) => state.getContact);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
 
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me'>('all');
 
   const filteredDebts = debts.filter(debt => {
@@ -24,7 +21,6 @@ export default function DebtList() {
     return debt.type === filter && !debt.isPaid;
   });
 
-  // Group debts by contact
   const groupedDebts = filteredDebts.reduce((acc, debt) => {
     const key = debt.personId;
     if (!acc[key]) {
@@ -35,20 +31,10 @@ export default function DebtList() {
         type: debt.type,
       };
     }
-    // Ensure amount is a number before adding
     acc[key].totalAmount += Number(debt.amount) || 0;
     acc[key].debts.push(debt);
     return acc;
   }, {} as Record<string, { personId: string; totalAmount: number; debts: any[]; type: string }>);
-
-  const handleDelete = (id: string) => {
-    deleteDebt(id);
-    setShowDeleteConfirm(null);
-  };
-
-  const handleMarkPaid = (id: string) => {
-    markAsPaid(id);
-  };
 
   if (!isHydrated) {
     return (
@@ -60,12 +46,10 @@ export default function DebtList() {
 
   return (
     <div className="p-4">
-      {/* Header */}
       <h1 className="text-xl font-semibold text-gray-800 mb-4">
         Debts
       </h1>
 
-      {/* Filter Tabs */}
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setFilter('all')}
@@ -99,7 +83,6 @@ export default function DebtList() {
         </button>
       </div>
 
-      {/* Add Button */}
       <button
         onClick={() => navigate('/debt/form?action=add')}
         className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 mb-4 transition-colors"
@@ -108,7 +91,6 @@ export default function DebtList() {
         Add Debt
       </button>
 
-      {/* Grouped Debts List */}
       {Object.keys(groupedDebts).length === 0 ? (
         <div className="text-center py-12 text-gray-500">
           <p className="mb-2">No debts found</p>

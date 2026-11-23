@@ -7,12 +7,10 @@ import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 
 export default function Backup() {
-  const [showExportConfirm, setShowExportConfirm] = useState(false);
   const [showImportConfirm, setShowImportConfirm] = useState(false);
   const [importData, setImportData] = useState<any>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  // Use individual selectors to avoid infinite loop
   const financeStore = useFinanceStore((state) => state.entries);
   const debtStore = useDebtStore((state) => state.debts);
   const creditBillStore = useCreditBillStore((state) => state.bills);
@@ -46,7 +44,6 @@ export default function Backup() {
 
     setMessage({ type: 'success', text: 'Backup exported successfully!' });
     setTimeout(() => setMessage(null), 3000);
-    setShowExportConfirm(false);
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +55,6 @@ export default function Backup() {
       try {
         const data = JSON.parse(e.target?.result as string);
         
-        // Validate data structure
         if (!data.finance || !data.debts || !data.creditBills || !data.contacts || !data.settings) {
           setMessage({ type: 'error', text: 'Invalid backup file format' });
           setTimeout(() => setMessage(null), 3000);
@@ -79,7 +75,6 @@ export default function Backup() {
     if (!importData) return;
 
     try {
-      // Import data to stores
       localStorage.setItem('pocket-finances-finance', JSON.stringify(importData.finance));
       localStorage.setItem('pocket-finances-debts', JSON.stringify(importData.debts));
       localStorage.setItem('pocket-finances-bills', JSON.stringify(importData.creditBills));
@@ -98,12 +93,10 @@ export default function Backup() {
 
   return (
     <div className="p-4">
-      {/* Header */}
       <h1 className="text-xl font-semibold text-gray-800 mb-4">
         Backup & Restore
       </h1>
 
-      {/* Message */}
       {message && (
         <div className={`mb-4 p-4 rounded-lg flex items-center gap-2 ${
           message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
@@ -117,7 +110,6 @@ export default function Backup() {
         </div>
       )}
 
-      {/* Export Section */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
         <h2 className="font-medium text-gray-800 mb-2">Export Data</h2>
         <p className="text-sm text-gray-600 mb-4">
@@ -132,7 +124,6 @@ export default function Backup() {
         </button>
       </div>
 
-      {/* Import Section */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
         <h2 className="font-medium text-gray-800 mb-2">Import Data</h2>
         <p className="text-sm text-gray-600 mb-4">

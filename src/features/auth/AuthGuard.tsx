@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
 import PinEntry from './PinEntry';
-import PinSetup from './PinSetup';
 
 const AUTO_LOCK_TIME = 5 * 60 * 1000; // 5 minutes in milliseconds
 
@@ -11,7 +10,6 @@ interface AuthGuardProps {
 
 export default function AuthGuard({ children }: AuthGuardProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showPinSetup, setShowPinSetup] = useState(false);
   const pin = useSettingsStore((state) => state.pin);
   const isHydrated = useSettingsStore((state) => state.isHydrated);
 
@@ -30,7 +28,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   useEffect(() => {
     if (!isAuthenticated || !pin) return;
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const resetTimer = () => {
       clearTimeout(timeoutId);
@@ -56,11 +54,6 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   }, [isAuthenticated, pin]);
 
   const handlePinSuccess = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handlePinSetupComplete = () => {
-    setShowPinSetup(false);
     setIsAuthenticated(true);
   };
 

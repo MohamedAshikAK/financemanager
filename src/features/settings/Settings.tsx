@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 
 export default function Settings() {
-  const navigate = useNavigate();
   const currency = useSettingsStore((state) => state.currency);
   const pin = useSettingsStore((state) => state.pin);
   const setCurrency = useSettingsStore((state) => state.setCurrency);
@@ -85,12 +83,10 @@ export default function Settings() {
 
   return (
     <div className="p-4">
-      {/* Header */}
       <h1 className="text-xl font-semibold text-gray-800 mb-4">
         Settings
       </h1>
 
-      {/* Currency Section */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
         <div className="flex items-center gap-2 mb-3">
           <DollarSign size={20} className="text-blue-600" />
@@ -109,7 +105,6 @@ export default function Settings() {
         </select>
       </div>
 
-      {/* PIN Section */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
         <div className="flex items-center gap-2 mb-3">
           {pin ? <Lock size={20} className="text-blue-600" /> : <LockOpen size={20} className="text-gray-400" />}
@@ -140,7 +135,6 @@ export default function Settings() {
         )}
       </div>
 
-      {/* Enable PIN Modal */}
       {showPinEnable && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm">
@@ -193,7 +187,6 @@ export default function Settings() {
         </div>
       )}
 
-      {/* Change PIN Modal */}
       {showPinChange && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm">
@@ -257,7 +250,6 @@ export default function Settings() {
         </div>
       )}
 
-      {/* Disable PIN Modal */}
       {showPinDisable && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm">
@@ -299,7 +291,6 @@ export default function Settings() {
         </div>
       )}
 
-      {/* Clear Data Section */}
       <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
         <div className="flex items-center gap-2 mb-3">
           <Trash2 size={20} className="text-red-600" />
@@ -316,7 +307,6 @@ export default function Settings() {
         </button>
       </div>
 
-      {/* Clear Data Confirmation */}
       {showClearData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 w-full max-w-sm">
