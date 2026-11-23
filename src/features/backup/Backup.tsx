@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Upload, AlertCircle, CheckCircle } from 'lucide-react';
+import { Download, Upload, AlertCircle, CheckCircle, Database, Shield } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
@@ -26,10 +26,7 @@ export default function Backup() {
       debts: debtStore,
       creditBills: creditBillStore,
       contacts: contactStore,
-      settings: {
-        currency,
-        pin,
-      },
+      settings: { currency, pin },
     };
 
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -54,13 +51,11 @@ export default function Backup() {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target?.result as string);
-        
         if (!data.finance || !data.debts || !data.creditBills || !data.contacts || !data.settings) {
           setMessage({ type: 'error', text: 'Invalid backup file format' });
           setTimeout(() => setMessage(null), 3000);
           return;
         }
-
         setImportData(data);
         setShowImportConfirm(true);
       } catch (error) {
@@ -82,9 +77,7 @@ export default function Backup() {
       localStorage.setItem('pocket-finances-settings', JSON.stringify(importData.settings));
 
       setMessage({ type: 'success', text: 'Backup imported successfully! Reloading...' });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      setTimeout(() => window.location.reload(), 2000);
     } catch (error) {
       setMessage({ type: 'error', text: 'Failed to import backup' });
       setTimeout(() => setMessage(null), 3000);
@@ -92,79 +85,57 @@ export default function Backup() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold text-gray-800 mb-4">
-        Backup & Restore
-      </h1>
+    <div className="p-5 space-y-5">
+      <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
 
       {message && (
-        <div className={`mb-4 p-4 rounded-lg flex items-center gap-2 ${
-          message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
+        <div className={`p-4 rounded-2xl flex items-center gap-3 ${
+          message.type === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'
         }`}>
-          {message.type === 'success' ? (
-            <CheckCircle size={20} />
-          ) : (
-            <AlertCircle size={20} />
-          )}
-          <span>{message.text}</span>
+          {message.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+          <span className="font-medium">{message.text}</span>
         </div>
       )}
 
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-4">
-        <h2 className="font-medium text-gray-800 mb-2">Export Data</h2>
-        <p className="text-sm text-gray-600 mb-4">
-          Download all your data as a JSON file for backup.
-        </p>
-        <button
-          onClick={handleExport}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors"
-        >
+      <div className="card p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-3 bg-blue-100 rounded-2xl">
+            <Download size={20} className="text-blue-600" />
+          </div>
+          <h2 className="font-semibold text-slate-800">Export Data</h2>
+        </div>
+        <p className="text-sm text-slate-600 mb-4">Download all your data as a JSON file for backup.</p>
+        <button onClick={handleExport} className="w-full btn-primary flex items-center justify-center gap-2">
           <Download size={20} />
           Export Backup
         </button>
       </div>
 
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-        <h2 className="font-medium text-gray-800 mb-2">Import Data</h2>
-        <p className="text-sm text-gray-600 mb-4">
-          Restore your data from a backup file. This will replace all current data.
-        </p>
-        <label className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer">
+      <div className="card p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-3 bg-purple-100 rounded-2xl">
+            <Upload size={20} className="text-purple-600" />
+          </div>
+          <h2 className="font-semibold text-slate-800">Import Data</h2>
+        </div>
+        <p className="text-sm text-slate-600 mb-4">Restore your data from a backup file. This will replace all current data.</p>
+        <label className="w-full btn-secondary flex items-center justify-center gap-2 cursor-pointer">
           <Upload size={20} />
           Import Backup
-          <input
-            type="file"
-            accept=".json"
-            onChange={handleImport}
-            className="hidden"
-          />
+          <input type="file" accept=".json" onChange={handleImport} className="hidden" />
         </label>
 
         {showImportConfirm && importData && (
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-start gap-2 mb-3">
-              <AlertCircle size={20} className="text-yellow-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-gray-600">
-                This will replace all your current data with the backup from {new Date(importData.exportDate).toLocaleDateString()}.
-                This action cannot be undone.
+          <div className="mt-4 pt-4 border-t border-slate-100">
+            <div className="flex items-start gap-3 mb-3">
+              <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-slate-600">
+                This will replace all your current data with the backup from {new Date(importData.exportDate).toLocaleDateString()}. This action cannot be undone.
               </p>
             </div>
             <div className="flex gap-2">
-              <button
-                onClick={() => {
-                  setShowImportConfirm(false);
-                  setImportData(null);
-                }}
-                className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmImport}
-                className="flex-1 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition-colors"
-              >
-                Import
-              </button>
+              <button onClick={() => { setShowImportConfirm(false); setImportData(null); }} className="flex-1 btn-secondary">Cancel</button>
+              <button onClick={confirmImport} className="flex-1 btn-danger">Import</button>
             </div>
           </div>
         )}

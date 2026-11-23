@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check } from 'lucide-react';
+import { Plus, Trash2, Edit, Check, Wallet } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
@@ -20,7 +20,6 @@ export default function FinanceList() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
-  // Get current month key (e.g., "2024-01")
   const currentMonthKey = format(new Date(), 'yyyy-MM');
   const currentMonthDisplay = format(new Date(), 'MMMM yyyy');
 
@@ -39,50 +38,42 @@ export default function FinanceList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-4">
-      {/* Header with Month */}
-      <div className="mb-4">
-        <h1 className="text-xl font-semibold text-gray-800">
-          Monthly Expenses
-        </h1>
-        <p className="text-sm text-gray-500">
-          {currentMonthDisplay}
-        </p>
+    <div className="p-5 space-y-5">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Monthly Expenses</h1>
+          <p className="text-sm text-slate-500">{currentMonthDisplay}</p>
+        </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
-          <div className="text-xs text-blue-700 mb-1">Total</div>
-          <div className="text-lg font-semibold text-blue-800">
-            {formatCurrency(totalAmount, currency)}
-          </div>
+      <div className="grid grid-cols-3 gap-3">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg shadow-blue-500/30">
+          <div className="text-xs text-blue-100 mb-1">Total</div>
+          <div className="text-lg font-bold">{formatCurrency(totalAmount, currency)}</div>
         </div>
-        <div className="bg-green-50 border border-green-200 rounded-xl p-3">
-          <div className="text-xs text-green-700 mb-1">Paid</div>
-          <div className="text-lg font-semibold text-green-800">
-            {formatCurrency(paidAmount, currency)}
-          </div>
+        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-4 text-white shadow-lg shadow-emerald-500/30">
+          <div className="text-xs text-emerald-100 mb-1">Paid</div>
+          <div className="text-lg font-bold">{formatCurrency(paidAmount, currency)}</div>
         </div>
-        <div className="bg-red-50 border border-red-200 rounded-xl p-3">
-          <div className="text-xs text-red-700 mb-1">Unpaid</div>
-          <div className="text-lg font-semibold text-red-800">
-            {formatCurrency(unpaidAmount, currency)}
-          </div>
+        <div className="bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl p-4 text-white shadow-lg shadow-red-500/30">
+          <div className="text-xs text-red-100 mb-1">Unpaid</div>
+          <div className="text-lg font-bold">{formatCurrency(unpaidAmount, currency)}</div>
         </div>
       </div>
 
       {/* Add Button */}
       <button
         onClick={() => navigate('/finance/form?action=add')}
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 mb-4 transition-colors"
+        className="w-full btn-primary flex items-center justify-center gap-2"
       >
         <Plus size={20} />
         Add Entry
@@ -90,9 +81,12 @@ export default function FinanceList() {
 
       {/* Entries List */}
       {entries.length === 0 ? (
-        <div className="text-center py-12 text-gray-500">
-          <p className="mb-2">No entries yet</p>
-          <p className="text-sm">Tap "Add Entry" to get started</p>
+        <div className="text-center py-16">
+          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Wallet size={32} className="text-slate-400" />
+          </div>
+          <p className="text-slate-500 mb-1">No entries yet</p>
+          <p className="text-sm text-slate-400">Tap "Add Entry" to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -102,69 +96,69 @@ export default function FinanceList() {
             return (
               <div
                 key={entry.id}
-                className={`bg-white rounded-xl p-4 shadow-sm border border-gray-100 ${
-                  isPaid ? 'opacity-50' : ''
+                className={`card hover:shadow-md transition-all duration-200 p-4 ${
+                  isPaid ? 'opacity-60' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="font-medium text-gray-800">{entry.title}</h3>
-                    <div className={`font-semibold ${
-                      isPaid ? 'text-green-600' : 'text-gray-800'
+                    <h3 className="font-semibold text-slate-800 mb-1">{entry.title}</h3>
+                    <div className={`text-2xl font-bold ${
+                      isPaid ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
                       {formatCurrency(entry.amount, currency)}
                     </div>
                   </div>
                   
-                  {/* Tick Mark */}
                   <button
                     onClick={() => handleTogglePayment(entry.id)}
-                    className={`p-2 rounded-lg transition-colors ${
+                    className={`p-3 rounded-2xl transition-all duration-200 ${
                       isPaid
-                        ? 'bg-green-100 text-green-600'
-                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                        ? 'bg-emerald-100 text-emerald-600 shadow-md shadow-emerald-500/20'
+                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
                     }`}
                   >
-                    <Check size={20} />
+                    <Check size={22} />
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between mt-3">
-                  <span className="text-xs text-gray-500">
-                    {isPaid ? 'Paid this month' : 'Unpaid'}
+                <div className="flex items-center justify-between mt-4">
+                  <span className={`text-sm font-medium ${
+                    isPaid ? 'text-emerald-600' : 'text-slate-500'
+                  }`}>
+                    {isPaid ? '✓ Paid this month' : '○ Unpaid'}
                   </span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => navigate(`/finance/form?action=edit&id=${entry.id}`)}
-                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                      className="p-2 hover:bg-slate-100 rounded-xl transition-colors"
                     >
-                      <Edit size={18} className="text-gray-600" />
+                      <Edit size={18} className="text-slate-600" />
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(entry.id)}
-                      className="p-2 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 hover:bg-red-50 rounded-xl transition-colors"
                     >
                       <Trash2 size={18} className="text-red-500" />
                     </button>
                   </div>
                 </div>
 
-                {/* Delete Confirmation */}
                 {showDeleteConfirm === entry.id && (
-                  <div className="mt-3 pt-3 border-t border-gray-100">
-                    <p className="text-sm text-gray-600 mb-2">
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <p className="text-sm text-slate-600 mb-3">
                       Delete "{entry.title}"?
                     </p>
                     <div className="flex gap-2">
                       <button
                         onClick={() => setShowDeleteConfirm(null)}
-                        className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors"
+                        className="flex-1 btn-secondary"
                       >
                         Cancel
                       </button>
                       <button
                         onClick={() => handleDelete(entry.id)}
-                        className="flex-1 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition-colors"
+                        className="flex-1 btn-danger"
                       >
                         Delete
                       </button>

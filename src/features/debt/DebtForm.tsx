@@ -41,13 +41,12 @@ export default function DebtForm() {
     defaultValues: {
       amount: 0,
       type: 'owed-to-me',
-      personId: '',
+      personId: prefillPersonId,
       dueDate: formatDate(new Date(), 'yyyy-MM-dd'),
       note: '',
     },
   });
 
-  // Load debt data when editing
   useEffect(() => {
     if (action === 'edit' && debtId && isHydrated) {
       setIsLoading(true);
@@ -65,7 +64,6 @@ export default function DebtForm() {
     }
   }, [action, debtId, isHydrated, getDebt, setValue, navigate]);
 
-  // Pre-fill personId from URL params
   useEffect(() => {
     if (prefillPersonId) {
       setValue('personId', prefillPersonId);
@@ -104,79 +102,58 @@ export default function DebtForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-4">
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+    <div className="p-5 space-y-5">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/debt')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">
+        <h1 className="text-2xl font-bold text-slate-800">
           {action === 'add' ? 'Add Debt' : 'Edit Debt'}
         </h1>
       </div>
 
-      {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Type */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Type *
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Type *</label>
           <select
             {...register('type', { required: 'Type is required' })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           >
             <option value="owed-to-me">Owed to Me</option>
             <option value="owed-by-me">Owed by Me</option>
           </select>
-          {errors.type && (
-            <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>
-          )}
+          {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
         </div>
 
-        {/* Person */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Person *
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Person *</label>
           <select
             {...register('personId', { required: 'Person is required' })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           >
             <option value="">Select person</option>
             {contacts.map((contact) => (
-              <option key={contact.id} value={contact.id}>
-                {contact.name}
-              </option>
+              <option key={contact.id} value={contact.id}>{contact.name}</option>
             ))}
           </select>
-          {errors.personId && (
-            <p className="text-red-500 text-sm mt-1">{errors.personId.message}</p>
-          )}
-          {contacts.length === 0 && (
-            <p className="text-sm text-gray-500 mt-1">
-              No contacts found. Add contacts first.
-            </p>
-          )}
+          {errors.personId && <p className="text-red-500 text-sm mt-1">{errors.personId.message}</p>}
+          {contacts.length === 0 && <p className="text-sm text-slate-500 mt-1">No contacts found. Add contacts first.</p>}
         </div>
 
-        {/* Amount */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Amount ({currency}) *
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Amount ({currency}) *</label>
           <input
             type="number"
             step="0.01"
@@ -185,46 +162,37 @@ export default function DebtForm() {
               min: { value: 0.01, message: 'Amount must be greater than 0' },
             })}
             placeholder="0.00"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           />
-          {errors.amount && (
-            <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
-          )}
+          {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
         </div>
 
-        {/* Due Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Due Date (optional)
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Due Date (optional)</label>
           <input
             type="date"
             {...register('dueDate')}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           />
         </div>
 
-        {/* Note */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Note (optional)
-          </label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Note (optional)</label>
           <textarea
             {...register('note')}
             placeholder="Add a note..."
             rows={3}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+            className="input-field resize-none"
             disabled={isSubmitting}
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting || contacts.length === 0}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="w-full btn-primary flex items-center justify-center gap-2"
         >
           <Save size={20} />
           {isSubmitting ? 'Saving...' : 'Save Debt'}

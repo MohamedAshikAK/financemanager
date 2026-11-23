@@ -47,7 +47,6 @@ export default function FinanceForm() {
     },
   });
 
-  // Load entry data when editing
   useEffect(() => {
     if (action === 'edit' && entryId && isHydrated) {
       setIsLoading(true);
@@ -66,7 +65,6 @@ export default function FinanceForm() {
     }
   }, [action, entryId, isHydrated, getEntry, setValue, navigate]);
 
-  // Pre-fill type from URL params
   useEffect(() => {
     if (prefillType) {
       setValue('type', prefillType);
@@ -106,39 +104,38 @@ export default function FinanceForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-4">
+    <div className="p-5 space-y-5">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/finance')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">
+        <h1 className="text-2xl font-bold text-slate-800">
           {action === 'add' ? 'Add Entry' : 'Edit Entry'}
         </h1>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Title */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
             Title *
           </label>
           <input
             type="text"
             {...register('title', { required: 'Title is required' })}
             placeholder="e.g., Grocery shopping"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           />
           {errors.title && (
@@ -146,9 +143,8 @@ export default function FinanceForm() {
           )}
         </div>
 
-        {/* Amount */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
             Amount ({currency}) *
           </label>
           <input
@@ -159,7 +155,7 @@ export default function FinanceForm() {
               min: { value: 0.01, message: 'Amount must be greater than 0' },
             })}
             placeholder="0.00"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="input-field"
             disabled={isSubmitting}
           />
           {errors.amount && (
@@ -167,11 +163,10 @@ export default function FinanceForm() {
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="w-full btn-primary flex items-center justify-center gap-2"
         >
           <Save size={20} />
           {isSubmitting ? 'Saving...' : 'Save Entry'}
