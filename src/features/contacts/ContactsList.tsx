@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, User, Phone, Mail, ArrowLeft } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
+import { ListSkeleton } from '../../components/LoadingSkeleton';
 
 export default function ContactsList() {
   const navigate = useNavigate();
@@ -17,7 +18,15 @@ export default function ContactsList() {
   };
 
   if (!isHydrated) {
-    return <div className="p-4 text-center text-slate-600">Loading...</div>;
+    return (
+      <div className="p-5 space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
+        </div>
+        <ListSkeleton count={3} />
+      </div>
+    );
   }
 
   return (

@@ -5,6 +5,7 @@ import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
 import { format } from 'date-fns';
+import { ListSkeleton } from '../../components/LoadingSkeleton';
 
 export default function FinanceList() {
   const navigate = useNavigate();
@@ -38,8 +39,20 @@ export default function FinanceList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-slate-600">
-        Loading...
+      <div className="p-5 space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="flex-1">
+            <div className="h-6 bg-slate-200 rounded animate-pulse mb-2" />
+            <div className="h-4 bg-slate-200 rounded animate-pulse w-1/3" />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
+        </div>
+        <ListSkeleton count={3} />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
 import { formatDate, isOverdue, isDueSoon } from '../../utils/date';
+import { ListSkeleton } from '../../components/LoadingSkeleton';
 
 export default function CreditBillsList() {
   const navigate = useNavigate();
@@ -26,7 +27,15 @@ export default function CreditBillsList() {
   };
 
   if (!isHydrated) {
-    return <div className="p-4 text-center text-slate-600">Loading...</div>;
+    return (
+      <div className="p-5 space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
+        </div>
+        <ListSkeleton count={3} />
+      </div>
+    );
   }
 
   return (

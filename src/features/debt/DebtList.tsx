@@ -6,6 +6,7 @@ import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
 import { isOverdue, isDueSoon } from '../../utils/date';
+import { ListSkeleton } from '../../components/LoadingSkeleton';
 
 export default function DebtList() {
   const navigate = useNavigate();
@@ -38,8 +39,17 @@ export default function DebtList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-slate-600">
-        Loading...
+      <div className="p-5 space-y-5">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+          <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
+        </div>
+        <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
+          <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
+          <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
+          <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
+        </div>
+        <ListSkeleton count={3} />
       </div>
     );
   }
