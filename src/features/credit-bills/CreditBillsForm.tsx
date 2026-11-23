@@ -5,6 +5,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
+import { sanitizeInput } from '../../utils/sanitize';
 
 interface FormData {
   cardName: string;
@@ -60,23 +61,24 @@ export default function CreditBillsForm() {
     setIsSubmitting(true);
     
     try {
+      const sanitizedData = {
+        cardName: sanitizeInput(data.cardName),
+        currentAmount: data.currentAmount,
+        dueDate: new Date(data.dueDate).toISOString(),
+      };
+
       if (action === 'edit' && billId) {
-        updateBill(billId, {
-          cardName: data.cardName,
-          currentAmount: data.currentAmount,
-          dueDate: new Date(data.dueDate).toISOString(),
-        });
+        updateBill(billId, sanitizedData);
       } else {
         addBill({
-          cardName: data.cardName,
-          currentAmount: data.currentAmount,
-          dueDate: new Date(data.dueDate).toISOString(),
+          ...sanitizedData,
           isPaid: false,
         });
       }
       navigate('/bills');
     } catch (error) {
       console.error('Error saving bill:', error);
+      alert('Failed to save bill. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

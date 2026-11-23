@@ -6,6 +6,7 @@ import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
+import { sanitizeInput } from '../../utils/sanitize';
 
 interface FormData {
   amount: number;
@@ -74,21 +75,19 @@ export default function DebtForm() {
     setIsSubmitting(true);
     
     try {
+      const sanitizedData = {
+        amount: data.amount,
+        type: data.type,
+        personId: data.personId,
+        dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
+        note: data.note ? sanitizeInput(data.note) : undefined,
+      };
+
       if (action === 'edit' && debtId) {
-        updateDebt(debtId, {
-          amount: data.amount,
-          type: data.type,
-          personId: data.personId,
-          dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
-          note: data.note || undefined,
-        });
+        updateDebt(debtId, sanitizedData);
       } else {
         addDebt({
-          amount: data.amount,
-          type: data.type,
-          personId: data.personId,
-          dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
-          note: data.note || undefined,
+          ...sanitizedData,
           isPaid: false,
         });
       }
