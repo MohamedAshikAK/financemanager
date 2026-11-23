@@ -40,6 +40,8 @@ export default function Layout({ children }: LayoutProps) {
                     ? 'text-blue-600 bg-blue-50/50 scale-105'
                     : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50'
                 }`}
+                aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <div className={`p-2 rounded-xl transition-all duration-200 ${
                   isActive ? 'bg-blue-100 shadow-md shadow-blue-500/20' : ''

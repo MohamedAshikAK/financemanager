@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
@@ -27,14 +27,14 @@ export default function FinanceList() {
   const paidAmount = getPaidAmount(currentMonthKey);
   const unpaidAmount = getUnpaidAmount(currentMonthKey);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteEntry(id);
     setShowDeleteConfirm(null);
-  };
+  }, [deleteEntry]);
 
-  const handleTogglePayment = (id: string) => {
+  const handleTogglePayment = useCallback((id: string) => {
     togglePayment(id, currentMonthKey);
-  };
+  }, [togglePayment, currentMonthKey]);
 
   if (!isHydrated) {
     return (
@@ -80,6 +80,7 @@ export default function FinanceList() {
       <button
         onClick={() => navigate('/finance/form?action=add')}
         className="w-full btn-primary flex items-center justify-center gap-2"
+        aria-label="Add new finance entry"
       >
         <Plus size={20} />
         Add Entry
