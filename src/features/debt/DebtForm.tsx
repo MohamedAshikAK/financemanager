@@ -7,6 +7,7 @@ import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
 import { sanitizeInput } from '../../utils/sanitize';
+import { useToast } from '../../components/Toast';
 
 interface FormData {
   amount: number;
@@ -25,6 +26,7 @@ export default function DebtForm() {
   const contacts = useContactStore((state) => state.contacts);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
+  const { addToast } = useToast();
 
   const action = searchParams.get('action') || 'add';
   const debtId = searchParams.get('id');
@@ -94,7 +96,7 @@ export default function DebtForm() {
       navigate('/debt');
     } catch (error) {
       console.error('Error saving debt:', error);
-      alert('Failed to save debt. Please try again.');
+      addToast('error', 'Failed to save debt. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

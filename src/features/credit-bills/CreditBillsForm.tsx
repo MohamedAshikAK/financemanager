@@ -6,6 +6,7 @@ import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
 import { sanitizeInput } from '../../utils/sanitize';
+import { useToast } from '../../components/Toast';
 
 interface FormData {
   cardName: string;
@@ -21,6 +22,7 @@ export default function CreditBillsForm() {
   const getBill = useCreditBillStore((state) => state.getBill);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useCreditBillStore((state) => state.isHydrated);
+  const { addToast } = useToast();
 
   const action = searchParams.get('action') || 'add';
   const billId = searchParams.get('id');
@@ -78,7 +80,7 @@ export default function CreditBillsForm() {
       navigate('/bills');
     } catch (error) {
       console.error('Error saving bill:', error);
-      alert('Failed to save bill. Please try again.');
+      addToast('error', 'Failed to save bill. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

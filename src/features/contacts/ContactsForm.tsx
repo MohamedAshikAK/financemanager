@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
 import { sanitizeInput, sanitizeEmail, sanitizePhone } from '../../utils/sanitize';
+import { useToast } from '../../components/Toast';
 
 interface FormData {
   name: string;
@@ -18,6 +19,7 @@ export default function ContactsForm() {
   const updateContact = useContactStore((state) => state.updateContact);
   const getContact = useContactStore((state) => state.getContact);
   const isHydrated = useContactStore((state) => state.isHydrated);
+  const { addToast } = useToast();
 
   const action = searchParams.get('action') || 'add';
   const contactId = searchParams.get('id');
@@ -72,7 +74,7 @@ export default function ContactsForm() {
       navigate('/contacts');
     } catch (error) {
       console.error('Error saving contact:', error);
-      alert('Failed to save contact. Please try again.');
+      addToast('error', 'Failed to save contact. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

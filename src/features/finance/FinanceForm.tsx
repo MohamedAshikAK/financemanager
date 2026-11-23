@@ -6,6 +6,7 @@ import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
 import { sanitizeInput } from '../../utils/sanitize';
+import { useToast } from '../../components/Toast';
 
 interface FormData {
   title: string;
@@ -24,6 +25,7 @@ export default function FinanceForm() {
   const getEntry = useFinanceStore((state) => state.getEntry);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useFinanceStore((state) => state.isHydrated);
+  const { addToast } = useToast();
 
   const action = searchParams.get('action') || 'add';
   const entryId = searchParams.get('id');
@@ -93,7 +95,7 @@ export default function FinanceForm() {
       navigate('/finance');
     } catch (error) {
       console.error('Error saving entry:', error);
-      alert('Failed to save entry. Please try again.');
+      addToast('error', 'Failed to save entry. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
