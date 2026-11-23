@@ -86,7 +86,7 @@ export default function Backup() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Backup & Restore</h1>
 
       {message && (
         <div className={`p-4 rounded-2xl flex items-center gap-3 ${
@@ -102,9 +102,9 @@ export default function Backup() {
           <div className="p-3 bg-blue-100 rounded-2xl">
             <Download size={20} className="text-blue-600" />
           </div>
-          <h2 className="font-semibold text-slate-800">Export Data</h2>
+          <h2 className="font-semibold text-gray-800">Export Data</h2>
         </div>
-        <p className="text-sm text-slate-600 mb-4">Download all your data as a JSON file for backup.</p>
+        <p className="text-sm text-gray-600 mb-4">Download all your data as a JSON file for backup.</p>
         <button onClick={handleExport} className="w-full btn-primary flex items-center justify-center gap-2">
           <Download size={20} />
           Export Backup
@@ -116,9 +116,9 @@ export default function Backup() {
           <div className="p-3 bg-purple-100 rounded-2xl">
             <Upload size={20} className="text-purple-600" />
           </div>
-          <h2 className="font-semibold text-slate-800">Import Data</h2>
+          <h2 className="font-semibold text-gray-800">Import Data</h2>
         </div>
-        <p className="text-sm text-slate-600 mb-4">Restore your data from a backup file. This will replace all current data.</p>
+        <p className="text-sm text-gray-600 mb-4">Restore your data from a backup file. This will replace all current data.</p>
         <label className="w-full btn-secondary flex items-center justify-center gap-2 cursor-pointer">
           <Upload size={20} />
           Import Backup
@@ -126,10 +126,10 @@ export default function Backup() {
         </label>
 
         {showImportConfirm && importData && (
-          <div className="mt-4 pt-4 border-t border-slate-100">
+          <div className="mt-4 pt-4 border-t border-gray-100">
             <div className="flex items-start gap-3 mb-3">
               <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-gray-600">
                 This will replace all your current data with the backup from {new Date(importData.exportDate).toLocaleDateString()}. This action cannot be undone.
               </p>
             </div>

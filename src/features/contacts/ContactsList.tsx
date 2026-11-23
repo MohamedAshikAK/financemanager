@@ -17,12 +17,12 @@ export default function ContactsList() {
   };
 
   if (!isHydrated) {
-    return <div className="p-4 text-center text-slate-600">Loading...</div>;
+    return <div className="p-4 text-center text-gray-600">Loading...</div>;
   }
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Contacts</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Contacts</h1>
 
       <button onClick={() => navigate('/contacts/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2">
         <Plus size={20} />
@@ -31,11 +31,11 @@ export default function ContactsList() {
 
       {contacts.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <User size={32} className="text-slate-400" />
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <User size={32} className="text-gray-400" />
           </div>
-          <p className="text-slate-500 mb-1">No contacts yet</p>
-          <p className="text-sm text-slate-400">Tap "Add Contact" to get started</p>
+          <p className="text-gray-500 mb-1">No contacts yet</p>
+          <p className="text-sm text-gray-400">Tap "Add Contact" to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -46,15 +46,15 @@ export default function ContactsList() {
                   {contact.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-slate-800 mb-1">{contact.name}</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">{contact.name}</h3>
                   {contact.phone && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Phone size={14} />
                       <span>{contact.phone}</span>
                     </div>
                   )}
                   {contact.email && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
                       <Mail size={14} />
                       <span>{contact.email}</span>
                     </div>
@@ -72,8 +72,8 @@ export default function ContactsList() {
                 </button>
               </div>
               {showDeleteConfirm === contact.id && (
-                <div className="mt-4 pt-4 border-t border-slate-100">
-                  <p className="text-sm text-slate-600 mb-3">Delete "{contact.name}"?</p>
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-600 mb-3">Delete "{contact.name}"?</p>
                   <div className="flex gap-2">
                     <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
                     <button onClick={() => handleDelete(contact.id)} className="flex-1 btn-danger">Delete</button>

@@ -102,7 +102,7 @@ export default function DebtForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-4 text-center text-gray-600">
         Loading...
       </div>
     );
@@ -113,18 +113,18 @@ export default function DebtForm() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/debt')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">
+        <h1 className="text-2xl font-bold text-gray-800">
           {action === 'add' ? 'Add Debt' : 'Edit Debt'}
         </h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Type *</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Type *</label>
           <select
             {...register('type', { required: 'Type is required' })}
             className="input-field"
@@ -137,7 +137,7 @@ export default function DebtForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Person *</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Person *</label>
           <select
             {...register('personId', { required: 'Person is required' })}
             className="input-field"
@@ -149,11 +149,11 @@ export default function DebtForm() {
             ))}
           </select>
           {errors.personId && <p className="text-red-500 text-sm mt-1">{errors.personId.message}</p>}
-          {contacts.length === 0 && <p className="text-sm text-slate-500 mt-1">No contacts found. Add contacts first.</p>}
+          {contacts.length === 0 && <p className="text-sm text-gray-500 mt-1">No contacts found. Add contacts first.</p>}
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Amount ({currency}) *</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Amount ({currency}) *</label>
           <input
             type="number"
             step="0.01"
@@ -169,7 +169,7 @@ export default function DebtForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Due Date (optional)</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Due Date (optional)</label>
           <input
             type="date"
             {...register('dueDate')}
@@ -179,7 +179,7 @@ export default function DebtForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Note (optional)</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Note (optional)</label>
           <textarea
             {...register('note')}
             placeholder="Add a note..."

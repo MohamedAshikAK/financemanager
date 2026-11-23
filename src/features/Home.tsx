@@ -47,7 +47,7 @@ export default function Home() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-4 text-center text-gray-600">
         Loading...
       </div>
     );
@@ -57,8 +57,8 @@ export default function Home() {
     <div className="p-5 space-y-6">
       {/* Modern Balance Card */}
       <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-6 text-white shadow-2xl shadow-blue-500/30 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -trangray-y-1/2 trangray-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full trangray-y-1/2 -trangray-x-1/2"></div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-medium text-blue-100">Balance (This Month)</span>
@@ -99,9 +99,9 @@ export default function Home() {
             <div className="p-3 bg-orange-100 rounded-2xl">
               <CreditCard size={20} className="text-orange-600" />
             </div>
-            <span className="text-sm font-medium text-slate-600">Pending Debts</span>
+            <span className="text-sm font-medium text-gray-600">Pending Debts</span>
           </div>
-          <div className="text-3xl font-bold text-slate-800">
+          <div className="text-3xl font-bold text-gray-800">
             {pendingDebts}
           </div>
         </div>
@@ -110,11 +110,11 @@ export default function Home() {
             <div className={`p-3 rounded-2xl ${overdueBills > 0 ? 'bg-red-100' : 'bg-yellow-100'}`}>
               <AlertCircle size={20} className={overdueBills > 0 ? 'text-red-600' : 'text-yellow-600'} />
             </div>
-            <span className="text-sm font-medium text-slate-600">
+            <span className="text-sm font-medium text-gray-600">
               {overdueBills > 0 ? 'Overdue' : 'Upcoming'}
             </span>
           </div>
-          <div className="text-3xl font-bold text-slate-800">
+          <div className="text-3xl font-bold text-gray-800">
             {overdueBills > 0 ? overdueBills : upcomingBills}
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function Home() {
 
       {/* Modern Quick Actions */}
       <div>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
         <div className="space-y-3">
           <button
             onClick={() => navigate('/finance/form?action=add&type=expense')}
@@ -153,7 +153,7 @@ export default function Home() {
 
       {/* Modern Navigation Cards */}
       <div>
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">All Sections</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">All Sections</h2>
         <div className="space-y-3">
           <button
             onClick={() => navigate('/finance')}
@@ -163,9 +163,9 @@ export default function Home() {
               <div className="p-3 bg-blue-100 rounded-2xl group-hover:scale-110 transition-transform">
                 <Wallet size={20} className="text-blue-600" />
               </div>
-              <span className="font-semibold text-slate-800">Finance</span>
+              <span className="font-semibold text-gray-800">Finance</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={20} className="text-gray-400 group-hover:text-blue-600 group-hover:trangray-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/debt')}
@@ -175,9 +175,9 @@ export default function Home() {
               <div className="p-3 bg-purple-100 rounded-2xl group-hover:scale-110 transition-transform">
                 <CreditCard size={20} className="text-purple-600" />
               </div>
-              <span className="font-semibold text-slate-800">Debts</span>
+              <span className="font-semibold text-gray-800">Debts</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={20} className="text-gray-400 group-hover:text-purple-600 group-hover:trangray-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/bills')}
@@ -187,9 +187,9 @@ export default function Home() {
               <div className="p-3 bg-amber-100 rounded-2xl group-hover:scale-110 transition-transform">
                 <AlertCircle size={20} className="text-amber-600" />
               </div>
-              <span className="font-semibold text-slate-800">Credit Bills</span>
+              <span className="font-semibold text-gray-800">Credit Bills</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={20} className="text-gray-400 group-hover:text-amber-600 group-hover:trangray-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/contacts')}
@@ -199,9 +199,9 @@ export default function Home() {
               <div className="p-3 bg-teal-100 rounded-2xl group-hover:scale-110 transition-transform">
                 <User size={20} className="text-teal-600" />
               </div>
-              <span className="font-semibold text-slate-800">Contacts</span>
+              <span className="font-semibold text-gray-800">Contacts</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={20} className="text-gray-400 group-hover:text-teal-600 group-hover:trangray-x-1 transition-all" />
           </button>
         </div>
       </div>

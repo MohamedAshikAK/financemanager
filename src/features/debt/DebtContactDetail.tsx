@@ -36,16 +36,16 @@ export default function DebtContactDetail() {
   };
 
   if (!contact) {
-    return <div className="p-4 text-center text-slate-600">Contact not found</div>;
+    return <div className="p-4 text-center text-gray-600">Contact not found</div>;
   }
 
   return (
     <div className="p-5 space-y-5">
       <div className="flex items-center gap-3">
-        <button onClick={() => navigate('/debt')} className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors">
+        <button onClick={() => navigate('/debt')} className="p-3 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-colors">
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">{contact.name}</h1>
+        <h1 className="text-2xl font-bold text-gray-800">{contact.name}</h1>
       </div>
 
       <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-500/30">
@@ -60,7 +60,7 @@ export default function DebtContactDetail() {
       </button>
 
       {contactDebts.length === 0 ? (
-        <div className="text-center py-16 text-slate-500">
+        <div className="text-center py-16 text-gray-500">
           <p className="mb-1">No debts for this contact</p>
           <p className="text-sm">Tap "Add Debt" to get started</p>
         </div>
@@ -78,7 +78,7 @@ export default function DebtContactDetail() {
                       <div className={`p-2 rounded-xl ${debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'}`}>
                         {debt.type === 'owed-to-me' ? <ArrowDownLeft size={18} className="text-emerald-600" /> : <ArrowUpRight size={18} className="text-red-600" />}
                       </div>
-                      <h3 className="font-semibold text-slate-800">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
+                      <h3 className="font-semibold text-gray-800">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
                     </div>
                     <div className={`text-2xl font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
                       {formatCurrency(debt.amount, currency)}
@@ -91,13 +91,13 @@ export default function DebtContactDetail() {
 
                 <div className="flex items-center justify-between mt-3">
                   {debt.dueDate && (
-                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
+                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-gray-500'}`}>
                       {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}
                     </span>
                   )}
                   <div className="flex gap-2">
-                    <button onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                      <Edit size={18} className="text-slate-600" />
+                    <button onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
+                      <Edit size={18} className="text-gray-600" />
                     </button>
                     <button onClick={() => setShowDeleteConfirm(debt.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
                       <Trash2 size={18} className="text-red-500" />
@@ -105,11 +105,11 @@ export default function DebtContactDetail() {
                   </div>
                 </div>
 
-                {debt.note && <div className="text-sm text-slate-600 mt-3">{debt.note}</div>}
+                {debt.note && <div className="text-sm text-gray-600 mt-3">{debt.note}</div>}
 
                 {showDeleteConfirm === debt.id && (
-                  <div className="mt-4 pt-4 border-t border-slate-100">
-                    <p className="text-sm text-slate-600 mb-3">Delete this debt?</p>
+                  <div className="mt-4 pt-4 border-t border-gray-100">
+                    <p className="text-sm text-gray-600 mb-3">Delete this debt?</p>
                     <div className="flex gap-2">
                       <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
                       <button onClick={() => handleDelete(debt.id)} className="flex-1 btn-danger">Delete</button>

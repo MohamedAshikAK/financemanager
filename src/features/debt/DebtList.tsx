@@ -38,7 +38,7 @@ export default function DebtList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-4 text-center text-gray-600">
         Loading...
       </div>
     );
@@ -46,15 +46,15 @@ export default function DebtList() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-slate-800">Debts</h1>
+      <h1 className="text-2xl font-bold text-gray-800">Debts</h1>
 
-      <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
+      <div className="flex gap-2 p-1 bg-gray-100 rounded-2xl">
         <button
           onClick={() => setFilter('all')}
           className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
             filter === 'all'
               ? 'bg-white text-blue-600 shadow-md'
-              : 'text-slate-600 hover:bg-white/50'
+              : 'text-gray-600 hover:bg-white/50'
           }`}
         >
           All
@@ -64,7 +64,7 @@ export default function DebtList() {
           className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
             filter === 'owed-to-me'
               ? 'bg-white text-emerald-600 shadow-md'
-              : 'text-slate-600 hover:bg-white/50'
+              : 'text-gray-600 hover:bg-white/50'
           }`}
         >
           Owed to Me
@@ -74,7 +74,7 @@ export default function DebtList() {
           className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
             filter === 'owed-by-me'
               ? 'bg-white text-red-600 shadow-md'
-              : 'text-slate-600 hover:bg-white/50'
+              : 'text-gray-600 hover:bg-white/50'
           }`}
         >
           Owed by Me
@@ -91,11 +91,11 @@ export default function DebtList() {
 
       {Object.keys(groupedDebts).length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={32} className="text-slate-400" />
+          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard size={32} className="text-gray-400" />
           </div>
-          <p className="text-slate-500 mb-1">No debts found</p>
-          <p className="text-sm text-slate-400">Tap "Add Debt" to get started</p>
+          <p className="text-gray-500 mb-1">No debts found</p>
+          <p className="text-sm text-gray-400">Tap "Add Debt" to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -128,7 +128,7 @@ export default function DebtList() {
                           <ArrowUpRight size={18} className="text-red-600" />
                         )}
                       </div>
-                      <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
+                      <h3 className="font-semibold text-gray-800">{contact?.name || 'Unknown'}</h3>
                     </div>
                     <div className={`text-2xl font-bold ${
                       group.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
@@ -136,11 +136,11 @@ export default function DebtList() {
                       {group.type === 'owed-to-me' ? '+' : '-'}
                       {formatCurrency(group.totalAmount, currency)}
                     </div>
-                    <div className="text-sm text-slate-500 mt-1">
+                    <div className="text-sm text-gray-500 mt-1">
                       {group.debts.length} debt{group.debts.length !== 1 ? 's' : ''}
                     </div>
                   </div>
-                  <ChevronRight size={20} className="text-slate-400" />
+                  <ChevronRight size={20} className="text-gray-400" />
                 </div>
               </div>
             );
