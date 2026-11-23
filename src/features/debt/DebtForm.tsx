@@ -27,6 +27,7 @@ export default function DebtForm() {
 
   const action = searchParams.get('action') || 'add';
   const debtId = searchParams.get('id');
+  const prefillPersonId = searchParams.get('personId') || '';
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,6 +64,13 @@ export default function DebtForm() {
       setIsLoading(false);
     }
   }, [action, debtId, isHydrated, getDebt, setValue, navigate]);
+
+  // Pre-fill personId from URL params
+  useEffect(() => {
+    if (prefillPersonId) {
+      setValue('personId', prefillPersonId);
+    }
+  }, [prefillPersonId, setValue]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
