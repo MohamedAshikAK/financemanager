@@ -18,17 +18,17 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   useEffect(() => {
     if (!isHydrated) return;
 
-    // Check if PIN is set
+    // If no PIN is set, allow access without PIN
     if (!pin) {
-      setShowPinSetup(true);
+      setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false); // Require PIN entry
     }
   }, [isHydrated, pin]);
 
-  // Auto-lock after inactivity
+  // Auto-lock after inactivity (only if PIN is set)
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !pin) return;
 
     let timeoutId: NodeJS.Timeout;
 
@@ -53,7 +53,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
         window.removeEventListener(event, resetTimer);
       });
     };
-  }, [isAuthenticated]);
+  }, [isAuthenticated, pin]);
 
   const handlePinSuccess = () => {
     setIsAuthenticated(true);
@@ -73,9 +73,9 @@ export default function AuthGuard({ children }: AuthGuardProps) {
     );
   }
 
-  // Show PIN setup if no PIN is set
-  if (showPinSetup) {
-    return <PinSetup onComplete={handlePinSetupComplete} />;
+  // If no PIN is set, show app content directly
+  if (!pin) {
+    return <>{children}</>;
   }
 
   // Show PIN entry if not authenticated

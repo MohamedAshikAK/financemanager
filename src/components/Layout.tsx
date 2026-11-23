@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Wallet, CreditCard, Users, User, Settings, Database } from 'lucide-react';
+import { Home, Wallet, CreditCard, User, Settings, Database, FileText } from 'lucide-react';
 
 const navItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/finance', label: 'Finance', icon: Wallet },
   { path: '/debt', label: 'Debt', icon: CreditCard },
-  { path: '/groups', label: 'Groups', icon: Users },
+  { path: '/bills', label: 'Bills', icon: FileText },
   { path: '/contacts', label: 'Contacts', icon: User },
   { path: '/backup', label: 'Backup', icon: Database },
   { path: '/settings', label: 'Settings', icon: Settings },
