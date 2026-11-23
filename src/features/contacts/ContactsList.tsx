@@ -35,14 +35,15 @@ export default function ContactsList() {
         <button
           onClick={() => navigate('/')}
           className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          aria-label="Go back to home"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={24} aria-hidden="true" />
         </button>
         <h1 className="text-2xl font-bold text-slate-800">Contacts</h1>
       </div>
 
-      <button onClick={() => navigate('/contacts/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2">
-        <Plus size={20} />
+      <button onClick={() => navigate('/contacts/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2" aria-label="Add new contact">
+        <Plus size={20} aria-hidden="true" />
         Add Contact
       </button>
 

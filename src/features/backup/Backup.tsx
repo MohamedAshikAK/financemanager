@@ -92,8 +92,9 @@ export default function Backup() {
         <button
           onClick={() => navigate('/')}
           className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          aria-label="Go back to home"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={24} aria-hidden="true" />
         </button>
         <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
       </div>
