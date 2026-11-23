@@ -39,14 +39,19 @@ export const useFinanceStore = create<FinanceState>()(
       isHydrated: false,
       
       addEntry: (entry) => {
-        const newEntry: FinanceEntry = {
-          ...entry,
-          id: uuidv4(),
-          paidMonths: [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        };
-        set((state) => ({ entries: [...state.entries, newEntry] }));
+        try {
+          const newEntry: FinanceEntry = {
+            ...entry,
+            id: uuidv4(),
+            paidMonths: [],
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          set((state) => ({ entries: [...state.entries, newEntry] }));
+        } catch (error) {
+          console.error('Error adding entry:', error);
+          throw new Error('Failed to add entry');
+        }
       },
       
       updateEntry: (id, updatedFields) => {

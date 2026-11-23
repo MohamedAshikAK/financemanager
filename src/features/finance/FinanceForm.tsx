@@ -97,6 +97,7 @@ export default function FinanceForm() {
       navigate('/finance');
     } catch (error) {
       console.error('Error saving entry:', error);
+      alert('Failed to save entry. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -150,9 +151,12 @@ export default function FinanceForm() {
           <input
             type="number"
             step="0.01"
+            min="0.01"
+            max="999999999"
             {...register('amount', {
               required: 'Amount is required',
               min: { value: 0.01, message: 'Amount must be greater than 0' },
+              max: { value: 999999999, message: 'Amount is too large' },
             })}
             placeholder="0.00"
             className="input-field"
