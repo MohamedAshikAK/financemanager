@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight, User } from 'lucide-react';
 import { useFinanceStore } from '../store/financeStore';
 import { useDebtStore } from '../store/debtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
