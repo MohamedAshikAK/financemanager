@@ -5,6 +5,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
+import { sanitizeInput } from '../../utils/sanitize';
 
 interface FormData {
   title: string;
@@ -75,24 +76,19 @@ export default function FinanceForm() {
     setIsSubmitting(true);
     
     try {
+      const sanitizedData = {
+        title: sanitizeInput(data.title),
+        amount: data.amount,
+        type: data.type,
+        category: sanitizeInput(data.category),
+        date: new Date(data.date).toISOString(),
+        note: data.note ? sanitizeInput(data.note) : undefined,
+      };
+
       if (action === 'edit' && entryId) {
-        updateEntry(entryId, {
-          title: data.title,
-          amount: data.amount,
-          type: data.type,
-          category: data.category,
-          date: new Date(data.date).toISOString(),
-          note: data.note || undefined,
-        });
+        updateEntry(entryId, sanitizedData);
       } else {
-        addEntry({
-          title: data.title,
-          amount: data.amount,
-          type: data.type,
-          category: data.category,
-          date: new Date(data.date).toISOString(),
-          note: data.note || undefined,
-        });
+        addEntry(sanitizedData);
       }
       navigate('/finance');
     } catch (error) {

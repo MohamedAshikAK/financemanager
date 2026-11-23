@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
+import { sanitizeInput, sanitizeEmail, sanitizePhone } from '../../utils/sanitize';
 
 interface FormData {
   name: string;
@@ -57,22 +58,21 @@ export default function ContactsForm() {
     setIsSubmitting(true);
     
     try {
+      const sanitizedData = {
+        name: sanitizeInput(data.name),
+        phone: data.phone ? sanitizePhone(data.phone) : undefined,
+        email: data.email ? sanitizeEmail(data.email) : undefined,
+      };
+
       if (action === 'edit' && contactId) {
-        updateContact(contactId, {
-          name: data.name,
-          phone: data.phone || undefined,
-          email: data.email || undefined,
-        });
+        updateContact(contactId, sanitizedData);
       } else {
-        addContact({
-          name: data.name,
-          phone: data.phone || undefined,
-          email: data.email || undefined,
-        });
+        addContact(sanitizedData);
       }
       navigate('/contacts');
     } catch (error) {
       console.error('Error saving contact:', error);
+      alert('Failed to save contact. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
