@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
@@ -17,25 +17,29 @@ export default function DebtList() {
 
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me'>('all');
 
-  const filteredDebts = debts.filter(debt => {
-    if (filter === 'all') return !debt.isPaid;
-    return debt.type === filter && !debt.isPaid;
-  });
+  const filteredDebts = useMemo(() => {
+    return debts.filter(debt => {
+      if (filter === 'all') return !debt.isPaid;
+      return debt.type === filter && !debt.isPaid;
+    });
+  }, [debts, filter]);
 
-  const groupedDebts = filteredDebts.reduce((acc, debt) => {
-    const key = debt.personId;
-    if (!acc[key]) {
-      acc[key] = {
-        personId: debt.personId,
-        totalAmount: 0,
-        debts: [],
-        type: debt.type,
-      };
-    }
-    acc[key].totalAmount += Number(debt.amount) || 0;
-    acc[key].debts.push(debt);
-    return acc;
-  }, {} as Record<string, { personId: string; totalAmount: number; debts: any[]; type: string }>);
+  const groupedDebts = useMemo(() => {
+    return filteredDebts.reduce((acc, debt) => {
+      const key = debt.personId;
+      if (!acc[key]) {
+        acc[key] = {
+          personId: debt.personId,
+          totalAmount: 0,
+          debts: [],
+          type: debt.type,
+        };
+      }
+      acc[key].totalAmount += Number(debt.amount) || 0;
+      acc[key].debts.push(debt);
+      return acc;
+    }, {} as Record<string, { personId: string; totalAmount: number; debts: any[]; type: string }>);
+  }, [filteredDebts]);
 
   if (!isHydrated) {
     return (
