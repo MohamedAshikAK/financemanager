@@ -80,7 +80,7 @@ export default function ContactsForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
@@ -92,11 +92,11 @@ export default function ContactsForm() {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => navigate('/contacts')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">
+        <h1 className="text-xl font-semibold text-slate-800">
           {action === 'add' ? 'Add Contact' : 'Edit Contact'}
         </h1>
       </div>
@@ -105,14 +105,14 @@ export default function ContactsForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Name *
           </label>
           <input
             type="text"
             {...register('name', { required: 'Name is required' })}
             placeholder="e.g., John Doe"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
           {errors.name && (
@@ -122,28 +122,28 @@ export default function ContactsForm() {
 
         {/* Phone */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Phone (optional)
           </label>
           <input
             type="tel"
             {...register('phone')}
             placeholder="e.g., +1 234 567 8900"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Email (optional)
           </label>
           <input
             type="email"
             {...register('email')}
             placeholder="e.g., john@example.com"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
           {errors.email && (
@@ -155,7 +155,7 @@ export default function ContactsForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-slate-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
         >
           <Save size={20} />
           {isSubmitting ? 'Saving...' : 'Save Contact'}

@@ -104,7 +104,7 @@ export default function FinanceForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
@@ -116,11 +116,11 @@ export default function FinanceForm() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => navigate('/finance')}
-          className="p-3 bg-gray-100 hover:bg-gray-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">
+        <h1 className="text-2xl font-bold text-slate-800">
           {action === 'add' ? 'Add Entry' : 'Edit Entry'}
         </h1>
       </div>
@@ -128,7 +128,7 @@ export default function FinanceForm() {
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
             Title *
           </label>
           <input
@@ -144,7 +144,7 @@ export default function FinanceForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
             Amount ({currency}) *
           </label>
           <input

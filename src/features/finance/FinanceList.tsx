@@ -38,7 +38,7 @@ export default function FinanceList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
@@ -49,8 +49,8 @@ export default function FinanceList() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Monthly Expenses</h1>
-          <p className="text-sm text-gray-500">{currentMonthDisplay}</p>
+          <h1 className="text-2xl font-bold text-slate-800">Monthly Expenses</h1>
+          <p className="text-sm text-slate-500">{currentMonthDisplay}</p>
         </div>
       </div>
 
@@ -82,11 +82,11 @@ export default function FinanceList() {
       {/* Entries List */}
       {entries.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Wallet size={32} className="text-gray-400" />
+          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Wallet size={32} className="text-slate-400" />
           </div>
-          <p className="text-gray-500 mb-1">No entries yet</p>
-          <p className="text-sm text-gray-400">Tap "Add Entry" to get started</p>
+          <p className="text-slate-500 mb-1">No entries yet</p>
+          <p className="text-sm text-slate-400">Tap "Add Entry" to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -102,9 +102,9 @@ export default function FinanceList() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800 mb-1">{entry.title}</h3>
+                    <h3 className="font-semibold text-slate-800 mb-1">{entry.title}</h3>
                     <div className={`text-2xl font-bold ${
-                      isPaid ? 'text-emerald-600' : 'text-gray-800'
+                      isPaid ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
                       {formatCurrency(entry.amount, currency)}
                     </div>
@@ -115,7 +115,7 @@ export default function FinanceList() {
                     className={`p-3 rounded-2xl transition-all duration-200 ${
                       isPaid
                         ? 'bg-emerald-100 text-emerald-600 shadow-md shadow-emerald-500/20'
-                        : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
+                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
                     }`}
                   >
                     <Check size={22} />
@@ -124,16 +124,16 @@ export default function FinanceList() {
 
                 <div className="flex items-center justify-between mt-4">
                   <span className={`text-sm font-medium ${
-                    isPaid ? 'text-emerald-600' : 'text-gray-500'
+                    isPaid ? 'text-emerald-600' : 'text-slate-500'
                   }`}>
                     {isPaid ? '✓ Paid this month' : '○ Unpaid'}
                   </span>
                   <div className="flex gap-2">
                     <button
                       onClick={() => navigate(`/finance/form?action=edit&id=${entry.id}`)}
-                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                      className="p-2 hover:bg-slate-100 rounded-xl transition-colors"
                     >
-                      <Edit size={18} className="text-gray-600" />
+                      <Edit size={18} className="text-slate-600" />
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(entry.id)}
@@ -145,8 +145,8 @@ export default function FinanceList() {
                 </div>
 
                 {showDeleteConfirm === entry.id && (
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-sm text-gray-600 mb-3">
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <p className="text-sm text-slate-600 mb-3">
                       Delete "{entry.title}"?
                     </p>
                     <div className="flex gap-2">

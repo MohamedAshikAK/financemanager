@@ -83,14 +83,14 @@ export default function Settings() {
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-gray-800">Settings</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
 
       <div className="card p-5">
         <div className="flex items-center gap-3 mb-3">
           <div className="p-3 bg-emerald-100 rounded-2xl">
             <DollarSign size={20} className="text-emerald-600" />
           </div>
-          <h2 className="font-semibold text-gray-800">Currency</h2>
+          <h2 className="font-semibold text-slate-800">Currency</h2>
         </div>
         <select
           value={currency}
@@ -105,10 +105,10 @@ export default function Settings() {
 
       <div className="card p-5">
         <div className="flex items-center gap-3 mb-3">
-          <div className={`p-3 rounded-2xl ${pin ? 'bg-blue-100' : 'bg-gray-100'}`}>
-            {pin ? <Lock size={20} className="text-blue-600" /> : <LockOpen size={20} className="text-gray-400" />}
+          <div className={`p-3 rounded-2xl ${pin ? 'bg-blue-100' : 'bg-slate-100'}`}>
+            {pin ? <Lock size={20} className="text-blue-600" /> : <LockOpen size={20} className="text-slate-400" />}
           </div>
-          <h2 className="font-semibold text-gray-800">PIN Lock</h2>
+          <h2 className="font-semibold text-slate-800">PIN Lock</h2>
         </div>
         {pin ? (
           <div className="space-y-2">
@@ -125,23 +125,23 @@ export default function Settings() {
           <div className="p-3 bg-red-100 rounded-2xl">
             <Trash2 size={20} className="text-red-600" />
           </div>
-          <h2 className="font-semibold text-gray-800">Clear All Data</h2>
+          <h2 className="font-semibold text-slate-800">Clear All Data</h2>
         </div>
-        <p className="text-sm text-gray-600 mb-4">This will permanently delete all your data including finance entries, debts, bills, contacts, and settings.</p>
+        <p className="text-sm text-slate-600 mb-4">This will permanently delete all your data including finance entries, debts, bills, contacts, and settings.</p>
         <button onClick={() => setShowClearData(true)} className="w-full btn-danger">Clear All Data</button>
       </div>
 
       {showPinEnable && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Enable PIN</h3>
+            <h3 className="text-xl font-bold text-slate-800 mb-4">Enable PIN</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">New PIN</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">New PIN</label>
                 <input type="password" maxLength={4} value={newPin} onChange={(e) => setNewPin(e.target.value)} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm PIN</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Confirm PIN</label>
                 <input type="password" maxLength={4} value={confirmPin} onChange={(e) => setConfirmPin(e.target.value)} className="input-field" />
               </div>
               {pinError && <p className="text-red-500 text-sm">{pinError}</p>}
@@ -157,18 +157,18 @@ export default function Settings() {
       {showPinChange && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Change PIN</h3>
+            <h3 className="text-xl font-bold text-slate-800 mb-4">Change PIN</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Current PIN</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Current PIN</label>
                 <input type="password" maxLength={4} value={currentPin} onChange={(e) => setCurrentPin(e.target.value)} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">New PIN</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">New PIN</label>
                 <input type="password" maxLength={4} value={newPin} onChange={(e) => setNewPin(e.target.value)} className="input-field" />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm New PIN</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Confirm New PIN</label>
                 <input type="password" maxLength={4} value={confirmPin} onChange={(e) => setConfirmPin(e.target.value)} className="input-field" />
               </div>
               {pinError && <p className="text-red-500 text-sm">{pinError}</p>}
@@ -184,10 +184,10 @@ export default function Settings() {
       {showPinDisable && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Disable PIN</h3>
+            <h3 className="text-xl font-bold text-slate-800 mb-4">Disable PIN</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Enter PIN to disable</label>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Enter PIN to disable</label>
                 <input type="password" maxLength={4} value={currentPin} onChange={(e) => setCurrentPin(e.target.value)} className="input-field" />
               </div>
               {pinError && <p className="text-red-500 text-sm">{pinError}</p>}
@@ -208,8 +208,8 @@ export default function Settings() {
                 <AlertTriangle size={24} className="text-red-600" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Clear All Data?</h3>
-                <p className="text-sm text-gray-600">This action cannot be undone. All your data will be permanently deleted.</p>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Clear All Data?</h3>
+                <p className="text-sm text-slate-600">This action cannot be undone. All your data will be permanently deleted.</p>
               </div>
             </div>
             <div className="flex gap-2">

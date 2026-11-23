@@ -55,7 +55,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
             className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-xl font-semibold ${
               isError
                 ? 'border-red-500 bg-red-50'
-                : 'border-gray-300 bg-gray-50'
+                : 'border-slate-300 bg-slate-50'
             }`}
           >
             {value[index] ? '•' : ''}
@@ -70,10 +70,10 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
         <div className="flex flex-col items-center mb-6">
           <Lock size={48} className="text-blue-600 mb-2" />
-          <h1 className="text-xl font-semibold text-gray-800">
+          <h1 className="text-xl font-semibold text-slate-800">
             {step === 'create' ? 'Create PIN' : 'Confirm PIN'}
           </h1>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-sm text-slate-600 mt-1">
             {step === 'create' 
               ? 'Set a 4-digit PIN to secure your app' 
               : 'Enter your PIN again to confirm'}
@@ -104,7 +104,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
                 (step === 'create' ? pin : confirmPin) + num.toString(),
                 step === 'confirm'
               )}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
             >
               {num}
             </button>
@@ -119,7 +119,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
               }
               setError('');
             }}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-600 text-lg py-4 rounded-lg transition-colors"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-600 text-lg py-4 rounded-lg transition-colors"
           >
             {step === 'confirm' ? 'Back' : 'Clear'}
           </button>
@@ -128,14 +128,14 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
               (step === 'create' ? pin : confirmPin) + '0',
               step === 'confirm'
             )}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
           >
             0
           </button>
           <button
             onClick={step === 'create' ? handleCreateSubmit : handleConfirmSubmit}
             disabled={(step === 'create' ? pin : confirmPin).length !== 4}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white text-lg py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-lg py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             {step === 'confirm' ? <Check size={20} /> : null}
             {step === 'create' ? 'Next' : 'Confirm'}

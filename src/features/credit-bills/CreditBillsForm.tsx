@@ -84,7 +84,7 @@ export default function CreditBillsForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-gray-600">
+      <div className="p-4 text-center text-slate-600">
         Loading...
       </div>
     );
@@ -96,11 +96,11 @@ export default function CreditBillsForm() {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => navigate('/bills')}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
         >
           <ArrowLeft size={24} />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">
+        <h1 className="text-xl font-semibold text-slate-800">
           {action === 'add' ? 'Add Bill' : 'Edit Bill'}
         </h1>
       </div>
@@ -109,14 +109,14 @@ export default function CreditBillsForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Card Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Card Name *
           </label>
           <input
             type="text"
             {...register('cardName', { required: 'Card name is required' })}
             placeholder="e.g., HDFC Credit Card"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
           {errors.cardName && (
@@ -126,7 +126,7 @@ export default function CreditBillsForm() {
 
         {/* Current Amount */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Current Bill Amount ({currency}) *
           </label>
           <input
@@ -137,7 +137,7 @@ export default function CreditBillsForm() {
               min: { value: 0, message: 'Amount cannot be negative' },
             })}
             placeholder="0.00"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
           {errors.currentAmount && (
@@ -147,13 +147,13 @@ export default function CreditBillsForm() {
 
         {/* Due Date */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1">
             Due Date *
           </label>
           <input
             type="date"
             {...register('dueDate', { required: 'Due date is required' })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
           {errors.dueDate && (
@@ -165,7 +165,7 @@ export default function CreditBillsForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-slate-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
         >
           <Save size={20} />
           {isSubmitting ? 'Saving...' : 'Save Bill'}

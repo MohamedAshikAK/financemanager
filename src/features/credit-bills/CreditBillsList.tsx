@@ -26,12 +26,12 @@ export default function CreditBillsList() {
   };
 
   if (!isHydrated) {
-    return <div className="p-4 text-center text-gray-600">Loading...</div>;
+    return <div className="p-4 text-center text-slate-600">Loading...</div>;
   }
 
   return (
     <div className="p-5 space-y-5">
-      <h1 className="text-2xl font-bold text-gray-800">Credit Bills</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Credit Bills</h1>
 
       <button onClick={() => navigate('/bills/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2">
         <Plus size={20} />
@@ -40,11 +40,11 @@ export default function CreditBillsList() {
 
       {bills.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={32} className="text-gray-400" />
+          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard size={32} className="text-slate-400" />
           </div>
-          <p className="text-gray-500 mb-1">No credit bills yet</p>
-          <p className="text-sm text-gray-400">Tap "Add Bill" to get started</p>
+          <p className="text-slate-500 mb-1">No credit bills yet</p>
+          <p className="text-sm text-slate-400">Tap "Add Bill" to get started</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -65,10 +65,10 @@ export default function CreditBillsList() {
                       <div className="p-2 bg-blue-100 rounded-xl">
                         <CreditCard size={18} className="text-blue-600" />
                       </div>
-                      <h3 className="font-semibold text-gray-800">{bill.cardName}</h3>
+                      <h3 className="font-semibold text-slate-800">{bill.cardName}</h3>
                     </div>
                     <div className={`text-2xl font-bold ${
-                      bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-gray-800'
+                      bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                     }`}>
                       {bill.isPaid ? 'Settled' : formatCurrency(bill.currentAmount, currency)}
                     </div>
@@ -82,13 +82,13 @@ export default function CreditBillsList() {
 
                 <div className="flex items-center justify-between mt-3">
                   {bill.dueDate && (
-                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-gray-500'}`}>
+                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
                       {overdue ? `Overdue: ${formatDate(bill.dueDate)}` : dueSoon ? `Due: ${formatDate(bill.dueDate)}` : formatDate(bill.dueDate)}
                     </span>
                   )}
                   <div className="flex gap-2">
-                    <button onClick={() => navigate(`/bills/form?action=edit&id=${bill.id}`)} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
-                      <Edit size={18} className="text-gray-600" />
+                    <button onClick={() => navigate(`/bills/form?action=edit&id=${bill.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                      <Edit size={18} className="text-slate-600" />
                     </button>
                     <button onClick={() => setShowDeleteConfirm(bill.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
                       <Trash2 size={18} className="text-red-500" />
@@ -97,8 +97,8 @@ export default function CreditBillsList() {
                 </div>
 
                 {showDeleteConfirm === bill.id && (
-                  <div className="mt-4 pt-4 border-t border-gray-100">
-                    <p className="text-sm text-gray-600 mb-3">Delete "{bill.cardName}"?</p>
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <p className="text-sm text-slate-600 mb-3">Delete "{bill.cardName}"?</p>
                     <div className="flex gap-2">
                       <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
                       <button onClick={() => handleDelete(bill.id)} className="flex-1 btn-danger">Delete</button>
