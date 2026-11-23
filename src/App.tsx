@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-import ErrorBoundary from './components/ErrorBoundary';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import AuthGuard from './features/auth/AuthGuard';
 import Home from './features/Home';
 import FinanceList from './features/finance/FinanceList';
