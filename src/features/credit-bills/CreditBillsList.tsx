@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, Check, CreditCard, ArrowLeft } from 'lucide-react';
 import { useCreditBillStore } from '../../store/creditBillStore';
@@ -17,14 +17,14 @@ export default function CreditBillsList() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteBill(id);
     setShowDeleteConfirm(null);
-  };
+  }, [deleteBill]);
 
-  const handleSettle = (id: string) => {
+  const handleSettle = useCallback((id: string) => {
     settleBill(id);
-  };
+  }, [settleBill]);
 
   if (!isHydrated) {
     return (

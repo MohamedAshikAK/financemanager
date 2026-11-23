@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, User, Phone, Mail, ArrowLeft } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
@@ -12,10 +12,10 @@ export default function ContactsList() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     deleteContact(id);
     setShowDeleteConfirm(null);
-  };
+  }, [deleteContact]);
 
   if (!isHydrated) {
     return (
