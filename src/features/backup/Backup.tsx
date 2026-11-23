@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Download, Upload, AlertCircle, CheckCircle, Database, Shield, ArrowLeft } from 'lucide-react';
+import { Download, Upload, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';

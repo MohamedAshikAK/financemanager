@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, Shield, Globe, ArrowLeft } from 'lucide-react';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 
 export default function Settings() {

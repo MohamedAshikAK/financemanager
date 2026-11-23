@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check, CreditCard, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, Edit, Check, CreditCard, ArrowLeft } from 'lucide-react';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function LoadingSkeleton({ className = '' }: { className?: string }) {
   return (
     <div className={`animate-pulse bg-slate-200 rounded ${className}`} />

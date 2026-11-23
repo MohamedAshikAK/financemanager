@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
