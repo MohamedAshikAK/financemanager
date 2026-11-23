@@ -109,15 +109,15 @@ export default function Home() {
         <h2 className="text-lg font-semibold text-gray-800 mb-3">Quick Actions</h2>
         <div className="space-y-3">
           <button
-            onClick={() => navigate('/finance?action=add&type=expense')}
-            className="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
+            onClick={() => navigate('/finance/form?action=add&type=expense')}
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
           >
             <Plus size={20} />
             Add Expense
           </button>
           <button
-            onClick={() => navigate('/finance?action=add&type=income')}
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
+            onClick={() => navigate('/finance/form?action=add&type=income')}
+            className="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
           >
             <Plus size={20} />
             Add Income
@@ -148,13 +148,6 @@ export default function Home() {
             className="w-full bg-white hover:bg-gray-50 p-4 rounded-xl text-left flex items-center justify-between transition-colors shadow-sm border border-gray-100"
           >
             <span className="font-medium text-gray-800">Credit Bills</span>
-            <AlertCircle size={20} className="text-gray-400" />
-          </button>
-          <button
-            onClick={() => navigate('/groups')}
-            className="w-full bg-white hover:bg-gray-50 p-4 rounded-xl text-left flex items-center justify-between transition-colors shadow-sm border border-gray-100"
-          >
-            <span className="font-medium text-gray-800">Groups</span>
             <AlertCircle size={20} className="text-gray-400" />
           </button>
           <button

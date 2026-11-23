@@ -4,10 +4,15 @@ import { useForm } from 'react-hook-form';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
+import { formatDate } from '../../utils/date';
 
 interface FormData {
   title: string;
   amount: number;
+  type: 'income' | 'expense';
+  category: string;
+  date: string;
+  note: string;
 }
 
 export default function FinanceForm() {
@@ -21,6 +26,7 @@ export default function FinanceForm() {
 
   const action = searchParams.get('action') || 'add';
   const entryId = searchParams.get('id');
+  const prefillType = searchParams.get('type') as 'income' | 'expense' | null;
 
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,12 +35,15 @@ export default function FinanceForm() {
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       title: '',
       amount: 0,
+      type: prefillType || 'expense',
+      category: '',
+      date: formatDate(new Date(), 'yyyy-MM-dd'),
+      note: '',
     },
   });
 
@@ -46,13 +55,23 @@ export default function FinanceForm() {
       if (entry) {
         setValue('title', entry.title);
         setValue('amount', entry.amount);
+        setValue('type', entry.type);
+        setValue('category', entry.category);
+        setValue('date', formatDate(new Date(entry.date), 'yyyy-MM-dd'));
+        setValue('note', entry.note || '');
       } else {
-        // Entry not found, redirect back
         navigate('/finance');
       }
       setIsLoading(false);
     }
   }, [action, entryId, isHydrated, getEntry, setValue, navigate]);
+
+  // Pre-fill type from URL params
+  useEffect(() => {
+    if (prefillType) {
+      setValue('type', prefillType);
+    }
+  }, [prefillType, setValue]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -62,11 +81,19 @@ export default function FinanceForm() {
         updateEntry(entryId, {
           title: data.title,
           amount: data.amount,
+          type: data.type,
+          category: data.category,
+          date: new Date(data.date).toISOString(),
+          note: data.note || undefined,
         });
       } else {
         addEntry({
           title: data.title,
           amount: data.amount,
+          type: data.type,
+          category: data.category,
+          date: new Date(data.date).toISOString(),
+          note: data.note || undefined,
         });
       }
       navigate('/finance');
@@ -110,7 +137,7 @@ export default function FinanceForm() {
           <input
             type="text"
             {...register('title', { required: 'Title is required' })}
-            placeholder="e.g., Current Bill"
+            placeholder="e.g., Grocery shopping"
             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
           />
