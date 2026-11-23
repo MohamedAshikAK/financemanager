@@ -64,8 +64,9 @@ export default function FinanceList() {
         <button
           onClick={() => navigate('/')}
           className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          aria-label="Go back to home"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={24} aria-hidden="true" />
         </button>
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Monthly Expenses</h1>
@@ -95,7 +96,7 @@ export default function FinanceList() {
         className="w-full btn-primary flex items-center justify-center gap-2"
         aria-label="Add new finance entry"
       >
-        <Plus size={20} />
+        <Plus size={20} aria-hidden="true" />
         Add Entry
       </button>
 
@@ -137,8 +138,10 @@ export default function FinanceList() {
                         ? 'bg-emerald-100 text-emerald-600 shadow-md shadow-emerald-500/20'
                         : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
                     }`}
+                    aria-label={isPaid ? 'Mark as unpaid' : 'Mark as paid'}
+                    aria-pressed={isPaid}
                   >
-                    <Check size={22} />
+                    <Check size={22} aria-hidden="true" />
                   </button>
                 </div>
 
