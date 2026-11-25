@@ -166,7 +166,7 @@ export default function Settings() {
           <div className="p-3 bg-emerald-100 rounded-xl">
             <DollarSign size={18} className="text-emerald-600" />
           </div>
-          <h2 className="font-semibold text-slate-800">Currency</h2>
+          <h2 className="font-semibold text-slate-800 dark:text-white">Currency</h2>
         </div>
         <select
           value={currency}
@@ -182,15 +182,15 @@ export default function Settings() {
       <div className="card p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className={`p-3 rounded-xl ${darkMode ? 'bg-purple-100' : 'bg-amber-100'}`}>
-              {darkMode ? <Moon size={18} className="text-purple-600" /> : <Sun size={18} className="text-amber-600" />}
+            <div className={`p-3 rounded-xl ${darkMode ? 'bg-purple-500/20' : 'bg-amber-500/20'}`}>
+              {darkMode ? <Moon size={18} className="text-purple-400" /> : <Sun size={18} className="text-amber-500" />}
             </div>
-            <h2 className="font-semibold text-slate-800">Dark Mode</h2>
+            <h2 className="font-semibold text-slate-800 dark:text-white">Dark Mode</h2>
           </div>
           <button
             onClick={() => setDarkMode(!darkMode)}
             className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
-              darkMode ? 'bg-purple-500' : 'bg-slate-300'
+              darkMode ? 'bg-[#32d74b]' : 'bg-[#e9e9eb]'
             }`}
           >
             <div
@@ -207,9 +207,9 @@ export default function Settings() {
           <div className="p-3 bg-blue-100 rounded-xl">
             <Database size={18} className="text-blue-600" />
           </div>
-          <h2 className="font-semibold text-slate-800">Sample Data</h2>
+          <h2 className="font-semibold text-slate-800 dark:text-white">Sample Data</h2>
         </div>
-        <p className="text-sm text-slate-600 mb-3">Load sample data to see how the app looks with actual entries.</p>
+        <p className="text-sm text-slate-600 mb-3 dark:text-[#8e8e93]">Load sample data to see how the app looks with actual entries.</p>
         <button onClick={() => setShowSampleData(true)} className="w-full btn-primary">Load Sample Data</button>
       </div>
 
@@ -218,7 +218,7 @@ export default function Settings() {
           <div className={`p-3 rounded-xl ${pin ? 'bg-blue-100' : 'bg-slate-100'}`}>
             {pin ? <Lock size={18} className="text-blue-600" /> : <LockOpen size={18} className="text-slate-400" />}
           </div>
-          <h2 className="font-semibold text-slate-800">PIN Lock</h2>
+          <h2 className="font-semibold text-slate-800 dark:text-white">PIN Lock</h2>
         </div>
         {pin ? (
           <div className="space-y-2">
