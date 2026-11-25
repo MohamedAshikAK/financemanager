@@ -107,12 +107,12 @@ export default function DebtContactDetail() {
                         {debt.type === 'owed-to-me' ? <ArrowDownLeft size={16} className="text-emerald-600" /> : <ArrowUpRight size={16} className="text-red-600" />}
                       </div>
                       <h3 className="font-semibold text-slate-800 truncate">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
-                    </div>
-                    <div className={`text-lg font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
-                      {formatCurrency(debt.amount, currency)}
-                    </div>
-                    <div className="text-xs font-medium mt-1 text-slate-500">
-                      Added: {formatDate(debt.createdAt)}
+                      <div className={`text-lg font-bold flex-shrink-0 ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
+                        {formatCurrency(debt.amount, currency)}
+                      </div>
+                      <div className="text-xs font-medium mt-1 text-slate-500 flex-shrink-0">
+                        Added: {formatDate(debt.createdAt)}
+                      </div>
                     </div>
                   </div>
                   
