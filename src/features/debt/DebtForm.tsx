@@ -13,8 +13,6 @@ interface FormData {
   amount: number;
   type: 'owed-to-me' | 'owed-by-me';
   personId: string;
-  dueDate: string;
-  note: string;
 }
 
 export default function DebtForm() {
@@ -46,8 +44,6 @@ export default function DebtForm() {
       amount: 0,
       type: 'owed-by-me',
       personId: prefillPersonId,
-      dueDate: formatDate(new Date(), 'yyyy-MM-dd'),
-      note: '',
     },
   });
 
@@ -59,8 +55,6 @@ export default function DebtForm() {
         setValue('amount', debt.amount);
         setValue('type', debt.type);
         setValue('personId', debt.personId);
-        setValue('dueDate', debt.dueDate ? formatDate(new Date(debt.dueDate), 'yyyy-MM-dd') : '');
-        setValue('note', debt.note || '');
       } else {
         navigate('/debt');
       }
@@ -82,8 +76,6 @@ export default function DebtForm() {
         amount: data.amount,
         type: data.type,
         personId: data.personId,
-        dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
-        note: data.note ? sanitizeInput(data.note) : undefined,
       };
 
       if (action === 'edit' && debtId) {
@@ -187,27 +179,6 @@ export default function DebtForm() {
             disabled={isSubmitting}
           />
           {errors.amount && <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>}
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Due Date (optional)</label>
-          <input
-            type="date"
-            {...register('dueDate')}
-            className="input-field"
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Note (optional)</label>
-          <textarea
-            {...register('note')}
-            placeholder="Add a note..."
-            rows={3}
-            className="input-field resize-none"
-            disabled={isSubmitting}
-          />
         </div>
 
         <button
