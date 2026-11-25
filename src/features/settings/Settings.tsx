@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun } from 'lucide-react';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun, Type } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
@@ -13,10 +13,12 @@ export default function Settings() {
   const currency = useSettingsStore((state) => state.currency);
   const pin = useSettingsStore((state) => state.pin);
   const darkMode = useSettingsStore((state) => state.darkMode);
+  const fontSize = useSettingsStore((state) => state.fontSize);
   const setCurrency = useSettingsStore((state) => state.setCurrency);
   const setPinStore = useSettingsStore((state) => state.setPin);
   const clearPin = useSettingsStore((state) => state.clearPin);
   const setDarkMode = useSettingsStore((state) => state.setDarkMode);
+  const setFontSize = useSettingsStore((state) => state.setFontSize);
   const addToast = useToastStore((state) => state.addToast);
   
   const addEntry = useFinanceStore((state) => state.addEntry);
@@ -210,6 +212,47 @@ export default function Settings() {
                 darkMode ? 'translate-x-7' : 'translate-x-1'
               }`}
             />
+          </button>
+        </div>
+      </div>
+
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-indigo-100 rounded-xl">
+            <Type size={18} className="text-indigo-600" />
+          </div>
+          <h2 className="font-semibold text-slate-800 dark:text-white">Font Size</h2>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setFontSize('small')}
+            className={`flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all ${
+              fontSize === 'small'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+            }`}
+          >
+            Small
+          </button>
+          <button
+            onClick={() => setFontSize('medium')}
+            className={`flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all ${
+              fontSize === 'medium'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+            }`}
+          >
+            Medium
+          </button>
+          <button
+            onClick={() => setFontSize('large')}
+            className={`flex-1 py-2 px-3 rounded-xl text-sm font-medium transition-all ${
+              fontSize === 'large'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700'
+            }`}
+          >
+            Large
           </button>
         </div>
       </div>

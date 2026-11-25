@@ -5,12 +5,14 @@ interface SettingsState {
   pin: string | null;
   currency: string;
   darkMode: boolean;
+  fontSize: 'small' | 'medium' | 'large';
   isHydrated: boolean;
   
   // Actions
   setPin: (pin: string | null) => void;
   setCurrency: (currency: string) => void;
   setDarkMode: (darkMode: boolean) => void;
+  setFontSize: (fontSize: 'small' | 'medium' | 'large') => void;
   clearPin: () => void;
   setHydrated: (hydrated: boolean) => void;
 }
@@ -49,6 +51,7 @@ export const useSettingsStore = create<SettingsState>()(
       pin: null,
       currency: 'INR',
       darkMode: false,
+      fontSize: 'medium',
       isHydrated: false,
       
       setPin: (pin) => {
@@ -69,6 +72,10 @@ export const useSettingsStore = create<SettingsState>()(
       
       setDarkMode: (darkMode) => {
         set({ darkMode });
+      },
+      
+      setFontSize: (fontSize) => {
+        set({ fontSize });
       },
       
       clearPin: () => {

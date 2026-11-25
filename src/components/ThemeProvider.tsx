@@ -3,9 +3,12 @@ import { useSettingsStore } from '../store/settingsStore';
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useSettingsStore((state) => state.darkMode);
+  const fontSize = useSettingsStore((state) => state.fontSize);
 
   useEffect(() => {
     const body = document.body;
+    
+    // Apply dark mode
     if (darkMode) {
       body.classList.remove('light');
       body.classList.add('dark');
@@ -13,7 +16,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
       body.classList.remove('dark');
       body.classList.add('light');
     }
-  }, [darkMode]);
+    
+    // Apply font size
+    body.classList.remove('font-small', 'font-medium', 'font-large');
+    body.classList.add(`font-${fontSize}`);
+  }, [darkMode, fontSize]);
 
   return <>{children}</>;
 }

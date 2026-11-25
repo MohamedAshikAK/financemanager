@@ -15,7 +15,19 @@
     font-size: 15px;
     min-height: 100vh;
     overscroll-behavior-y: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+  }
+  
+  body.font-small {
+    font-size: 13px;
+  }
+  
+  body.font-medium {
+    font-size: 15px;
+  }
+  
+  body.font-large {
+    font-size: 17px;
   }
   
   body.light {
