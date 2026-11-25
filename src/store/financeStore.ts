@@ -1,14 +1,25 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { FinanceEntry } from '../types';
-import { migrateData, addVersionToData } from '../utils/migration';
+
+export interface FinanceEntry {
+  id: string;
+  title: string;
+  amount: number;
+  type: 'income' | 'expense';
+  category: string;
+  date: string;
+  note?: string;
+  isRecurring: boolean;
+  paidMonths: string[];
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface FinanceState {
   entries: FinanceEntry[];
   isHydrated: boolean;
   
-  // Actions
   addEntry: (entry: Omit<FinanceEntry, 'id' | 'paidMonths' | 'createdAt' | 'updatedAt'>) => void;
   updateEntry: (id: string, entry: Partial<FinanceEntry>) => void;
   deleteEntry: (id: string) => void;
