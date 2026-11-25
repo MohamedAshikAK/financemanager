@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
+import { useFinanceStore } from '../../store/financeStore';
+import { useDebtStore } from '../../store/debtStore';
+import { useCreditBillStore } from '../../store/creditBillStore';
+import { useContactStore } from '../../store/contactStore';
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -10,11 +14,17 @@ export default function Settings() {
   const setCurrency = useSettingsStore((state) => state.setCurrency);
   const setPinStore = useSettingsStore((state) => state.setPin);
   const clearPin = useSettingsStore((state) => state.clearPin);
+  
+  const addEntry = useFinanceStore((state) => state.addEntry);
+  const addDebt = useDebtStore((state) => state.addDebt);
+  const addBill = useCreditBillStore((state) => state.addBill);
+  const addContact = useContactStore((state) => state.addContact);
 
   const [showPinChange, setShowPinChange] = useState(false);
   const [showPinEnable, setShowPinEnable] = useState(false);
   const [showPinDisable, setShowPinDisable] = useState(false);
   const [showClearData, setShowClearData] = useState(false);
+  const [showSampleData, setShowSampleData] = useState(false);
   const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -83,6 +93,59 @@ export default function Settings() {
     window.location.reload();
   };
 
+  const handleLoadSampleData = () => {
+    // Add sample contacts first
+    const sampleContacts = [
+      { name: 'John Doe', phone: '+91 98765 43210', email: 'john.doe@example.com' },
+      { name: 'Jane Smith', phone: '+91 98765 43211', email: 'jane.smith@example.com' },
+      { name: 'Mike Johnson', phone: '+91 98765 43212', email: 'mike.johnson@example.com' },
+    ];
+    
+    const contactIds: string[] = [];
+    sampleContacts.forEach(contact => {
+      const id = addContact(contact);
+      contactIds.push(id);
+    });
+
+    // Add sample finance entries
+    const sampleFinanceEntries = [
+      { title: 'Grocery Shopping', amount: 4500, type: 'expense' as const, category: 'Food', date: new Date().toISOString(), note: 'Weekly groceries from supermarket' },
+      { title: 'Salary', amount: 85000, type: 'income' as const, category: 'Salary', date: new Date().toISOString(), note: 'Monthly salary' },
+      { title: 'Electricity Bill', amount: 2500, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly electricity bill' },
+      { title: 'Freelance Payment', amount: 15000, type: 'income' as const, category: 'Freelance', date: new Date().toISOString(), note: 'Web development project' },
+      { title: 'Internet Bill', amount: 1200, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly internet connection' },
+    ];
+    
+    sampleFinanceEntries.forEach(entry => {
+      addEntry(entry);
+    });
+
+    // Add sample debts
+    const sampleDebts = [
+      { amount: 5000, type: 'owed-to-me' as const, personId: contactIds[0], dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), note: 'Loan for emergency', isPaid: false },
+      { amount: 2000, type: 'owed-by-me' as const, personId: contactIds[1], dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), note: 'Borrowed for dinner', isPaid: false },
+      { amount: 8000, type: 'owed-to-me' as const, personId: contactIds[0], dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), note: 'Shared expenses', isPaid: false },
+    ];
+    
+    sampleDebts.forEach(debt => {
+      addDebt(debt);
+    });
+
+    // Add sample credit bills
+    const sampleBills = [
+      { cardName: 'HDFC Credit Card', currentAmount: 15000, dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+      { cardName: 'ICICI Amazon Pay', currentAmount: 8500, dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+      { cardName: 'SBI Credit Card', currentAmount: 25000, dueDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+    ];
+    
+    sampleBills.forEach(bill => {
+      addBill(bill);
+    });
+
+    setShowSampleData(false);
+    alert('Sample data loaded successfully!');
+  };
+
   return (
     <div className="p-3 space-y-3">
       <div className="flex items-center gap-2">
@@ -112,6 +175,17 @@ export default function Settings() {
             <option key={curr.code} value={curr.code}>{curr.name}</option>
           ))}
         </select>
+      </div>
+
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-blue-100 rounded-xl">
+            <Database size={18} className="text-blue-600" />
+          </div>
+          <h2 className="font-semibold text-slate-800">Sample Data</h2>
+        </div>
+        <p className="text-sm text-slate-600 mb-3">Load sample data to see how the app looks with actual entries.</p>
+        <button onClick={() => setShowSampleData(true)} className="w-full btn-primary">Load Sample Data</button>
       </div>
 
       <div className="card p-3">
@@ -226,6 +300,26 @@ export default function Settings() {
             <div className="flex gap-2">
               <button onClick={() => setShowClearData(false)} className="flex-1 btn-secondary">Cancel</button>
               <button onClick={handleClearData} className="flex-1 btn-danger">Clear Data</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSampleData && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-start gap-2 mb-4">
+              <div className="p-3 bg-blue-100 rounded-xl flex-shrink-0">
+                <Database size={18} className="text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Load Sample Data?</h3>
+                <p className="text-sm text-slate-600">This will add sample finance entries, debts, bills, and contacts to your app.</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setShowSampleData(false)} className="flex-1 btn-secondary">Cancel</button>
+              <button onClick={handleLoadSampleData} className="flex-1 btn-primary">Load Data</button>
             </div>
           </div>
         </div>
