@@ -110,7 +110,7 @@ function DebtList() {
         >
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-xl font-bold text-slate-800">Debts</h1>
+        <h1 className="text-xl font-bold text-slate-800">Monthly Debts</h1>
       </div>
 
       {/* Summary Cards */}
@@ -184,7 +184,7 @@ function DebtList() {
           className="w-full btn-primary flex items-center justify-center gap-2"
         >
           <Plus size={18} />
-          Add Debt
+          Add Monthly Debt
         </button>
       )}
 
@@ -193,8 +193,8 @@ function DebtList() {
           <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CreditCard size={18} className="text-slate-400" />
           </div>
-          <p className="text-slate-500 mb-1">No debts found</p>
-          <p className="text-sm text-slate-400">Tap "Add Debt" to get started</p>
+          <p className="text-slate-500 mb-1">No monthly debts found</p>
+          <p className="text-sm text-slate-400">Tap "Add Monthly Debt" to get started</p>
         </div>
       ) : filter !== 'history' ? (
         <div className="space-y-3">

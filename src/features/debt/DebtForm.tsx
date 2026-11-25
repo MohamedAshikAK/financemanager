@@ -111,7 +111,7 @@ export default function DebtForm() {
           <ArrowLeft size={18} />
         </button>
         <h1 className="text-xl font-bold text-slate-800">
-          {action === 'add' ? 'Add Debt' : 'Edit Debt'}
+          {action === 'add' ? 'Add Monthly Debt' : 'Edit Monthly Debt'}
         </h1>
       </div>
 
