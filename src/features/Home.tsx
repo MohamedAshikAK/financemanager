@@ -125,26 +125,14 @@ export default function Home() {
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h2>
         <div className="space-y-3">
           <button
-            onClick={() => navigate('/finance/form?action=add&type=expense')}
-            className="w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-red-500/30 transition-all duration-200 active:scale-95"
+            onClick={() => navigate('/debt/form?action=add')}
+            className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-purple-500/30 transition-all duration-200 active:scale-95"
           >
             <div className="flex items-center gap-2">
               <div className="p-2 bg-white/20 rounded-xl">
                 <Plus size={18} />
               </div>
-              <span>Add Expense</span>
-            </div>
-            <ArrowRight size={18} />
-          </button>
-          <button
-            onClick={() => navigate('/finance/form?action=add&type=income')}
-            className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-emerald-500/30 transition-all duration-200 active:scale-95"
-          >
-            <div className="flex items-center gap-2">
-              <div className="p-2 bg-white/20 rounded-xl">
-                <Plus size={18} />
-              </div>
-              <span>Add Income</span>
+              <span>Add Debt</span>
             </div>
             <ArrowRight size={18} />
           </button>
