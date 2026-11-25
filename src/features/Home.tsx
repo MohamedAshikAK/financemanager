@@ -43,8 +43,17 @@ function Home() {
 
   const balance = monthlyIncome - monthlyExpenses;
 
-  const pendingDebts = debts.filter(d => !d.isPaid).length;
-  const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid).length;
+  const pendingDebts = debts.filter(d => !d.isPaid);
+  const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
+  
+  const owedToMe = pendingDebts
+    .filter(d => d.type === 'owed-to-me')
+    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+  const owedByMe = pendingDebts
+    .filter(d => d.type === 'owed-by-me')
+    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+  const netBalance = owedToMe - owedByMe;
+  
   const upcomingBills = bills.filter(b => !b.isPaid && isDueSoon(b.dueDate)).length;
   const overdueBills = bills.filter(b => !b.isPaid && isOverdue(b.dueDate)).length;
 
@@ -59,18 +68,24 @@ function Home() {
   return (
     <div className="p-3 space-y-6">
       {/* Modern Balance Card */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl p-6 text-white shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div className={`bg-gradient-to-br rounded-2xl p-6 text-white shadow-2xl relative overflow-hidden ${
+        netBalance > 0 
+          ? 'from-emerald-600 via-emerald-700 to-teal-800 shadow-emerald-500/30' 
+          : netBalance < 0 
+          ? 'from-red-600 via-red-700 to-rose-800 shadow-red-500/30' 
+          : 'from-slate-600 via-slate-700 to-slate-800 shadow-slate-500/30'
+      }`}>
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-blue-100">Balance (This Month)</span>
+            <span className="text-sm font-medium text-white/80">Monthly Debt Balance</span>
             <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-              <Wallet size={18} />
+              <CreditCard size={18} />
             </div>
           </div>
           <div className="text-4xl font-bold mb-6 tracking-tight">
-            {formatCurrency(balance, currency)}
+            {netBalance > 0 ? '+' : ''}{formatCurrency(Math.abs(netBalance), currency)}
           </div>
           <div className="flex gap-6">
             <div className="flex items-center gap-2">
@@ -78,8 +93,8 @@ function Home() {
                 <TrendingUp size={16} />
               </div>
               <div>
-                <div className="text-xs text-blue-200">Income</div>
-                <div className="font-semibold">{formatCurrency(monthlyIncome, currency)}</div>
+                <div className="text-xs text-white/70">Owed to Me</div>
+                <div className="font-semibold">{formatCurrency(owedToMe, currency)}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -87,8 +102,8 @@ function Home() {
                 <TrendingDown size={16} />
               </div>
               <div>
-                <div className="text-xs text-blue-200">Expenses</div>
-                <div className="font-semibold">{formatCurrency(monthlyExpenses, currency)}</div>
+                <div className="text-xs text-white/70">Owed by Me</div>
+                <div className="font-semibold">{formatCurrency(owedByMe, currency)}</div>
               </div>
             </div>
           </div>
@@ -105,7 +120,7 @@ function Home() {
             <span className="text-sm font-medium text-slate-600">Monthly Debts</span>
           </div>
           <div className="text-3xl font-bold text-slate-800">
-            {pendingDebts}
+            {pendingDebts.length}
           </div>
         </div>
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
@@ -116,7 +131,7 @@ function Home() {
             <span className="text-sm font-medium text-slate-600">Debts</span>
           </div>
           <div className="text-3xl font-bold text-slate-800">
-            {pendingMonthlyDebts}
+            {pendingMonthlyDebts.length}
           </div>
         </div>
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
