@@ -19,6 +19,18 @@ function DebtList() {
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
   const [showSettleConfirm, setShowSettleConfirm] = useState<string | null>(null);
 
+  const totalOwedToMe = useMemo(() => {
+    return debts
+      .filter(d => d.type === 'owed-to-me' && !d.isPaid)
+      .reduce((sum, d) => sum + d.amount, 0);
+  }, [debts]);
+
+  const totalOwedByMe = useMemo(() => {
+    return debts
+      .filter(d => d.type === 'owed-by-me' && !d.isPaid)
+      .reduce((sum, d) => sum + d.amount, 0);
+  }, [debts]);
+
   const filteredDebts = useMemo(() => {
     return debts.filter(debt => {
       if (filter === 'all') return !debt.isPaid;
@@ -60,6 +72,28 @@ function DebtList() {
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
         <h1 className="text-xl font-bold text-slate-800">Debts</h1>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="stat-card">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="p-2 bg-emerald-100 rounded-xl">
+              <ArrowDownLeft size={16} className="text-emerald-600" />
+            </div>
+            <span className="text-xs font-medium text-slate-600">Owed to Me</span>
+          </div>
+          <div className="text-2xl font-bold text-emerald-600">{formatCurrency(totalOwedToMe, currency)}</div>
+        </div>
+        <div className="stat-card">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="p-2 bg-red-100 rounded-xl">
+              <ArrowUpRight size={16} className="text-red-600" />
+            </div>
+            <span className="text-xs font-medium text-slate-600">Owed by Me</span>
+          </div>
+          <div className="text-2xl font-bold text-red-600">{formatCurrency(totalOwedByMe, currency)}</div>
+        </div>
       </div>
 
       <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
