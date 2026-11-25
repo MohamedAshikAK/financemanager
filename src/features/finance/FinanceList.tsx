@@ -39,18 +39,18 @@ export default function FinanceList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-5 space-y-5">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+      <div className="p-3 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-12 bg-slate-200 rounded-xl animate-pulse" />
           <div className="flex-1">
             <div className="h-6 bg-slate-200 rounded animate-pulse mb-2" />
             <div className="h-4 bg-slate-200 rounded animate-pulse w-1/3" />
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-3">
-          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
-          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
-          <div className="h-20 bg-slate-200 rounded-2xl animate-pulse" />
+        <div className="grid grid-cols-3 gap-2">
+          <div className="h-16 bg-slate-200 rounded-xl animate-pulse" />
+          <div className="h-16 bg-slate-200 rounded-xl animate-pulse" />
+          <div className="h-16 bg-slate-200 rounded-xl animate-pulse" />
         </div>
         <ListSkeleton count={3} />
       </div>
@@ -58,33 +58,33 @@ export default function FinanceList() {
   }
 
   return (
-    <div className="p-5 space-y-5">
+    <div className="p-3 space-y-3">
       {/* Header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Monthly Expenses</h1>
+          <h1 className="text-xl font-bold text-slate-800">Monthly Expenses</h1>
           <p className="text-sm text-slate-500">{currentMonthDisplay}</p>
         </div>
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 text-white shadow-lg shadow-blue-500/30">
+      <div className="grid grid-cols-3 gap-2">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 text-white shadow-lg shadow-blue-500/30">
           <div className="text-xs text-blue-100 mb-1">Total</div>
           <div className="text-lg font-bold">{formatCurrency(totalAmount, currency)}</div>
         </div>
-        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-4 text-white shadow-lg shadow-emerald-500/30">
+        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-3 text-white shadow-lg shadow-emerald-500/30">
           <div className="text-xs text-emerald-100 mb-1">Paid</div>
           <div className="text-lg font-bold">{formatCurrency(paidAmount, currency)}</div>
         </div>
-        <div className="bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl p-4 text-white shadow-lg shadow-red-500/30">
+        <div className="bg-gradient-to-br from-red-500 to-rose-600 rounded-xl p-3 text-white shadow-lg shadow-red-500/30">
           <div className="text-xs text-red-100 mb-1">Unpaid</div>
           <div className="text-lg font-bold">{formatCurrency(unpaidAmount, currency)}</div>
         </div>
@@ -96,15 +96,15 @@ export default function FinanceList() {
         className="w-full btn-primary flex items-center justify-center gap-2"
         aria-label="Add new finance entry"
       >
-        <Plus size={20} aria-hidden="true" />
+        <Plus size={18} aria-hidden="true" />
         Add Entry
       </button>
 
       {/* Entries List */}
       {entries.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Wallet size={32} className="text-slate-400" />
+          <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Wallet size={18} className="text-slate-400" />
           </div>
           <p className="text-slate-500 mb-1">No entries yet</p>
           <p className="text-sm text-slate-400">Tap "Add Entry" to get started</p>
@@ -117,14 +117,14 @@ export default function FinanceList() {
             return (
               <div
                 key={entry.id}
-                className={`card hover:shadow-md transition-all duration-200 p-4 ${
+                className={`card hover:shadow-md transition-all duration-200 p-3 ${
                   isPaid ? 'opacity-60' : ''
                 }`}
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="font-semibold text-slate-800 mb-1">{entry.title}</h3>
-                    <div className={`text-2xl font-bold ${
+                    <div className={`text-xl font-bold ${
                       isPaid ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
                       {formatCurrency(entry.amount, currency)}
@@ -133,7 +133,7 @@ export default function FinanceList() {
                   
                   <button
                     onClick={() => handleTogglePayment(entry.id)}
-                    className={`p-3 rounded-2xl transition-all duration-200 ${
+                    className={`p-3 rounded-xl transition-all duration-200 ${
                       isPaid
                         ? 'bg-emerald-100 text-emerald-600 shadow-md shadow-emerald-500/20'
                         : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
@@ -141,7 +141,7 @@ export default function FinanceList() {
                     aria-label={isPaid ? 'Mark as unpaid' : 'Mark as paid'}
                     aria-pressed={isPaid}
                   >
-                    <Check size={22} aria-hidden="true" />
+                    <Check size={18} aria-hidden="true" />
                   </button>
                 </div>
 

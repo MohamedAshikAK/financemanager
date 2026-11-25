@@ -43,12 +43,12 @@ export default function DebtList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-5 space-y-5">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+      <div className="p-3 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-12 bg-slate-200 rounded-xl animate-pulse" />
           <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
         </div>
-        <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
+        <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
           <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
           <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
           <div className="flex-1 h-8 bg-slate-200 rounded-xl animate-pulse" />
@@ -59,19 +59,19 @@ export default function DebtList() {
   }
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">Debts</h1>
+        <h1 className="text-xl font-bold text-slate-800">Debts</h1>
       </div>
 
-      <div className="flex gap-2 p-1 bg-slate-100 rounded-2xl">
+      <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
         <button
           onClick={() => setFilter('all')}
           className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
@@ -108,14 +108,14 @@ export default function DebtList() {
         onClick={() => navigate('/debt/form?action=add')}
         className="w-full btn-primary flex items-center justify-center gap-2"
       >
-        <Plus size={20} />
+        <Plus size={18} />
         Add Debt
       </button>
 
       {Object.keys(groupedDebts).length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={32} className="text-slate-400" />
+          <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard size={18} className="text-slate-400" />
           </div>
           <p className="text-slate-500 mb-1">No debts found</p>
           <p className="text-sm text-slate-400">Tap "Add Debt" to get started</p>
@@ -131,7 +131,7 @@ export default function DebtList() {
               <div
                 key={group.personId}
                 onClick={() => navigate(`/debt/contact/${group.personId}`)}
-                className={`card hover:shadow-md transition-all duration-200 p-4 cursor-pointer ${
+                className={`card hover:shadow-md transition-all duration-200 p-3 cursor-pointer ${
                   hasOverdue
                     ? 'border-red-300'
                     : hasDueSoon
@@ -141,7 +141,7 @@ export default function DebtList() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex items-center gap-2 mb-2">
                       <div className={`p-2 rounded-xl ${
                         group.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
                       }`}>
@@ -153,7 +153,7 @@ export default function DebtList() {
                       </div>
                       <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
                     </div>
-                    <div className={`text-2xl font-bold ${
+                    <div className={`text-xl font-bold ${
                       group.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
                     }`}>
                       {group.type === 'owed-to-me' ? '+' : '-'}
@@ -163,7 +163,7 @@ export default function DebtList() {
                       {group.debts.length} debt{group.debts.length !== 1 ? 's' : ''}
                     </div>
                   </div>
-                  <ChevronRight size={20} className="text-slate-400" />
+                  <ChevronRight size={18} className="text-slate-400" />
                 </div>
               </div>
             );

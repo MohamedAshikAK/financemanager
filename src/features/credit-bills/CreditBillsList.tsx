@@ -28,9 +28,9 @@ export default function CreditBillsList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-5 space-y-5">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+      <div className="p-3 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-12 bg-slate-200 rounded-xl animate-pulse" />
           <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
         </div>
         <ListSkeleton count={3} />
@@ -39,27 +39,27 @@ export default function CreditBillsList() {
   }
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">Credit Bills</h1>
+        <h1 className="text-xl font-bold text-slate-800">Credit Bills</h1>
       </div>
 
       <button onClick={() => navigate('/bills/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2" aria-label="Add new credit bill">
-        <Plus size={20} aria-hidden="true" />
+        <Plus size={18} aria-hidden="true" />
         Add Bill
       </button>
 
       {bills.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={32} className="text-slate-400" />
+          <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CreditCard size={18} className="text-slate-400" />
           </div>
           <p className="text-slate-500 mb-1">No credit bills yet</p>
           <p className="text-sm text-slate-400">Tap "Add Bill" to get started</p>
@@ -73,7 +73,7 @@ export default function CreditBillsList() {
             return (
               <div
                 key={bill.id}
-                className={`card hover:shadow-md transition-all duration-200 p-4 ${
+                className={`card hover:shadow-md transition-all duration-200 p-3 ${
                   overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
                 }`}
               >
@@ -85,15 +85,15 @@ export default function CreditBillsList() {
                       </div>
                       <h3 className="font-semibold text-slate-800">{bill.cardName}</h3>
                     </div>
-                    <div className={`text-2xl font-bold ${
+                    <div className={`text-xl font-bold ${
                       bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                     }`}>
                       {bill.isPaid ? 'Settled' : formatCurrency(bill.currentAmount, currency)}
                     </div>
                   </div>
                   {!bill.isPaid && bill.currentAmount > 0 && (
-                    <button onClick={() => handleSettle(bill.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-2xl transition-colors">
-                      <Check size={22} />
+                    <button onClick={() => handleSettle(bill.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors">
+                      <Check size={18} />
                     </button>
                   )}
                 </div>

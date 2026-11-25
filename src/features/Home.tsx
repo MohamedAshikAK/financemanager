@@ -47,23 +47,23 @@ export default function Home() {
 
   if (!isHydrated) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-3 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-5 space-y-6">
+    <div className="p-3 space-y-6">
       {/* Modern Balance Card */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-6 text-white shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl p-6 text-white shadow-2xl shadow-blue-500/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
             <span className="text-sm font-medium text-blue-100">Balance (This Month)</span>
             <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-              <Wallet size={20} />
+              <Wallet size={18} />
             </div>
           </div>
           <div className="text-4xl font-bold mb-6 tracking-tight">
@@ -93,11 +93,11 @@ export default function Home() {
       </div>
 
       {/* Modern Quick Stats */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-2">
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-3 bg-orange-100 rounded-2xl">
-              <CreditCard size={20} className="text-orange-600" />
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-3 bg-orange-100 rounded-xl">
+              <CreditCard size={18} className="text-orange-600" />
             </div>
             <span className="text-sm font-medium text-slate-600">Pending Debts</span>
           </div>
@@ -106,9 +106,9 @@ export default function Home() {
           </div>
         </div>
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
-          <div className="flex items-center gap-3 mb-3">
-            <div className={`p-3 rounded-2xl ${overdueBills > 0 ? 'bg-red-100' : 'bg-yellow-100'}`}>
-              <AlertCircle size={20} className={overdueBills > 0 ? 'text-red-600' : 'text-yellow-600'} />
+          <div className="flex items-center gap-2 mb-3">
+            <div className={`p-3 rounded-xl ${overdueBills > 0 ? 'bg-red-100' : 'bg-yellow-100'}`}>
+              <AlertCircle size={18} className={overdueBills > 0 ? 'text-red-600' : 'text-yellow-600'} />
             </div>
             <span className="text-sm font-medium text-slate-600">
               {overdueBills > 0 ? 'Overdue' : 'Upcoming'}
@@ -126,27 +126,27 @@ export default function Home() {
         <div className="space-y-3">
           <button
             onClick={() => navigate('/finance/form?action=add&type=expense')}
-            className="w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white py-4 rounded-2xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-red-500/30 transition-all duration-200 active:scale-95"
+            className="w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-red-500/30 transition-all duration-200 active:scale-95"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <div className="p-2 bg-white/20 rounded-xl">
-                <Plus size={20} />
+                <Plus size={18} />
               </div>
               <span>Add Expense</span>
             </div>
-            <ArrowRight size={20} />
+            <ArrowRight size={18} />
           </button>
           <button
             onClick={() => navigate('/finance/form?action=add&type=income')}
-            className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white py-4 rounded-2xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-emerald-500/30 transition-all duration-200 active:scale-95"
+            className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-emerald-500/30 transition-all duration-200 active:scale-95"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <div className="p-2 bg-white/20 rounded-xl">
-                <Plus size={20} />
+                <Plus size={18} />
               </div>
               <span>Add Income</span>
             </div>
-            <ArrowRight size={20} />
+            <ArrowRight size={18} />
           </button>
         </div>
       </div>
@@ -157,51 +157,51 @@ export default function Home() {
         <div className="space-y-3">
           <button
             onClick={() => navigate('/finance')}
-            className="w-full card hover:shadow-md transition-all duration-200 p-4 flex items-center justify-between group"
+            className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-blue-100 rounded-2xl group-hover:scale-110 transition-transform">
-                <Wallet size={20} className="text-blue-600" />
+            <div className="flex items-center gap-2">
+              <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
+                <Wallet size={18} className="text-blue-600" />
               </div>
               <span className="font-semibold text-slate-800">Finance</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/debt')}
-            className="w-full card hover:shadow-md transition-all duration-200 p-4 flex items-center justify-between group"
+            className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-purple-100 rounded-2xl group-hover:scale-110 transition-transform">
-                <CreditCard size={20} className="text-purple-600" />
+            <div className="flex items-center gap-2">
+              <div className="p-3 bg-purple-100 rounded-xl group-hover:scale-110 transition-transform">
+                <CreditCard size={18} className="text-purple-600" />
               </div>
               <span className="font-semibold text-slate-800">Debts</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={18} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/bills')}
-            className="w-full card hover:shadow-md transition-all duration-200 p-4 flex items-center justify-between group"
+            className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-amber-100 rounded-2xl group-hover:scale-110 transition-transform">
-                <AlertCircle size={20} className="text-amber-600" />
+            <div className="flex items-center gap-2">
+              <div className="p-3 bg-amber-100 rounded-xl group-hover:scale-110 transition-transform">
+                <AlertCircle size={18} className="text-amber-600" />
               </div>
               <span className="font-semibold text-slate-800">Credit Bills</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={18} className="text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/contacts')}
-            className="w-full card hover:shadow-md transition-all duration-200 p-4 flex items-center justify-between group"
+            className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-teal-100 rounded-2xl group-hover:scale-110 transition-transform">
-                <User size={20} className="text-teal-600" />
+            <div className="flex items-center gap-2">
+              <div className="p-3 bg-teal-100 rounded-xl group-hover:scale-110 transition-transform">
+                <User size={18} className="text-teal-600" />
               </div>
               <span className="font-semibold text-slate-800">Contacts</span>
             </div>
-            <ArrowRight size={20} className="text-slate-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={18} className="text-slate-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-all" />
           </button>
         </div>
       </div>

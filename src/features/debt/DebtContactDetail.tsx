@@ -36,26 +36,26 @@ export default function DebtContactDetail() {
   };
 
   if (!contact) {
-    return <div className="p-4 text-center text-slate-600">Contact not found</div>;
+    return <div className="p-3 text-center text-slate-600">Contact not found</div>;
   }
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
-        <button onClick={() => navigate('/debt')} className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors">
-          <ArrowLeft size={24} />
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
+        <button onClick={() => navigate('/debt')} className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">
+          <ArrowLeft size={18} />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">{contact.name}</h1>
+        <h1 className="text-xl font-bold text-slate-800">{contact.name}</h1>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white shadow-lg shadow-blue-500/30">
+      <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 text-white shadow-lg shadow-blue-500/30">
         <div className="text-sm text-blue-100 mb-1">Total Amount</div>
         <div className="text-3xl font-bold">{formatCurrency(totalAmount, currency)}</div>
         <div className="text-xs text-blue-200 mt-1">{contactDebts.length} debt{contactDebts.length !== 1 ? 's' : ''}</div>
       </div>
 
       <button onClick={handleAddDebt} className="w-full btn-primary flex items-center justify-center gap-2">
-        <Plus size={20} />
+        <Plus size={18} />
         Add Debt
       </button>
 
@@ -71,7 +71,7 @@ export default function DebtContactDetail() {
             const dueSoon = debt.dueDate ? isDueSoon(debt.dueDate) : false;
 
             return (
-              <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-4">
+              <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-3">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
@@ -80,12 +80,12 @@ export default function DebtContactDetail() {
                       </div>
                       <h3 className="font-semibold text-slate-800">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
                     </div>
-                    <div className={`text-2xl font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
+                    <div className={`text-xl font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
                       {formatCurrency(debt.amount, currency)}
                     </div>
                   </div>
-                  <button onClick={() => handleMarkPaid(debt.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-2xl transition-colors">
-                    <Check size={22} />
+                  <button onClick={() => handleMarkPaid(debt.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors">
+                    <Check size={18} />
                   </button>
                 </div>
 

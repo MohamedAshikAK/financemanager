@@ -82,21 +82,21 @@ export default function ContactsForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-3 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-4">
+    <div className="p-3">
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-2 mb-6">
         <button
           onClick={() => navigate('/contacts')}
           className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={18} />
         </button>
         <h1 className="text-xl font-semibold text-slate-800">
           {action === 'add' ? 'Add Contact' : 'Edit Contact'}
@@ -157,9 +157,9 @@ export default function ContactsForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-slate-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
+          className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-slate-400 disabled:cursor-not-allowed text-white py-2 rounded-xl font-semibold flex items-center justify-center gap-2 transition-colors"
         >
-          <Save size={20} />
+          <Save size={18} />
           {isSubmitting ? 'Saving...' : 'Save Contact'}
         </button>
       </form>

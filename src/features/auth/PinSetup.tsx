@@ -48,11 +48,11 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
 
   const renderPinDots = (value: string, isError: boolean) => {
     return (
-      <div className="flex justify-center gap-3 mb-4">
+      <div className="flex justify-center gap-2 mb-4">
         {[0, 1, 2, 3].map((index) => (
           <div
             key={index}
-            className={`w-12 h-12 rounded-lg border-2 flex items-center justify-center text-xl font-semibold ${
+            className={`w-8 h-12 rounded-lg border-2 flex items-center justify-center text-xl font-semibold ${
               isError
                 ? 'border-red-500 bg-red-50'
                 : 'border-slate-300 bg-slate-50'
@@ -66,10 +66,10 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center p-3">
+      <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-sm">
         <div className="flex flex-col items-center mb-6">
-          <Lock size={48} className="text-blue-600 mb-2" />
+          <Lock size={32} className="text-blue-600 mb-2" />
           <h1 className="text-xl font-semibold text-slate-800">
             {step === 'create' ? 'Create PIN' : 'Confirm PIN'}
           </h1>
@@ -96,7 +96,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
           autoFocus
         />
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
             <button
               key={num}
@@ -104,7 +104,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
                 (step === 'create' ? pin : confirmPin) + num.toString(),
                 step === 'confirm'
               )}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xl font-semibold py-2 rounded-lg transition-colors"
             >
               {num}
             </button>
@@ -119,7 +119,7 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
               }
               setError('');
             }}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-600 text-lg py-4 rounded-lg transition-colors"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-600 text-lg py-2 rounded-lg transition-colors"
           >
             {step === 'confirm' ? 'Back' : 'Clear'}
           </button>
@@ -128,16 +128,16 @@ export default function PinSetup({ onComplete }: PinSetupProps) {
               (step === 'create' ? pin : confirmPin) + '0',
               step === 'confirm'
             )}
-            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-2xl font-semibold py-4 rounded-lg transition-colors"
+            className="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xl font-semibold py-2 rounded-lg transition-colors"
           >
             0
           </button>
           <button
             onClick={step === 'create' ? handleCreateSubmit : handleConfirmSubmit}
             disabled={(step === 'create' ? pin : confirmPin).length !== 4}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-lg py-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white text-lg py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
-            {step === 'confirm' ? <Check size={20} /> : null}
+            {step === 'confirm' ? <Check size={18} /> : null}
             {step === 'create' ? 'Next' : 'Confirm'}
           </button>
         </div>

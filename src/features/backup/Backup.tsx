@@ -87,59 +87,59 @@ export default function Backup() {
   };
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">Backup & Restore</h1>
+        <h1 className="text-xl font-bold text-slate-800">Backup & Restore</h1>
       </div>
 
       {message && (
-        <div className={`p-4 rounded-2xl flex items-center gap-3 ${
+        <div className={`p-3 rounded-xl flex items-center gap-2 ${
           message.type === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'
         }`}>
-          {message.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
+          {message.type === 'success' ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
           <span className="font-medium">{message.text}</span>
         </div>
       )}
 
-      <div className="card p-5">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-blue-100 rounded-2xl">
-            <Download size={20} className="text-blue-600" />
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-blue-100 rounded-xl">
+            <Download size={18} className="text-blue-600" />
           </div>
           <h2 className="font-semibold text-slate-800">Export Data</h2>
         </div>
         <p className="text-sm text-slate-600 mb-4">Download all your data as a JSON file for backup.</p>
         <button onClick={handleExport} className="w-full btn-primary flex items-center justify-center gap-2">
-          <Download size={20} />
+          <Download size={18} />
           Export Backup
         </button>
       </div>
 
-      <div className="card p-5">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-purple-100 rounded-2xl">
-            <Upload size={20} className="text-purple-600" />
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-purple-100 rounded-xl">
+            <Upload size={18} className="text-purple-600" />
           </div>
           <h2 className="font-semibold text-slate-800">Import Data</h2>
         </div>
         <p className="text-sm text-slate-600 mb-4">Restore your data from a backup file. This will replace all current data.</p>
         <label className="w-full btn-secondary flex items-center justify-center gap-2 cursor-pointer">
-          <Upload size={20} />
+          <Upload size={18} />
           Import Backup
           <input type="file" accept=".json" onChange={handleImport} className="hidden" />
         </label>
 
         {showImportConfirm && importData && (
           <div className="mt-4 pt-4 border-t border-slate-100">
-            <div className="flex items-start gap-3 mb-3">
-              <AlertCircle size={20} className="text-amber-600 flex-shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 mb-3">
+              <AlertCircle size={18} className="text-amber-600 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-slate-600">
                 This will replace all your current data with the backup from {new Date(importData.exportDate).toLocaleDateString()}. This action cannot be undone.
               </p>

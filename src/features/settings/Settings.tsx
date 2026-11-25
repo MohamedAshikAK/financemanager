@@ -84,22 +84,22 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
+        <h1 className="text-xl font-bold text-slate-800">Settings</h1>
       </div>
 
-      <div className="card p-5">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-emerald-100 rounded-2xl">
-            <DollarSign size={20} className="text-emerald-600" />
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-emerald-100 rounded-xl">
+            <DollarSign size={18} className="text-emerald-600" />
           </div>
           <h2 className="font-semibold text-slate-800">Currency</h2>
         </div>
@@ -114,10 +114,10 @@ export default function Settings() {
         </select>
       </div>
 
-      <div className="card p-5">
-        <div className="flex items-center gap-3 mb-3">
-          <div className={`p-3 rounded-2xl ${pin ? 'bg-blue-100' : 'bg-slate-100'}`}>
-            {pin ? <Lock size={20} className="text-blue-600" /> : <LockOpen size={20} className="text-slate-400" />}
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className={`p-3 rounded-xl ${pin ? 'bg-blue-100' : 'bg-slate-100'}`}>
+            {pin ? <Lock size={18} className="text-blue-600" /> : <LockOpen size={18} className="text-slate-400" />}
           </div>
           <h2 className="font-semibold text-slate-800">PIN Lock</h2>
         </div>
@@ -131,10 +131,10 @@ export default function Settings() {
         )}
       </div>
 
-      <div className="card p-5">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-3 bg-red-100 rounded-2xl">
-            <Trash2 size={20} className="text-red-600" />
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-red-100 rounded-xl">
+            <Trash2 size={18} className="text-red-600" />
           </div>
           <h2 className="font-semibold text-slate-800">Clear All Data</h2>
         </div>
@@ -143,8 +143,8 @@ export default function Settings() {
       </div>
 
       {showPinEnable && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Enable PIN</h3>
             <div className="space-y-4">
               <div>
@@ -166,8 +166,8 @@ export default function Settings() {
       )}
 
       {showPinChange && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Change PIN</h3>
             <div className="space-y-4">
               <div>
@@ -193,8 +193,8 @@ export default function Settings() {
       )}
 
       {showPinDisable && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
             <h3 className="text-xl font-bold text-slate-800 mb-4">Disable PIN</h3>
             <div className="space-y-4">
               <div>
@@ -212,11 +212,11 @@ export default function Settings() {
       )}
 
       {showClearData && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="p-3 bg-red-100 rounded-2xl flex-shrink-0">
-                <AlertTriangle size={24} className="text-red-600" />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-start gap-2 mb-4">
+              <div className="p-3 bg-red-100 rounded-xl flex-shrink-0">
+                <AlertTriangle size={18} className="text-red-600" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-800 mb-2">Clear All Data?</h3>

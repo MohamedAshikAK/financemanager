@@ -19,9 +19,9 @@ export default function ContactsList() {
 
   if (!isHydrated) {
     return (
-      <div className="p-5 space-y-5">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-slate-200 rounded-2xl animate-pulse" />
+      <div className="p-3 space-y-3">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-12 bg-slate-200 rounded-xl animate-pulse" />
           <div className="h-6 bg-slate-200 rounded animate-pulse flex-1" />
         </div>
         <ListSkeleton count={3} />
@@ -30,27 +30,27 @@ export default function ContactsList() {
   }
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
           aria-label="Go back to home"
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">Contacts</h1>
+        <h1 className="text-xl font-bold text-slate-800">Contacts</h1>
       </div>
 
       <button onClick={() => navigate('/contacts/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2" aria-label="Add new contact">
-        <Plus size={20} aria-hidden="true" />
+        <Plus size={18} aria-hidden="true" />
         Add Contact
       </button>
 
       {contacts.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <User size={32} className="text-slate-400" />
+          <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <User size={18} className="text-slate-400" />
           </div>
           <p className="text-slate-500 mb-1">No contacts yet</p>
           <p className="text-sm text-slate-400">Tap "Add Contact" to get started</p>
@@ -58,9 +58,9 @@ export default function ContactsList() {
       ) : (
         <div className="space-y-3">
           {contacts.map((contact) => (
-            <div key={contact.id} className="card hover:shadow-md transition-all duration-200 p-4">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-lg">
+            <div key={contact.id} className="card hover:shadow-md transition-all duration-200 p-3">
+              <div className="flex items-start gap-2">
+                <div className="w-8 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                   {contact.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1">

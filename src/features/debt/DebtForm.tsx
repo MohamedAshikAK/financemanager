@@ -104,22 +104,22 @@ export default function DebtForm() {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-center text-slate-600">
+      <div className="p-3 text-center text-slate-600">
         Loading...
       </div>
     );
   }
 
   return (
-    <div className="p-5 space-y-5">
-      <div className="flex items-center gap-3">
+    <div className="p-3 space-y-3">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => navigate('/debt')}
-          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-2xl transition-colors"
+          className="p-3 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={18} />
         </button>
-        <h1 className="text-2xl font-bold text-slate-800">
+        <h1 className="text-xl font-bold text-slate-800">
           {action === 'add' ? 'Add Debt' : 'Edit Debt'}
         </h1>
       </div>
@@ -196,7 +196,7 @@ export default function DebtForm() {
           disabled={isSubmitting || contacts.length === 0}
           className="w-full btn-primary flex items-center justify-center gap-2"
         >
-          <Save size={20} />
+          <Save size={18} />
           {isSubmitting ? 'Saving...' : 'Save Debt'}
         </button>
       </form>
