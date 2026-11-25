@@ -129,6 +129,7 @@ export default function ContactsForm() {
           </label>
           <input
             type="tel"
+            inputMode="tel"
             {...register('phone')}
             placeholder="e.g., +1 234 567 8900"
             className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

@@ -152,6 +152,7 @@ export default function FinanceForm() {
           </label>
           <input
             type="number"
+            inputMode="numeric"
             step="0.01"
             min="0.01"
             max="999999999"
