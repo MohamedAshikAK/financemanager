@@ -15,7 +15,6 @@ function DebtList() {
   const getContact = useContactStore((state) => state.getContact);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
-  const settleDebt = useDebtStore((state) => state.settleDebt);
   const settleAllDebtsForContact = useDebtStore((state) => state.settleAllDebtsForContact);
 
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
