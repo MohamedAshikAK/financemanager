@@ -22,13 +22,13 @@ function DebtList() {
   const totalOwedToMe = useMemo(() => {
     return debts
       .filter(d => d.type === 'owed-to-me' && !d.isPaid)
-      .reduce((sum, d) => sum + d.amount, 0);
+      .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
   }, [debts]);
 
   const totalOwedByMe = useMemo(() => {
     return debts
       .filter(d => d.type === 'owed-by-me' && !d.isPaid)
-      .reduce((sum, d) => sum + d.amount, 0);
+      .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
   }, [debts]);
 
   const filteredDebts = useMemo(() => {
