@@ -74,40 +74,38 @@ export default function DebtContactDetail() {
 
             return (
               <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-3">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className={`p-2 rounded-xl ${debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'}`}>
-                        {debt.type === 'owed-to-me' ? <ArrowDownLeft size={18} className="text-emerald-600" /> : <ArrowUpRight size={18} className="text-red-600" />}
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <div className={`p-1.5 rounded-xl flex-shrink-0 ${debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'}`}>
+                        {debt.type === 'owed-to-me' ? <ArrowDownLeft size={16} className="text-emerald-600" /> : <ArrowUpRight size={16} className="text-red-600" />}
                       </div>
-                      <h3 className="font-semibold text-slate-800">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
+                      <h3 className="font-semibold text-slate-800 truncate">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
                     </div>
-                    <div className={`text-xl font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
+                    <div className={`text-lg font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
                       {formatCurrency(debt.amount, currency)}
                     </div>
+                    {debt.dueDate && (
+                      <div className={`text-xs font-medium mt-1 ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
+                        {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}
+                      </div>
+                    )}
                   </div>
-                  <button onClick={() => setShowSettleConfirm(debt.id)} className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors" title="Settle debt">
-                    <CheckCircle size={18} />
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between mt-2">
-                  {debt.dueDate && (
-                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
-                      {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}
-                    </span>
-                  )}
-                  <div className="flex gap-2">
-                    <button onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                      <Edit size={18} className="text-slate-600" />
+                  
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button onClick={() => setShowSettleConfirm(debt.id)} className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors flex-shrink-0" title="Settle debt">
+                      <CheckCircle size={16} />
                     </button>
-                    <button onClick={() => setShowDeleteConfirm(debt.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
-                      <Trash2 size={18} className="text-red-500" />
+                    <button onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0">
+                      <Edit size={16} className="text-slate-600" />
+                    </button>
+                    <button onClick={() => setShowDeleteConfirm(debt.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0">
+                      <Trash2 size={16} className="text-red-500" />
                     </button>
                   </div>
                 </div>
 
-                {debt.note && <div className="text-sm text-slate-600 mt-3">{debt.note}</div>}
+                {debt.note && <div className="text-sm text-slate-600 mt-2">{debt.note}</div>}
 
                 {showSettleConfirm === debt.id && (
                   <div className="mt-4 pt-4 border-t border-slate-100">

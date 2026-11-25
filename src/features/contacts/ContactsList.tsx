@@ -59,36 +59,32 @@ function ContactsList() {
         <div className="space-y-3">
           {contacts.map((contact) => (
             <div key={contact.id} className="card hover:shadow-md transition-all duration-200 p-3">
-              <div className="flex items-start gap-2">
-                <div className="w-8 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-                  {contact.name.charAt(0).toUpperCase()}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    {contact.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-slate-800 truncate">{contact.name}</h3>
+                    {contact.phone && (
+                      <div className="flex items-center gap-1 text-xs text-slate-600">
+                        <Phone size={12} />
+                        <span className="truncate">{contact.phone}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-slate-800 mb-1">{contact.name}</h3>
-                  {contact.phone && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <Phone size={14} />
-                      <span>{contact.phone}</span>
-                    </div>
-                  )}
-                  {contact.email && (
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <Mail size={14} />
-                      <span>{contact.email}</span>
-                    </div>
-                  )}
+                <div className="flex gap-2 flex-shrink-0">
+                  <button onClick={() => navigate(`/contacts/form?action=edit&id=${contact.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                    <Edit size={16} className="text-slate-600" />
+                  </button>
+                  <button onClick={() => setShowDeleteConfirm(contact.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
+                    <Trash2 size={16} className="text-red-500" />
+                  </button>
                 </div>
-              </div>
-              <div className="flex gap-2 mt-3">
-                <button onClick={() => navigate(`/contacts/form?action=edit&id=${contact.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                  <Edit size={18} className="text-slate-600" />
-                </button>
-                <button onClick={() => setShowDeleteConfirm(contact.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
-                  <Trash2 size={18} className="text-red-500" />
-                </button>
               </div>
               {showDeleteConfirm === contact.id && (
-                <div className="mt-4 pt-4 border-t border-slate-100">
+                <div className="mt-3 pt-3 border-t border-slate-100">
                   <p className="text-sm text-slate-600 mb-3">Delete "{contact.name}"?</p>
                   <div className="flex gap-2">
                     <button onClick={() => setShowDeleteConfirm(null)} className="flex-1 btn-secondary">Cancel</button>

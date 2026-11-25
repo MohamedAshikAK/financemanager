@@ -77,39 +77,39 @@ function CreditBillsList() {
                   overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
                 }`}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="p-2 bg-blue-100 rounded-xl">
-                        <CreditCard size={18} className="text-blue-600" />
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-blue-100 rounded-xl flex-shrink-0">
+                        <CreditCard size={16} className="text-blue-600" />
                       </div>
-                      <h3 className="font-semibold text-slate-800">{bill.cardName}</h3>
+                      <h3 className="font-semibold text-slate-800 truncate">{bill.cardName}</h3>
                     </div>
-                    <div className={`text-xl font-bold ${
+                    {bill.dueDate && (
+                      <div className={`text-xs font-medium mt-1 ${
+                        overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'
+                      }`}>
+                        {overdue ? `Overdue: ${formatDate(bill.dueDate)}` : dueSoon ? `Due: ${formatDate(bill.dueDate)}` : formatDate(bill.dueDate)}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className={`text-lg font-bold ${
                       bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                     }`}>
                       {bill.isPaid ? 'Settled' : formatCurrency(bill.currentAmount, currency)}
                     </div>
-                  </div>
-                  {!bill.isPaid && bill.currentAmount > 0 && (
-                    <button onClick={() => handleSettle(bill.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors">
-                      <Check size={18} />
+                    {!bill.isPaid && bill.currentAmount > 0 && (
+                      <button onClick={() => handleSettle(bill.id)} className="p-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors flex-shrink-0">
+                        <Check size={16} />
+                      </button>
+                    )}
+                    <button onClick={() => navigate(`/bills/form?action=edit&id=${bill.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0">
+                      <Edit size={16} className="text-slate-600" />
                     </button>
-                  )}
-                </div>
-
-                <div className="flex items-center justify-between mt-2">
-                  {bill.dueDate && (
-                    <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
-                      {overdue ? `Overdue: ${formatDate(bill.dueDate)}` : dueSoon ? `Due: ${formatDate(bill.dueDate)}` : formatDate(bill.dueDate)}
-                    </span>
-                  )}
-                  <div className="flex gap-2">
-                    <button onClick={() => navigate(`/bills/form?action=edit&id=${bill.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
-                      <Edit size={18} className="text-slate-600" />
-                    </button>
-                    <button onClick={() => setShowDeleteConfirm(bill.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
-                      <Trash2 size={18} className="text-red-500" />
+                    <button onClick={() => setShowDeleteConfirm(bill.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0">
+                      <Trash2 size={16} className="text-red-500" />
                     </button>
                   </div>
                 </div>

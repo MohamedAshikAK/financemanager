@@ -121,53 +121,50 @@ function FinanceList() {
                   isPaid ? 'opacity-60' : ''
                 }`}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-slate-800">{entry.title}</h3>
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-slate-800 truncate">{entry.title}</h3>
                       {entry.isRecurring && (
-                        <Repeat size={14} className="text-blue-500" aria-label="Recurring" />
+                        <Repeat size={14} className="text-blue-500 flex-shrink-0" aria-label="Recurring" />
                       )}
                     </div>
-                    <div className={`text-xl font-bold ${
+                    <div className={`text-sm font-medium ${
+                      isPaid ? 'text-emerald-600' : 'text-slate-500'
+                    }`}>
+                      {isPaid ? '✓ Paid' : '○ Unpaid'}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <div className={`text-lg font-bold ${
                       isPaid ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
                       {formatCurrency(entry.amount, currency)}
                     </div>
-                  </div>
-                  
-                  <button
-                    onClick={() => handleTogglePayment(entry.id)}
-                    className={`p-3 rounded-xl transition-all duration-200 ${
-                      isPaid
-                        ? 'bg-emerald-100 text-emerald-600 shadow-md shadow-emerald-500/20'
-                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
-                    }`}
-                    aria-label={isPaid ? 'Mark as unpaid' : 'Mark as paid'}
-                    aria-pressed={isPaid}
-                  >
-                    <Check size={18} aria-hidden="true" />
-                  </button>
-                </div>
-
-                <div className="flex items-center justify-between mt-3">
-                  <span className={`text-sm font-medium ${
-                    isPaid ? 'text-emerald-600' : 'text-slate-500'
-                  }`}>
-                    {isPaid ? '✓ Paid this month' : '○ Unpaid'}
-                  </span>
-                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleTogglePayment(entry.id)}
+                      className={`p-2 rounded-xl transition-all duration-200 flex-shrink-0 ${
+                        isPaid
+                          ? 'bg-emerald-100 text-emerald-600'
+                          : 'bg-slate-100 text-slate-400 hover:bg-slate-200'
+                      }`}
+                      aria-label={isPaid ? 'Mark as unpaid' : 'Mark as paid'}
+                      aria-pressed={isPaid}
+                    >
+                      <Check size={16} aria-hidden="true" />
+                    </button>
                     <button
                       onClick={() => navigate(`/finance/form?action=edit&id=${entry.id}`)}
-                      className="p-2 hover:bg-slate-100 rounded-xl transition-colors"
+                      className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
                     >
-                      <Edit size={18} className="text-slate-600" />
+                      <Edit size={16} className="text-slate-600" />
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(entry.id)}
-                      className="p-2 hover:bg-red-50 rounded-xl transition-colors"
+                      className="p-2 hover:bg-red-50 rounded-xl transition-colors flex-shrink-0"
                     >
-                      <Trash2 size={18} className="text-red-500" />
+                      <Trash2 size={16} className="text-red-500" />
                     </button>
                   </div>
                 </div>

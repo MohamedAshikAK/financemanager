@@ -210,25 +210,19 @@ function DebtList() {
                     overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className={`p-2 rounded-xl ${
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <div className={`p-1.5 rounded-xl flex-shrink-0 ${
                           debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
                         }`}>
                           {debt.type === 'owed-to-me' ? (
-                            <ArrowDownLeft size={18} className="text-emerald-600" />
+                            <ArrowDownLeft size={16} className="text-emerald-600" />
                           ) : (
-                            <ArrowUpRight size={18} className="text-red-600" />
+                            <ArrowUpRight size={16} className="text-red-600" />
                           )}
                         </div>
-                        <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
-                      </div>
-                      <div className={`text-xl font-bold ${
-                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
-                      }`}>
-                        {debt.type === 'owed-to-me' ? '+' : '-'}
-                        {formatCurrency(debt.amount, currency)}
+                        <h3 className="font-semibold text-slate-800 truncate">{contact?.name || 'Unknown'}</h3>
                       </div>
                       {debt.dueDate && (
                         <div className={`text-xs font-medium mt-1 ${
@@ -238,13 +232,34 @@ function DebtList() {
                         </div>
                       )}
                     </div>
-                    <button
-                      onClick={() => setShowSettleConfirm(debt.id)}
-                      className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
-                      title="Settle debt"
-                    >
-                      <CheckCircle size={18} />
-                    </button>
+                    
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className={`text-lg font-bold ${
+                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+                      }`}>
+                        {debt.type === 'owed-to-me' ? '+' : '-'}
+                        {formatCurrency(debt.amount, currency)}
+                      </div>
+                      <button
+                        onClick={() => setShowSettleConfirm(debt.id)}
+                        className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors flex-shrink-0"
+                        title="Settle debt"
+                      >
+                        <CheckCircle size={16} />
+                      </button>
+                      <button
+                        onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)}
+                        className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
+                      >
+                        <Edit size={16} className="text-slate-600" />
+                      </button>
+                      <button
+                        onClick={() => navigate(`/debt/contact/${debt.personId}`)}
+                        className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
+                      >
+                        <Plus size={16} className="text-slate-600" />
+                      </button>
+                    </div>
                   </div>
                   {debt.note && <div className="text-sm text-slate-600 mt-2">{debt.note}</div>}
                   {showSettleConfirm === debt.id && (
