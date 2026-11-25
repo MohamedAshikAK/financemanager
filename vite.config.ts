@@ -10,31 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icon-192.svg', 'icon-512.svg', 'icon-152.png', 'icon-167.png', 'icon-180.png', 'icon-192.png', 'icon-512.png'],
-      manifest: {
-        name: 'Pocket Finances',
-        short_name: 'PocketFin',
-        description: 'Personal finance PWA for tracking expenses, debts, and bills',
-        theme_color: '#3b82f6',
-        background_color: '#ffffff',
-        display: 'standalone',
-        orientation: 'portrait',
-        start_url: '/',
-        scope: '/',
-        icons: [
-          {
-            src: '/icon-192.png',
-            sizes: '192x192',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-          {
-            src: '/icon-512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
-      },
+      manifest: false, // Disable auto-manifest, use manual manifest.json
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [

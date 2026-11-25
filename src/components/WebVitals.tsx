@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { onCLS, onFID, onLCP, onFCP, onTTFB } from 'web-vitals';
+import { onCLS, onLCP, onFCP, onTTFB, onINP } from 'web-vitals';
 
 export function WebVitals() {
   useEffect(() => {
@@ -9,7 +9,7 @@ export function WebVitals() {
     };
 
     onCLS(reportWebVital);
-    onFID(reportWebVital);
+    onINP(reportWebVital);
     onLCP(reportWebVital);
     onFCP(reportWebVital);
     onTTFB(reportWebVital);
