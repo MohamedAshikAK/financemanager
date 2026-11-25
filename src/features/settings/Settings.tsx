@@ -118,7 +118,7 @@ export default function Settings() {
     const contactIds: string[] = [];
     sampleContacts.forEach(contact => {
       const id = addContact(contact);
-      if (id) contactIds.push(id);
+      contactIds.push(id);
     });
 
     // Add sample finance entries

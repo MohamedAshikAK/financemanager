@@ -16,7 +16,7 @@ interface ContactState {
   isHydrated: boolean;
   
   // Actions
-  addContact: (contact: Omit<Contact, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  addContact: (contact: Omit<Contact, 'id' | 'createdAt' | 'updatedAt'>) => string;
   updateContact: (id: string, contact: Partial<Contact>) => void;
   deleteContact: (id: string) => void;
   getContact: (id: string) => Contact | undefined;
@@ -31,13 +31,15 @@ export const useContactStore = create<ContactState>()(
       
       addContact: (contact) => {
         try {
+          const id = uuidv4();
           const newContact: Contact = {
             ...contact,
-            id: uuidv4(),
+            id,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           };
           set((state) => ({ contacts: [...state.contacts, newContact] }));
+          return id;
         } catch (error) {
           console.error('Error adding contact:', error);
           throw new Error('Failed to add contact');
