@@ -5,8 +5,6 @@ import { ArrowLeft, Save } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
-import { formatDate } from '../../utils/date';
-import { sanitizeInput } from '../../utils/sanitize';
 import { useToastStore } from '../../store/toastStore';
 
 interface FormData {

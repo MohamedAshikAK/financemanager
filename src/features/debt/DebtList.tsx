@@ -5,8 +5,9 @@ import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
-import { isOverdue, isDueSoon, formatDate } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
+import type { DebtRecord } from '../../store/debtStore';
 
 function DebtList() {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ function DebtList() {
   const settleAllDebtsForContact = useDebtStore((state) => state.settleAllDebtsForContact);
 
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
-  const [showSettleConfirm, setShowSettleConfirm] = useState<string | null>(null);
   const [showSettleAllConfirm, setShowSettleAllConfirm] = useState<string | null>(null);
 
   const totalOwedToMe = useMemo(() => {
@@ -78,11 +78,6 @@ function DebtList() {
       return debt.type === filter && !debt.isPaid;
     });
   }, [debts, filter]);
-
-  const handleSettle = (id: string) => {
-    settleDebt(id);
-    setShowSettleConfirm(null);
-  };
 
   const handleSettleAll = (personId: string) => {
     settleAllDebtsForContact(personId);

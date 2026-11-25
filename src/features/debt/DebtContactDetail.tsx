@@ -5,7 +5,7 @@ import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
-import { formatDate, isOverdue, isDueSoon } from '../../utils/date';
+import { formatDate } from '../../utils/date';
 
 export default function DebtContactDetail() {
   const navigate = useNavigate();
