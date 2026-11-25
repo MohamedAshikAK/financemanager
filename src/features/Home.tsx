@@ -1,8 +1,9 @@
 import { useEffect, useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight, User } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar } from 'lucide-react';
 import { useFinanceStore } from '../store/financeStore';
 import { useDebtStore } from '../store/debtStore';
+import { useMonthlyDebtStore } from '../store/monthlyDebtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { formatCurrency } from '../utils/currency';
@@ -12,6 +13,7 @@ function Home() {
   const navigate = useNavigate();
   const entries = useFinanceStore((state) => state.entries);
   const debts = useDebtStore((state) => state.debts);
+  const monthlyDebts = useMonthlyDebtStore((state) => state.monthlyDebts);
   const bills = useCreditBillStore((state) => state.bills);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useFinanceStore((state) => state.isHydrated);
@@ -42,6 +44,7 @@ function Home() {
   const balance = monthlyIncome - monthlyExpenses;
 
   const pendingDebts = debts.filter(d => !d.isPaid).length;
+  const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid).length;
   const upcomingBills = bills.filter(b => !b.isPaid && isDueSoon(b.dueDate)).length;
   const overdueBills = bills.filter(b => !b.isPaid && isOverdue(b.dueDate)).length;
 
@@ -107,6 +110,17 @@ function Home() {
         </div>
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
           <div className="flex items-center gap-2 mb-3">
+            <div className="p-3 bg-blue-100 rounded-xl">
+              <Calendar size={18} className="text-blue-600" />
+            </div>
+            <span className="text-sm font-medium text-slate-600">Monthly Debts</span>
+          </div>
+          <div className="text-3xl font-bold text-slate-800">
+            {pendingMonthlyDebts}
+          </div>
+        </div>
+        <div className="stat-card hover:shadow-md transition-shadow duration-200">
+          <div className="flex items-center gap-2 mb-3">
             <div className={`p-3 rounded-xl ${overdueBills > 0 ? 'bg-red-100' : 'bg-yellow-100'}`}>
               <AlertCircle size={18} className={overdueBills > 0 ? 'text-red-600' : 'text-yellow-600'} />
             </div>
@@ -166,6 +180,18 @@ function Home() {
               <span className="font-semibold text-slate-800">Debts</span>
             </div>
             <ArrowRight size={18} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+          </button>
+          <button
+            onClick={() => navigate('/monthly-debt')}
+            className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
+          >
+            <div className="flex items-center gap-2">
+              <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
+                <Calendar size={18} className="text-blue-600" />
+              </div>
+              <span className="font-semibold text-slate-800">Monthly Debts</span>
+            </div>
+            <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
           </button>
           <button
             onClick={() => navigate('/bills')}
