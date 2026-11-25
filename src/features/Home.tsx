@@ -1,17 +1,15 @@
 import { useEffect, useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar } from 'lucide-react';
-import { useFinanceStore } from '../store/financeStore';
+import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown } from 'lucide-react';
 import { useDebtStore } from '../store/debtStore';
 import { useMonthlyDebtStore } from '../store/monthlyDebtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { formatCurrency } from '../utils/currency';
-import { getMonthStart, getMonthEnd, isDueSoon, isOverdue } from '../utils/date';
+import { isDueSoon, isOverdue } from '../utils/date';
 
 function Home() {
   const navigate = useNavigate();
-  const entries = useFinanceStore((state) => state.entries);
   const debts = useDebtStore((state) => state.debts);
   const monthlyDebts = useMonthlyDebtStore((state) => state.monthlyDebts);
   const bills = useCreditBillStore((state) => state.bills);
@@ -23,9 +21,6 @@ function Home() {
   useEffect(() => {
     setCurrentMonth(new Date());
   }, []);
-
-  const monthStart = getMonthStart(currentMonth);
-  const monthEnd = getMonthEnd(currentMonth);
 
   const pendingDebts = debts.filter(d => !d.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
