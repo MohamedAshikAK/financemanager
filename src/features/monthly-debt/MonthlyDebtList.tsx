@@ -211,8 +211,6 @@ function MonthlyDebtList() {
               new Date(d.createdAt) > new Date(latest.createdAt) ? d : latest, 
               contactDebts[0]
             );
-            const hasOwedToMe = contactDebts.some(d => d.type === 'owed-to-me');
-            const hasOwedByMe = contactDebts.some(d => d.type === 'owed-by-me');
 
             return (
               <div

@@ -20,7 +20,6 @@ export default function MonthlyDebtForm() {
   const updateMonthlyDebt = useMonthlyDebtStore((state) => state.updateMonthlyDebt);
   const getMonthlyDebt = useMonthlyDebtStore((state) => state.getMonthlyDebt);
   const contacts = useContactStore((state) => state.contacts);
-  const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useMonthlyDebtStore((state) => state.isHydrated);
   const { addToast } = useToastStore();
 
