@@ -85,11 +85,9 @@ export default function DebtContactDetail() {
                     <div className={`text-lg font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
                       {formatCurrency(debt.amount, currency)}
                     </div>
-                    {debt.dueDate && (
-                      <div className={`text-xs font-medium mt-1 ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
-                        {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}
-                      </div>
-                    )}
+                    <div className="text-xs font-medium mt-1 text-slate-500">
+                      Added: {formatDate(debt.createdAt)}
+                    </div>
                   </div>
                   
                   <div className="flex items-center gap-2 flex-shrink-0">
