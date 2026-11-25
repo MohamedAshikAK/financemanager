@@ -15,9 +15,11 @@ function DebtList() {
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
   const settleDebt = useDebtStore((state) => state.settleDebt);
+  const settleAllDebtsForContact = useDebtStore((state) => state.settleAllDebtsForContact);
 
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
   const [showSettleConfirm, setShowSettleConfirm] = useState<string | null>(null);
+  const [showSettleAllConfirm, setShowSettleAllConfirm] = useState<string | null>(null);
 
   const totalOwedToMe = useMemo(() => {
     return debts
@@ -31,9 +33,47 @@ function DebtList() {
       .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
   }, [debts]);
 
+  // Group debts by contact
+  const groupedDebts = useMemo(() => {
+    const groups: Record<string, DebtRecord[]> = {};
+    
+    debts.forEach(debt => {
+      if (!debt.isPaid) {
+        if (!groups[debt.personId]) {
+          groups[debt.personId] = [];
+        }
+        groups[debt.personId].push(debt);
+      }
+    });
+    
+    return groups;
+  }, [debts]);
+
+  // Filter grouped debts based on filter
+  const filteredGroups = useMemo(() => {
+    const result: Record<string, DebtRecord[]> = {};
+    
+    Object.entries(groupedDebts).forEach(([personId, debts]) => {
+      if (filter === 'all') {
+        result[personId] = debts;
+      } else if (filter === 'owed-to-me') {
+        const owedToMeDebts = debts.filter(d => d.type === 'owed-to-me');
+        if (owedToMeDebts.length > 0) {
+          result[personId] = owedToMeDebts;
+        }
+      } else if (filter === 'owed-by-me') {
+        const owedByMeDebts = debts.filter(d => d.type === 'owed-by-me');
+        if (owedByMeDebts.length > 0) {
+          result[personId] = owedByMeDebts;
+        }
+      }
+    });
+    
+    return result;
+  }, [groupedDebts, filter]);
+
   const filteredDebts = useMemo(() => {
     return debts.filter(debt => {
-      if (filter === 'all') return !debt.isPaid;
       if (filter === 'history') return debt.isPaid && debt.settledAt;
       return debt.type === filter && !debt.isPaid;
     });
@@ -42,6 +82,11 @@ function DebtList() {
   const handleSettle = (id: string) => {
     settleDebt(id);
     setShowSettleConfirm(null);
+  };
+
+  const handleSettleAll = (personId: string) => {
+    settleAllDebtsForContact(personId);
+    setShowSettleAllConfirm(null);
   };
 
   if (!isHydrated) {
@@ -149,122 +194,138 @@ function DebtList() {
         </button>
       )}
 
-      {filteredDebts.length === 0 ? (
+      {Object.keys(filteredGroups).length === 0 && filter !== 'history' ? (
         <div className="text-center py-16">
           <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            {filter === 'history' ? <History size={18} className="text-slate-400" /> : <CreditCard size={18} className="text-slate-400" />}
+            <CreditCard size={18} className="text-slate-400" />
           </div>
-          <p className="text-slate-500 mb-1">{filter === 'history' ? 'No settled debts' : 'No debts found'}</p>
-          <p className="text-sm text-slate-400">{filter === 'history' ? 'Settled debts will appear here' : 'Tap "Add Debt" to get started'}</p>
+          <p className="text-slate-500 mb-1">No debts found</p>
+          <p className="text-sm text-slate-400">Tap "Add Debt" to get started</p>
+        </div>
+      ) : filter !== 'history' ? (
+        <div className="space-y-3">
+          {Object.entries(filteredGroups).map(([personId, contactDebts]) => {
+            const contact = getContact(personId);
+            const totalAmount = contactDebts.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+            const lastDate = contactDebts.reduce((latest, d) => 
+              new Date(d.createdAt) > new Date(latest.createdAt) ? d : latest, 
+              contactDebts[0]
+            );
+            const hasOwedToMe = contactDebts.some(d => d.type === 'owed-to-me');
+            const hasOwedByMe = contactDebts.some(d => d.type === 'owed-by-me');
+
+            return (
+              <div
+                key={personId}
+                className="card hover:shadow-md transition-all duration-200 p-3"
+              >
+                <div className="flex items-center justify-between">
+                  <div 
+                    className="flex-1 min-w-0 cursor-pointer"
+                    onClick={() => navigate(`/debt/contact/${personId}`)}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                        {contact?.name?.charAt(0).toUpperCase() || '?'}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-slate-800 truncate">{contact?.name || 'Unknown'}</h3>
+                        <div className="text-xs text-slate-500">
+                          {contactDebts.length} debt{contactDebts.length !== 1 ? 's' : ''}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 mt-2">
+                      <div className={`text-lg font-bold ${
+                        hasOwedToMe && !hasOwedByMe ? 'text-emerald-600' : 
+                        hasOwedByMe && !hasOwedToMe ? 'text-red-600' : 'text-slate-800'
+                      }`}>
+                        {formatCurrency(totalAmount, currency)}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        Added: {formatDate(lastDate.createdAt)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2 flex-shrink-0 ml-3">
+                    <button
+                      onClick={() => setShowSettleAllConfirm(personId)}
+                      className="p-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors flex-shrink-0"
+                      title="Settle All"
+                    >
+                      <CheckCircle size={16} />
+                    </button>
+                    <button
+                      onClick={() => navigate(`/debt/form?action=add&personId=${personId}`)}
+                      className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors flex-shrink-0"
+                      title="Add Debt"
+                    >
+                      <Plus size={16} />
+                    </button>
+                    <button
+                      onClick={() => navigate(`/debt/contact/${personId}`)}
+                      className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
+                      title="View Details"
+                    >
+                      <ArrowRight size={16} className="text-slate-600" />
+                    </button>
+                  </div>
+                </div>
+
+                {showSettleAllConfirm === personId && (
+                  <div className="mt-3 pt-3 border-t border-slate-100">
+                    <p className="text-sm text-slate-600 mb-3">
+                      Settle all {contactDebts.length} debts for {contact?.name || 'Unknown'}? They will be moved to history.
+                    </p>
+                    <div className="flex gap-2">
+                      <button onClick={() => setShowSettleAllConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
+                      <button onClick={() => handleSettleAll(personId)} className="flex-1 btn-primary">Settle All</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       ) : (
+        // History view - show individual settled debts
         <div className="space-y-3">
-          {filter === 'history' ? (
-            // History view - show individual settled debts
-            filteredDebts.map((debt) => {
-              const contact = getContact(debt.personId);
-              return (
-                <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-3 opacity-75">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className={`p-2 rounded-xl ${
-                          debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
-                        }`}>
-                          {debt.type === 'owed-to-me' ? (
-                            <ArrowDownLeft size={18} className="text-emerald-600" />
-                          ) : (
-                            <ArrowUpRight size={18} className="text-red-600" />
-                          )}
-                        </div>
-                        <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
-                      </div>
-                      <div className={`text-xl font-bold ${
-                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+          {filteredDebts.map((debt) => {
+            const contact = getContact(debt.personId);
+            return (
+              <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-3 opacity-75">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className={`p-2 rounded-xl ${
+                        debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
                       }`}>
-                        {debt.type === 'owed-to-me' ? '+' : '-'}
-                        {formatCurrency(debt.amount, currency)}
+                        {debt.type === 'owed-to-me' ? (
+                          <ArrowDownLeft size={18} className="text-emerald-600" />
+                        ) : (
+                          <ArrowUpRight size={18} className="text-red-600" />
+                        )}
                       </div>
-                      {debt.settledAt && (
-                        <div className="text-xs text-slate-500 mt-1">
-                          Settled on {formatDate(debt.settledAt)}
-                        </div>
-                      )}
+                      <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
                     </div>
-                    <History size={18} className="text-slate-400" />
+                    <div className={`text-xl font-bold ${
+                      debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+                    }`}>
+                      {debt.type === 'owed-to-me' ? '+' : '-'}
+                      {formatCurrency(debt.amount, currency)}
+                    </div>
+                    {debt.settledAt && (
+                      <div className="text-xs text-slate-500 mt-1">
+                        Settled on {formatDate(debt.settledAt)}
+                      </div>
+                    )}
                   </div>
+                  <History size={18} className="text-slate-400" />
                 </div>
-              );
-            })
-          ) : (
-            // Grouped view for pending debts - show individual debts with settle buttons
-            filteredDebts.map((debt) => {
-              const contact = getContact(debt.personId);
-              const overdue = debt.dueDate ? isOverdue(debt.dueDate) : false;
-              const dueSoon = debt.dueDate ? isDueSoon(debt.dueDate) : false;
-
-              return (
-                <div
-                  key={debt.id}
-                  className={`card hover:shadow-md transition-all duration-200 p-3 ${
-                    overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className={`p-1.5 rounded-xl flex-shrink-0 ${
-                          debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
-                        }`}>
-                          {debt.type === 'owed-to-me' ? (
-                            <ArrowDownLeft size={16} className="text-emerald-600" />
-                          ) : (
-                            <ArrowUpRight size={16} className="text-red-600" />
-                          )}
-                        </div>
-                        <h3 className="font-semibold text-slate-800 truncate">{contact?.name || 'Unknown'}</h3>
-                      </div>
-                      <div className="text-xs font-medium mt-1 text-slate-500">
-                        Added: {formatDate(debt.createdAt)}
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <div className={`text-lg font-bold ${
-                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
-                      }`}>
-                        {debt.type === 'owed-to-me' ? '+' : '-'}
-                        {formatCurrency(debt.amount, currency)}
-                      </div>
-                      <button
-                        onClick={() => setShowSettleConfirm(debt.id)}
-                        className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors flex-shrink-0"
-                        title="Settle debt"
-                      >
-                        <CheckCircle size={16} />
-                      </button>
-                      <button
-                        onClick={() => navigate(`/debt/form?action=edit&id=${debt.id}`)}
-                        className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
-                      >
-                        <Edit size={16} className="text-slate-600" />
-                      </button>
-                    </div>
-                  </div>
-                  {debt.note && <div className="text-sm text-slate-600 mt-2">{debt.note}</div>}
-                  {showSettleConfirm === debt.id && (
-                    <div className="mt-3 pt-3 border-t border-slate-100">
-                      <p className="text-sm text-slate-600 mb-3">Settle this debt? It will be moved to history.</p>
-                      <div className="flex gap-2">
-                        <button onClick={() => setShowSettleConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
-                        <button onClick={() => handleSettle(debt.id)} className="flex-1 btn-primary">Settle</button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

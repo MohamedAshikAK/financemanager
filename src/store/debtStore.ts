@@ -26,6 +26,7 @@ interface DebtState {
   getDebt: (id: string) => DebtRecord | undefined;
   markAsPaid: (id: string) => void;
   settleDebt: (id: string) => void;
+  settleAllDebtsForContact: (personId: string) => void;
   getDebtsByType: (type: 'owed-to-me' | 'owed-by-me') => DebtRecord[];
   getPendingDebts: () => DebtRecord[];
   getSettledDebts: () => DebtRecord[];
@@ -88,6 +89,16 @@ export const useDebtStore = create<DebtState>()(
         set((state) => ({
           debts: state.debts.map((debt) =>
             debt.id === id
+              ? { ...debt, isPaid: true, settledAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
+              : debt
+          ),
+        }));
+      },
+      
+      settleAllDebtsForContact: (personId) => {
+        set((state) => ({
+          debts: state.debts.map((debt) =>
+            debt.personId === personId && !debt.isPaid
               ? { ...debt, isPaid: true, settledAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
               : debt
           ),
