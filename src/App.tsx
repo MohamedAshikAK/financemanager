@@ -11,6 +11,9 @@ import FinanceForm from './features/finance/FinanceForm';
 import DebtList from './features/debt/DebtList';
 import DebtForm from './features/debt/DebtForm';
 import DebtContactDetail from './features/debt/DebtContactDetail';
+import MonthlyDebtList from './features/monthly-debt/MonthlyDebtList';
+import MonthlyDebtForm from './features/monthly-debt/MonthlyDebtForm';
+import MonthlyDebtContactDetail from './features/monthly-debt/MonthlyDebtContactDetail';
 import ContactsList from './features/contacts/ContactsList';
 import ContactsForm from './features/contacts/ContactsForm';
 import CreditBillsList from './features/credit-bills/CreditBillsList';
@@ -35,6 +38,9 @@ function App() {
               <Route path="/debt" element={<DebtList />} />
               <Route path="/debt/form" element={<DebtForm />} />
               <Route path="/debt/contact/:contactId" element={<DebtContactDetail />} />
+              <Route path="/monthly-debt" element={<MonthlyDebtList />} />
+              <Route path="/monthly-debt/form" element={<MonthlyDebtForm />} />
+              <Route path="/monthly-debt/contact/:contactId" element={<MonthlyDebtContactDetail />} />
               <Route path="/contacts" element={<ContactsList />} />
               <Route path="/contacts/form" element={<ContactsForm />} />
               <Route path="/bills" element={<CreditBillsList />} />

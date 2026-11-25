@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Download, Upload, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
+import { useMonthlyDebtStore } from '../../store/monthlyDebtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -15,6 +16,7 @@ export default function Backup() {
 
   const financeEntries = useFinanceStore((state) => state.entries);
   const debtEntries = useDebtStore((state) => state.debts);
+  const monthlyDebtEntries = useMonthlyDebtStore((state) => state.monthlyDebts);
   const creditBills = useCreditBillStore((state) => state.bills);
   const contacts = useContactStore((state) => state.contacts);
   const currency = useSettingsStore((state) => state.currency);
@@ -22,6 +24,7 @@ export default function Backup() {
 
   const setFinanceEntries = useFinanceStore((state) => state.setEntries);
   const setDebtEntries = useDebtStore((state) => state.setDebts);
+  const setMonthlyDebtEntries = useMonthlyDebtStore((state) => state.setMonthlyDebts);
   const setCreditBills = useCreditBillStore((state) => state.setBills);
   const setContacts = useContactStore((state) => state.setContacts);
   const setCurrency = useSettingsStore((state) => state.setCurrency);
@@ -33,6 +36,7 @@ export default function Backup() {
       exportDate: new Date().toISOString(),
       finance: financeEntries,
       debts: debtEntries,
+      monthlyDebts: monthlyDebtEntries,
       creditBills: creditBills,
       contacts: contacts,
       settings: { currency, pin },
@@ -81,6 +85,7 @@ export default function Backup() {
     try {
       setFinanceEntries(importData.finance || []);
       setDebtEntries(importData.debts || []);
+      setMonthlyDebtEntries(importData.monthlyDebts || []);
       setCreditBills(importData.creditBills || []);
       setContacts(importData.contacts || []);
       
