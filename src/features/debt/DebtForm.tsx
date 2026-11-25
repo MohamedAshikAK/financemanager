@@ -44,7 +44,7 @@ export default function DebtForm() {
   } = useForm<FormData>({
     defaultValues: {
       amount: 0,
-      type: 'owed-to-me',
+      type: 'owed-by-me',
       personId: prefillPersonId,
       dueDate: formatDate(new Date(), 'yyyy-MM-dd'),
       note: '',
@@ -131,17 +131,6 @@ export default function DebtForm() {
           <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1">
             <button
               type="button"
-              onClick={() => setValue('type', 'owed-to-me')}
-              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
-                watch('type') === 'owed-to-me'
-                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400'
-              }`}
-            >
-              Owed to Me
-            </button>
-            <button
-              type="button"
               onClick={() => setValue('type', 'owed-by-me')}
               className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
                 watch('type') === 'owed-by-me'
@@ -150,6 +139,17 @@ export default function DebtForm() {
               }`}
             >
               Owed by Me
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue('type', 'owed-to-me')}
+              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
+                watch('type') === 'owed-to-me'
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400'
+              }`}
+            >
+              Owed to Me
             </button>
           </div>
           <input type="hidden" {...register('type', { required: 'Type is required' })} />
