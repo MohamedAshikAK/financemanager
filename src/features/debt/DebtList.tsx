@@ -200,7 +200,13 @@ function DebtList() {
         <div className="space-y-3">
           {Object.entries(filteredGroups).map(([personId, contactDebts]) => {
             const contact = getContact(personId);
-            const totalAmount = contactDebts.reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+            const owedToMeTotal = contactDebts
+              .filter(d => d.type === 'owed-to-me')
+              .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+            const owedByMeTotal = contactDebts
+              .filter(d => d.type === 'owed-by-me')
+              .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+            const netBalance = owedToMeTotal - owedByMeTotal;
             const lastDate = contactDebts.reduce((latest, d) => 
               new Date(d.createdAt) > new Date(latest.createdAt) ? d : latest, 
               contactDebts[0]
@@ -231,10 +237,10 @@ function DebtList() {
                     </div>
                     <div className="flex items-center gap-3 mt-2">
                       <div className={`text-lg font-bold ${
-                        hasOwedToMe && !hasOwedByMe ? 'text-emerald-600' : 
-                        hasOwedByMe && !hasOwedToMe ? 'text-red-600' : 'text-slate-800'
+                        netBalance > 0 ? 'text-emerald-600' : 
+                        netBalance < 0 ? 'text-red-600' : 'text-slate-800'
                       }`}>
-                        {formatCurrency(totalAmount, currency)}
+                        {netBalance > 0 ? '+' : ''}{formatCurrency(Math.abs(netBalance), currency)}
                       </div>
                       <div className="text-xs text-slate-500">
                         Added: {formatDate(lastDate.createdAt)}
