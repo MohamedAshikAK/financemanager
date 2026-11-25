@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft, History } from 'lucide-react';
+import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft, History, CheckCircle } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -14,8 +14,10 @@ export default function DebtList() {
   const getContact = useContactStore((state) => state.getContact);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
+  const settleDebt = useDebtStore((state) => state.settleDebt);
 
   const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
+  const [showSettleConfirm, setShowSettleConfirm] = useState<string | null>(null);
 
   const filteredDebts = useMemo(() => {
     return debts.filter(debt => {
@@ -25,22 +27,10 @@ export default function DebtList() {
     });
   }, [debts, filter]);
 
-  const groupedDebts = useMemo(() => {
-    return filteredDebts.reduce((acc, debt) => {
-      const key = debt.personId;
-      if (!acc[key]) {
-        acc[key] = {
-          personId: debt.personId,
-          totalAmount: 0,
-          debts: [],
-          type: debt.type,
-        };
-      }
-      acc[key].totalAmount += Number(debt.amount) || 0;
-      acc[key].debts.push(debt);
-      return acc;
-    }, {} as Record<string, { personId: string; totalAmount: number; debts: any[]; type: string }>);
-  }, [filteredDebts]);
+  const handleSettle = (id: string) => {
+    settleDebt(id);
+    setShowSettleConfirm(null);
+  };
 
   if (!isHydrated) {
     return (
@@ -125,7 +115,7 @@ export default function DebtList() {
         </button>
       )}
 
-      {(filter === 'history' ? filteredDebts.length === 0 : Object.keys(groupedDebts).length === 0) ? (
+      {filteredDebts.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
             {filter === 'history' ? <History size={18} className="text-slate-400" /> : <CreditCard size={18} className="text-slate-400" />}
@@ -173,31 +163,26 @@ export default function DebtList() {
               );
             })
           ) : (
-            // Grouped view for pending debts
-            Object.values(groupedDebts).map((group) => {
-              const contact = getContact(group.personId);
-              const hasOverdue = group.debts.some(d => d.dueDate && isOverdue(d.dueDate));
-              const hasDueSoon = group.debts.some(d => d.dueDate && isDueSoon(d.dueDate));
+            // Grouped view for pending debts - show individual debts with settle buttons
+            filteredDebts.map((debt) => {
+              const contact = getContact(debt.personId);
+              const overdue = debt.dueDate ? isOverdue(debt.dueDate) : false;
+              const dueSoon = debt.dueDate ? isDueSoon(debt.dueDate) : false;
 
               return (
                 <div
-                  key={group.personId}
-                  onClick={() => navigate(`/debt/contact/${group.personId}`)}
-                  className={`card hover:shadow-md transition-all duration-200 p-3 cursor-pointer ${
-                    hasOverdue
-                      ? 'border-red-300'
-                      : hasDueSoon
-                      ? 'border-amber-300'
-                      : ''
+                  key={debt.id}
+                  className={`card hover:shadow-md transition-all duration-200 p-3 ${
+                    overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
                   }`}
                 >
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between mb-2">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <div className={`p-2 rounded-xl ${
-                          group.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
+                          debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
                         }`}>
-                          {group.type === 'owed-to-me' ? (
+                          {debt.type === 'owed-to-me' ? (
                             <ArrowDownLeft size={18} className="text-emerald-600" />
                           ) : (
                             <ArrowUpRight size={18} className="text-red-600" />
@@ -206,17 +191,37 @@ export default function DebtList() {
                         <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
                       </div>
                       <div className={`text-xl font-bold ${
-                        group.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
                       }`}>
-                        {group.type === 'owed-to-me' ? '+' : '-'}
-                        {formatCurrency(group.totalAmount, currency)}
+                        {debt.type === 'owed-to-me' ? '+' : '-'}
+                        {formatCurrency(debt.amount, currency)}
                       </div>
-                      <div className="text-sm text-slate-500 mt-1">
-                        {group.debts.length} debt{group.debts.length !== 1 ? 's' : ''}
+                      {debt.dueDate && (
+                        <div className={`text-xs font-medium mt-1 ${
+                          overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'
+                        }`}>
+                          {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => setShowSettleConfirm(debt.id)}
+                      className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors"
+                      title="Settle debt"
+                    >
+                      <CheckCircle size={18} />
+                    </button>
+                  </div>
+                  {debt.note && <div className="text-sm text-slate-600 mt-2">{debt.note}</div>}
+                  {showSettleConfirm === debt.id && (
+                    <div className="mt-3 pt-3 border-t border-slate-100">
+                      <p className="text-sm text-slate-600 mb-3">Settle this debt? It will be moved to history.</p>
+                      <div className="flex gap-2">
+                        <button onClick={() => setShowSettleConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
+                        <button onClick={() => handleSettle(debt.id)} className="flex-1 btn-primary">Settle</button>
                       </div>
                     </div>
-                    <ChevronRight size={18} className="text-slate-400" />
-                  </div>
+                  )}
                 </div>
               );
             })
