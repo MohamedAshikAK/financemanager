@@ -1,6 +1,6 @@
-import { useEffect, useState, memo } from 'react';
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown } from 'lucide-react';
+import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import { useDebtStore } from '../store/debtStore';
 import { useMonthlyDebtStore } from '../store/monthlyDebtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
@@ -14,13 +14,7 @@ function Home() {
   const monthlyDebts = useMonthlyDebtStore((state) => state.monthlyDebts);
   const bills = useCreditBillStore((state) => state.bills);
   const currency = useSettingsStore((state) => state.currency);
-  const isHydrated = useFinanceStore((state) => state.isHydrated);
-
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-
-  useEffect(() => {
-    setCurrentMonth(new Date());
-  }, []);
+  const isHydrated = useDebtStore((state) => state.isHydrated);
 
   const pendingDebts = debts.filter(d => !d.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
