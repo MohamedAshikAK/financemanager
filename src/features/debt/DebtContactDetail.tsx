@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, Edit, Check, ArrowDownLeft, ArrowUpRight, Plus, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Trash2, Edit, ArrowDownLeft, ArrowUpRight, Plus, CheckCircle } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -27,10 +27,6 @@ export default function DebtContactDetail() {
   const handleDelete = (id: string) => {
     deleteDebt(id);
     setShowDeleteConfirm(null);
-  };
-
-  const handleMarkPaid = (id: string) => {
-    markAsPaid(id);
   };
 
   const handleSettle = (id: string) => {

@@ -118,16 +118,16 @@ export default function Settings() {
     const contactIds: string[] = [];
     sampleContacts.forEach(contact => {
       const id = addContact(contact);
-      contactIds.push(id);
+      if (id) contactIds.push(id);
     });
 
     // Add sample finance entries
     const sampleFinanceEntries = [
-      { title: 'Grocery Shopping', amount: 4500, type: 'expense' as const, category: 'Food', date: new Date().toISOString(), note: 'Weekly groceries from supermarket' },
-      { title: 'Salary', amount: 85000, type: 'income' as const, category: 'Salary', date: new Date().toISOString(), note: 'Monthly salary' },
-      { title: 'Electricity Bill', amount: 2500, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly electricity bill' },
-      { title: 'Freelance Payment', amount: 15000, type: 'income' as const, category: 'Freelance', date: new Date().toISOString(), note: 'Web development project' },
-      { title: 'Internet Bill', amount: 1200, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly internet connection' },
+      { title: 'Grocery Shopping', amount: 4500, type: 'expense' as const, category: 'Food', date: new Date().toISOString(), note: 'Weekly groceries from supermarket', isRecurring: false },
+      { title: 'Salary', amount: 85000, type: 'income' as const, category: 'Salary', date: new Date().toISOString(), note: 'Monthly salary', isRecurring: false },
+      { title: 'Electricity Bill', amount: 2500, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly electricity bill', isRecurring: true },
+      { title: 'Freelance Payment', amount: 15000, type: 'income' as const, category: 'Freelance', date: new Date().toISOString(), note: 'Web development project', isRecurring: false },
+      { title: 'Internet Bill', amount: 1200, type: 'expense' as const, category: 'Utilities', date: new Date().toISOString(), note: 'Monthly internet connection', isRecurring: true },
     ];
     
     sampleFinanceEntries.forEach(entry => {

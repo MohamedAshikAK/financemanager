@@ -14,7 +14,7 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
   const [isLocked, setIsLocked] = useState(false);
   const [lockTime, setLockTime] = useState(0);
   const storedPin = useSettingsStore((state) => state.pin);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<number | null>(null);
 
   const handlePinChange = (value: string) => {
     if (value.length <= 4) {

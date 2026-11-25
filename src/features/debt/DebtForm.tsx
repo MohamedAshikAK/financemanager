@@ -193,7 +193,6 @@ export default function DebtForm() {
           <label className="block text-sm font-semibold text-slate-700 mb-2">Due Date (optional)</label>
           <input
             type="date"
-            inputMode="date"
             {...register('dueDate')}
             className="input-field"
             disabled={isSubmitting}

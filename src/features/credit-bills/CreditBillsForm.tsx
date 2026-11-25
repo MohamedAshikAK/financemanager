@@ -157,7 +157,6 @@ export default function CreditBillsForm() {
           </label>
           <input
             type="date"
-            inputMode="date"
             {...register('dueDate', { required: 'Due date is required' })}
             className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             disabled={isSubmitting}
