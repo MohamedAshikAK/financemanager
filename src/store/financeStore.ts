@@ -10,6 +10,7 @@ export interface FinanceEntry {
   category: string;
   date: string;
   note?: string;
+  isRecurring: boolean; // Whether this entry repeats every month
   paidMonths: string[]; // Array of month keys like "2024-01", "2024-02"
   createdAt: string;
   updatedAt: string;
@@ -29,6 +30,8 @@ interface FinanceState {
   getTotalAmount: () => number;
   getPaidAmount: (monthKey: string) => number;
   getUnpaidAmount: (monthKey: string) => number;
+  getRecurringEntries: () => FinanceEntry[];
+  getEntriesForMonth: (monthKey: string) => FinanceEntry[];
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -49,6 +52,7 @@ export const useFinanceStore = create<FinanceState>()(
           const newEntry: FinanceEntry = {
             ...entry,
             id: uuidv4(),
+            isRecurring: entry.isRecurring || false,
             paidMonths: [],
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
@@ -118,6 +122,18 @@ export const useFinanceStore = create<FinanceState>()(
         return get().entries
           .filter((entry) => !entry.paidMonths.includes(monthKey))
           .reduce((sum, entry) => sum + entry.amount, 0);
+      },
+      
+      getRecurringEntries: () => {
+        return get().entries.filter((entry) => entry.isRecurring);
+      },
+      
+      getEntriesForMonth: (monthKey) => {
+        return get().entries.filter((entry) => {
+          const entryDate = new Date(entry.date);
+          const entryMonthKey = `${entryDate.getFullYear()}-${String(entryDate.getMonth() + 1).padStart(2, '0')}`;
+          return entryMonthKey === monthKey;
+        });
       },
       
       setHydrated: (hydrated) => {

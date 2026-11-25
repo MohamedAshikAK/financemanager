@@ -15,6 +15,7 @@ interface FormData {
   category: string;
   date: string;
   note: string;
+  isRecurring: boolean;
 }
 
 export default function FinanceForm() {
@@ -47,6 +48,7 @@ export default function FinanceForm() {
       category: '',
       date: formatDate(new Date(), 'yyyy-MM-dd'),
       note: '',
+      isRecurring: false,
     },
   });
 
@@ -61,6 +63,7 @@ export default function FinanceForm() {
         setValue('category', entry.category);
         setValue('date', formatDate(new Date(entry.date), 'yyyy-MM-dd'));
         setValue('note', entry.note || '');
+        setValue('isRecurring', entry.isRecurring || false);
       } else {
         navigate('/finance');
       }
@@ -85,6 +88,7 @@ export default function FinanceForm() {
         category: sanitizeInput(data.category),
         date: new Date(data.date).toISOString(),
         note: data.note ? sanitizeInput(data.note) : undefined,
+        isRecurring: data.isRecurring,
       };
 
       if (action === 'edit' && entryId) {
@@ -163,6 +167,19 @@ export default function FinanceForm() {
           {errors.amount && (
             <p className="text-red-500 text-sm mt-1">{errors.amount.message}</p>
           )}
+        </div>
+
+        <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
+          <input
+            type="checkbox"
+            id="isRecurring"
+            {...register('isRecurring')}
+            className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+            disabled={isSubmitting}
+          />
+          <label htmlFor="isRecurring" className="text-sm font-medium text-slate-700 cursor-pointer">
+            Recurring (repeats every month)
+          </label>
         </div>
 
         <button

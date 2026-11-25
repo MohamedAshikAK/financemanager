@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft, Repeat } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
@@ -123,7 +123,12 @@ export default function FinanceList() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-800 mb-1">{entry.title}</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-slate-800">{entry.title}</h3>
+                      {entry.isRecurring && (
+                        <Repeat size={14} className="text-blue-500" aria-label="Recurring" />
+                      )}
+                    </div>
                     <div className={`text-xl font-bold ${
                       isPaid ? 'text-emerald-600' : 'text-slate-800'
                     }`}>
