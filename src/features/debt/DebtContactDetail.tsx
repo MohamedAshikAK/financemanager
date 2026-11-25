@@ -21,7 +21,13 @@ export default function DebtContactDetail() {
 
   const contact = contactId ? getContact(contactId) : null;
   const contactDebts = debts.filter(debt => debt.personId === contactId && !debt.isPaid);
-  const totalAmount = contactDebts.reduce((sum, debt) => sum + (Number(debt.amount) || 0), 0);
+  const owedToMeTotal = contactDebts
+    .filter(d => d.type === 'owed-to-me')
+    .reduce((sum, debt) => sum + (Number(debt.amount) || 0), 0);
+  const owedByMeTotal = contactDebts
+    .filter(d => d.type === 'owed-by-me')
+    .reduce((sum, debt) => sum + (Number(debt.amount) || 0), 0);
+  const netBalance = owedToMeTotal - owedByMeTotal;
 
   const handleDelete = (id: string) => {
     deleteDebt(id);
@@ -57,14 +63,29 @@ export default function DebtContactDetail() {
 
       {/* Summary Card */}
       <div className="card p-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <div className="text-sm text-slate-600 mb-1">Total Amount</div>
-            <div className="text-2xl font-bold text-slate-800">{formatCurrency(totalAmount, currency)}</div>
+            <div className="text-sm text-slate-600 mb-1">Net Balance</div>
+            <div className={`text-2xl font-bold ${
+              netBalance > 0 ? 'text-emerald-600' : 
+              netBalance < 0 ? 'text-red-600' : 'text-slate-800'
+            }`}>
+              {netBalance > 0 ? '+' : ''}{formatCurrency(Math.abs(netBalance), currency)}
+            </div>
           </div>
           <div className="text-right">
             <div className="text-sm text-slate-600 mb-1">Debts</div>
             <div className="text-2xl font-bold text-slate-800">{contactDebts.length}</div>
+          </div>
+        </div>
+        <div className="flex gap-4 pt-3 border-t border-slate-100">
+          <div className="flex-1">
+            <div className="text-xs text-slate-500 mb-1">Owed to Me</div>
+            <div className="text-lg font-bold text-emerald-600">{formatCurrency(owedToMeTotal, currency)}</div>
+          </div>
+          <div className="flex-1">
+            <div className="text-xs text-slate-500 mb-1">Owed by Me</div>
+            <div className="text-lg font-bold text-red-600">{formatCurrency(owedByMeTotal, currency)}</div>
           </div>
         </div>
       </div>
