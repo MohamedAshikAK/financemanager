@@ -27,20 +27,6 @@ function Home() {
   const monthStart = getMonthStart(currentMonth);
   const monthEnd = getMonthEnd(currentMonth);
 
-  const monthlyIncome = entries
-    .filter(e => {
-      const date = new Date(e.date);
-      return e.type === 'income' && date >= monthStart && date <= monthEnd;
-    })
-    .reduce((sum, e) => sum + e.amount, 0);
-
-  const monthlyExpenses = entries
-    .filter(e => {
-      const date = new Date(e.date);
-      return e.type === 'expense' && date >= monthStart && date <= monthEnd;
-    })
-    .reduce((sum, e) => sum + e.amount, 0);
-
   const pendingDebts = debts.filter(d => !d.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
   
