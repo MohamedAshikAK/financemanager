@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, User, Phone, Mail, ArrowLeft } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
-export default function ContactsList() {
+function ContactsList() {
   const navigate = useNavigate();
   const contacts = useContactStore((state) => state.contacts);
   const deleteContact = useContactStore((state) => state.deleteContact);
@@ -105,3 +105,5 @@ export default function ContactsList() {
     </div>
   );
 }
+
+export default memo(ContactsList);

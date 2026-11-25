@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, Check, Wallet, ArrowLeft, Repeat } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
@@ -7,7 +7,7 @@ import { formatCurrency } from '../../utils/currency';
 import { format } from 'date-fns';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
-export default function FinanceList() {
+function FinanceList() {
   const navigate = useNavigate();
   const entries = useFinanceStore((state) => state.entries);
   const deleteEntry = useFinanceStore((state) => state.deleteEntry);
@@ -201,3 +201,5 @@ export default function FinanceList() {
     </div>
   );
 }
+
+export default memo(FinanceList);

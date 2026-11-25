@@ -1,19 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface DebtRecord {
-  id: string;
-  amount: number;
-  type: 'owed-to-me' | 'owed-by-me';
-  personId: string;
-  dueDate?: string; // ISO string
-  note?: string;
-  isPaid: boolean;
-  settledAt?: string; // ISO string - when the debt was settled
-  createdAt: string;
-  updatedAt: string;
-}
+import { DebtRecord } from '../types';
 
 interface DebtState {
   debts: DebtRecord[];

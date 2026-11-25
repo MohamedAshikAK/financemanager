@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft, History, CheckCircle } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
@@ -8,7 +8,7 @@ import { formatCurrency } from '../../utils/currency';
 import { isOverdue, isDueSoon, formatDate } from '../../utils/date';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
-export default function DebtList() {
+function DebtList() {
   const navigate = useNavigate();
   const debts = useDebtStore((state) => state.debts);
   const getContact = useContactStore((state) => state.getContact);
@@ -231,3 +231,5 @@ export default function DebtList() {
     </div>
   );
 }
+
+export default memo(DebtList);

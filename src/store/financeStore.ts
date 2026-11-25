@@ -1,20 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface FinanceEntry {
-  id: string;
-  title: string;
-  amount: number;
-  type: 'income' | 'expense';
-  category: string;
-  date: string;
-  note?: string;
-  isRecurring: boolean; // Whether this entry repeats every month
-  paidMonths: string[]; // Array of month keys like "2024-01", "2024-02"
-  createdAt: string;
-  updatedAt: string;
-}
+import { FinanceEntry } from '../types';
+import { migrateData, addVersionToData } from '../utils/migration';
 
 interface FinanceState {
   entries: FinanceEntry[];
@@ -144,6 +132,12 @@ export const useFinanceStore = create<FinanceState>()(
       name: 'pocket-finances-finance',
       onRehydrateStorage: () => (state) => {
         state?.setHydrated(true);
+      },
+      migrate: (persistedState: any, version: number) => {
+        if (version === 0) {
+          return { ...persistedState, version: 1 };
+        }
+        return persistedState;
       },
     }
   )

@@ -1,8 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { ToastContainer, useToast } from './components/Toast';
+import { ToastContainer } from './components/Toast';
 import ThemeProvider from './components/ThemeProvider';
+import { WebVitals } from './components/WebVitals';
 import AuthGuard from './features/auth/AuthGuard';
 import Home from './features/Home';
 import FinanceList from './features/finance/FinanceList';
@@ -16,12 +17,14 @@ import CreditBillsList from './features/credit-bills/CreditBillsList';
 import CreditBillsForm from './features/credit-bills/CreditBillsForm';
 import Backup from './features/backup/Backup';
 import Settings from './features/settings/Settings';
+import { useToastStore } from './store/toastStore';
 
 function App() {
-  const { toasts, removeToast } = useToast();
+  const { toasts, removeToast } = useToastStore();
 
   return (
     <ErrorBoundary>
+      <WebVitals />
       <ThemeProvider>
         <AuthGuard>
           <Layout>

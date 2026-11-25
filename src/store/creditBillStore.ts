@@ -1,16 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface CreditBill {
-  id: string;
-  cardName: string;
-  currentAmount: number;
-  dueDate: string; // ISO string
-  isPaid: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { CreditBill } from '../types';
 
 interface CreditBillState {
   bills: CreditBill[];

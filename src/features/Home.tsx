@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Wallet, TrendingUp, TrendingDown, CreditCard, AlertCircle, Plus, ArrowRight, User } from 'lucide-react';
 import { useFinanceStore } from '../store/financeStore';
@@ -8,7 +8,7 @@ import { useSettingsStore } from '../store/settingsStore';
 import { formatCurrency } from '../utils/currency';
 import { getMonthStart, getMonthEnd, isDueSoon, isOverdue } from '../utils/date';
 
-export default function Home() {
+function Home() {
   const navigate = useNavigate();
   const entries = useFinanceStore((state) => state.entries);
   const debts = useDebtStore((state) => state.debts);
@@ -196,3 +196,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default memo(Home);

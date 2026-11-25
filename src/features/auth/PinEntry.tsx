@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Lock } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { CONFIG } from '../../config/constants';
@@ -14,6 +14,7 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
   const [isLocked, setIsLocked] = useState(false);
   const [lockTime, setLockTime] = useState(0);
   const storedPin = useSettingsStore((state) => state.pin);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handlePinChange = (value: string) => {
     if (value.length <= 4) {
@@ -40,10 +41,19 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
         setIsLocked(true);
         const lockSeconds = 30;
         setLockTime(lockSeconds);
-        const timer = setInterval(() => {
+        
+        // Clear existing timer if any
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+        
+        timerRef.current = setInterval(() => {
           setLockTime((prev) => {
             if (prev <= 1) {
-              clearInterval(timer);
+              if (timerRef.current) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+              }
               setIsLocked(false);
               setAttempts(0);
               return 0;
@@ -54,6 +64,15 @@ export default function PinEntry({ onSuccess }: PinEntryProps) {
       }
     }
   };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center p-3">

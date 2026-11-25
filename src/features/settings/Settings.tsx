@@ -6,6 +6,7 @@ import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useContactStore } from '../../store/contactStore';
+import { useToastStore } from '../../store/toastStore';
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function Settings() {
   const setPinStore = useSettingsStore((state) => state.setPin);
   const clearPin = useSettingsStore((state) => state.clearPin);
   const setDarkMode = useSettingsStore((state) => state.setDarkMode);
+  const addToast = useToastStore((state) => state.addToast);
   
   const addEntry = useFinanceStore((state) => state.addEntry);
   const addDebt = useDebtStore((state) => state.addDebt);
@@ -51,11 +53,16 @@ export default function Settings() {
       setPinError('PINs do not match');
       return;
     }
-    setPinStore(newPin);
-    setShowPinEnable(false);
-    setNewPin('');
-    setConfirmPin('');
-    setPinError('');
+    try {
+      setPinStore(newPin);
+      setShowPinEnable(false);
+      setNewPin('');
+      setConfirmPin('');
+      setPinError('');
+      addToast('success', 'PIN enabled successfully');
+    } catch (error) {
+      addToast('error', error instanceof Error ? error.message : 'Failed to enable PIN');
+    }
   };
 
   const handlePinChange = () => {
@@ -71,12 +78,17 @@ export default function Settings() {
       setPinError('New PINs do not match');
       return;
     }
-    setPinStore(newPin);
-    setShowPinChange(false);
-    setCurrentPin('');
-    setNewPin('');
-    setConfirmPin('');
-    setPinError('');
+    try {
+      setPinStore(newPin);
+      setShowPinChange(false);
+      setCurrentPin('');
+      setNewPin('');
+      setConfirmPin('');
+      setPinError('');
+      addToast('success', 'PIN changed successfully');
+    } catch (error) {
+      addToast('error', error instanceof Error ? error.message : 'Failed to change PIN');
+    }
   };
 
   const handlePinDisable = () => {

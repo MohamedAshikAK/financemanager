@@ -16,7 +16,7 @@ interface SettingsState {
 }
 
 // Simple encryption using XOR with a key (better than Base64)
-const ENCRYPTION_KEY = 'pocket-finances-secret-key-2024';
+const ENCRYPTION_KEY = import.meta.env.VITE_PIN_ENCRYPTION_KEY || 'pocket-finances-secret-key-2024';
 
 const encrypt = (text: string): string => {
   let result = '';
@@ -57,7 +57,7 @@ export const useSettingsStore = create<SettingsState>()(
         } catch (error) {
           console.error('Error saving PIN:', error);
           if (error instanceof Error && error.name === 'QuotaExceededError') {
-            alert('Storage is full. Please clear some data.');
+            throw new Error('Storage is full. Please clear some data.');
           }
           throw new Error('Failed to save PIN');
         }

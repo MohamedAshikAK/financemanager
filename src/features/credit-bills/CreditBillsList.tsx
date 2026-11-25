@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Edit, Check, CreditCard, ArrowLeft } from 'lucide-react';
 import { useCreditBillStore } from '../../store/creditBillStore';
@@ -7,7 +7,7 @@ import { formatCurrency } from '../../utils/currency';
 import { formatDate, isOverdue, isDueSoon } from '../../utils/date';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
-export default function CreditBillsList() {
+function CreditBillsList() {
   const navigate = useNavigate();
   const bills = useCreditBillStore((state) => state.bills);
   const deleteBill = useCreditBillStore((state) => state.deleteBill);
@@ -131,3 +131,5 @@ export default function CreditBillsList() {
     </div>
   );
 }
+
+export default memo(CreditBillsList);

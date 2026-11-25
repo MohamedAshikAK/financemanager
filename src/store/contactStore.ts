@@ -1,15 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
-
-export interface Contact {
-  id: string;
-  name: string;
-  phone?: string;
-  email?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Contact } from '../types';
 
 interface ContactState {
   contacts: Contact[];
