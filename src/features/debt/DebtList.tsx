@@ -1,6 +1,6 @@
 import { useState, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ArrowDownLeft, ArrowUpRight, CreditCard, ArrowLeft, History, CheckCircle } from 'lucide-react';
+import { Plus, ArrowDownLeft, ArrowUpRight, CreditCard, ArrowLeft, History, CheckCircle, Edit } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -252,12 +252,6 @@ function DebtList() {
                         className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
                       >
                         <Edit size={16} className="text-slate-600" />
-                      </button>
-                      <button
-                        onClick={() => navigate(`/debt/contact/${debt.personId}`)}
-                        className="p-2 hover:bg-slate-100 rounded-xl transition-colors flex-shrink-0"
-                      >
-                        <Plus size={16} className="text-slate-600" />
                       </button>
                     </div>
                   </div>
