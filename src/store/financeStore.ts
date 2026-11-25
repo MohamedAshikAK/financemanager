@@ -31,6 +31,7 @@ interface FinanceState {
   getUnpaidAmount: (monthKey: string) => number;
   getRecurringEntries: () => FinanceEntry[];
   getEntriesForMonth: (monthKey: string) => FinanceEntry[];
+  setEntries: (entries: FinanceEntry[]) => void;
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -133,6 +134,10 @@ export const useFinanceStore = create<FinanceState>()(
           const entryMonthKey = `${entryDate.getFullYear()}-${String(entryDate.getMonth() + 1).padStart(2, '0')}`;
           return entryMonthKey === monthKey;
         });
+      },
+      
+      setEntries: (entries) => {
+        set({ entries });
       },
       
       setHydrated: (hydrated) => {

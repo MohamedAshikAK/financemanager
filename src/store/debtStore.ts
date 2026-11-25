@@ -29,6 +29,7 @@ interface DebtState {
   getDebtsByType: (type: 'owed-to-me' | 'owed-by-me') => DebtRecord[];
   getPendingDebts: () => DebtRecord[];
   getSettledDebts: () => DebtRecord[];
+  setDebts: (debts: DebtRecord[]) => void;
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -103,6 +104,10 @@ export const useDebtStore = create<DebtState>()(
       
       getSettledDebts: () => {
         return get().debts.filter((debt) => debt.isPaid && debt.settledAt);
+      },
+      
+      setDebts: (debts) => {
+        set({ debts });
       },
       
       setHydrated: (hydrated) => {

@@ -24,6 +24,7 @@ interface CreditBillState {
   settleBill: (id: string) => void;
   getDueBills: () => CreditBill[];
   getOverdueBills: () => CreditBill[];
+  setBills: (bills: CreditBill[]) => void;
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -100,6 +101,10 @@ export const useCreditBillStore = create<CreditBillState>()(
           const dueDate = new Date(bill.dueDate);
           return dueDate < today;
         });
+      },
+      
+      setBills: (bills) => {
+        set({ bills });
       },
       
       setHydrated: (hydrated) => {

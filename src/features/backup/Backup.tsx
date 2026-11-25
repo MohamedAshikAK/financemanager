@@ -13,21 +13,28 @@ export default function Backup() {
   const [importData, setImportData] = useState<any>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const financeStore = useFinanceStore((state) => state.entries);
-  const debtStore = useDebtStore((state) => state.debts);
-  const creditBillStore = useCreditBillStore((state) => state.bills);
-  const contactStore = useContactStore((state) => state.contacts);
+  const financeEntries = useFinanceStore((state) => state.entries);
+  const debtEntries = useDebtStore((state) => state.debts);
+  const creditBills = useCreditBillStore((state) => state.bills);
+  const contacts = useContactStore((state) => state.contacts);
   const currency = useSettingsStore((state) => state.currency);
   const pin = useSettingsStore((state) => state.pin);
+
+  const setFinanceEntries = useFinanceStore((state) => state.setEntries);
+  const setDebtEntries = useDebtStore((state) => state.setDebts);
+  const setCreditBills = useCreditBillStore((state) => state.setBills);
+  const setContacts = useContactStore((state) => state.setContacts);
+  const setCurrency = useSettingsStore((state) => state.setCurrency);
+  const setPinStore = useSettingsStore((state) => state.setPin);
 
   const handleExport = () => {
     const data = {
       version: '1.0',
       exportDate: new Date().toISOString(),
-      finance: financeStore,
-      debts: debtStore,
-      creditBills: creditBillStore,
-      contacts: contactStore,
+      finance: financeEntries,
+      debts: debtEntries,
+      creditBills: creditBills,
+      contacts: contacts,
       settings: { currency, pin },
     };
 
@@ -72,11 +79,17 @@ export default function Backup() {
     if (!importData) return;
 
     try {
-      localStorage.setItem('pocket-finances-finance', JSON.stringify(importData.finance));
-      localStorage.setItem('pocket-finances-debts', JSON.stringify(importData.debts));
-      localStorage.setItem('pocket-finances-bills', JSON.stringify(importData.creditBills));
-      localStorage.setItem('pocket-finances-contacts', JSON.stringify(importData.contacts));
-      localStorage.setItem('pocket-finances-settings', JSON.stringify(importData.settings));
+      setFinanceEntries(importData.finance || []);
+      setDebtEntries(importData.debts || []);
+      setCreditBills(importData.creditBills || []);
+      setContacts(importData.contacts || []);
+      
+      if (importData.settings?.currency) {
+        setCurrency(importData.settings.currency);
+      }
+      if (importData.settings?.pin !== undefined) {
+        setPinStore(importData.settings.pin);
+      }
 
       setMessage({ type: 'success', text: 'Backup imported successfully! Reloading...' });
       setTimeout(() => window.location.reload(), 2000);

@@ -20,6 +20,7 @@ interface ContactState {
   updateContact: (id: string, contact: Partial<Contact>) => void;
   deleteContact: (id: string) => void;
   getContact: (id: string) => Contact | undefined;
+  setContacts: (contacts: Contact[]) => void;
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -64,6 +65,10 @@ export const useContactStore = create<ContactState>()(
       
       getContact: (id) => {
         return get().contacts.find((contact) => contact.id === id);
+      },
+      
+      setContacts: (contacts) => {
+        set({ contacts });
       },
       
       setHydrated: (hydrated) => {
