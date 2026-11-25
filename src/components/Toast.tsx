@@ -1,4 +1,10 @@
-import { Toast } from '../types';
+export type ToastType = 'success' | 'error' | 'info';
+
+interface Toast {
+  id: string;
+  type: ToastType;
+  message: string;
+}
 
 export function ToastContainer({ toasts, onRemove }: { toasts: Toast[]; onRemove: (id: string) => void }) {
   return (

@@ -1,5 +1,12 @@
 import { create } from 'zustand';
-import { Toast, ToastType } from '../types';
+
+export type ToastType = 'success' | 'error' | 'info';
+
+interface Toast {
+  id: string;
+  type: ToastType;
+  message: string;
+}
 
 interface ToastState {
   toasts: Toast[];
