@@ -1,7 +1,7 @@
 // Data migration strategy for localStorage schema changes
 const CURRENT_VERSION = 1;
 
-export function migrateData(key: string, rawData: string): string {
+export function migrateData(_key: string, rawData: string): string {
   try {
     const parsed = JSON.parse(rawData);
     
@@ -47,7 +47,7 @@ function migrateToVersion(version: number, data: any): any {
   }
 }
 
-export function addVersionToData(key: string, data: any): string {
+export function addVersionToData(_key: string, data: any): string {
   return JSON.stringify({
     version: CURRENT_VERSION,
     state: data,

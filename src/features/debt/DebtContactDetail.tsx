@@ -12,7 +12,6 @@ export default function DebtContactDetail() {
   const { contactId } = useParams<{ contactId: string }>();
   const debts = useDebtStore((state) => state.debts);
   const deleteDebt = useDebtStore((state) => state.deleteDebt);
-  const markAsPaid = useDebtStore((state) => state.markAsPaid);
   const settleDebt = useDebtStore((state) => state.settleDebt);
   const getContact = useContactStore((state) => state.getContact);
   const currency = useSettingsStore((state) => state.currency);
