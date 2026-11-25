@@ -63,16 +63,14 @@
     color: #ffffff !important;
   }
   
+  /* Allow colored text for status indicators */
   .dark .text-emerald-600,
   .dark .text-red-600,
   .dark .text-blue-600,
   .dark .text-purple-600,
   .dark .text-amber-600,
   .dark .text-teal-600,
-  .dark .text-orange-600 {
-    color: #ffffff !important;
-  }
-  
+  .dark .text-orange-600,
   .dark .text-emerald-700,
   .dark .text-red-700,
   .dark .text-blue-700,
@@ -80,15 +78,12 @@
   .dark .text-amber-700,
   .dark .text-teal-700,
   .dark .text-orange-700 {
-    color: #ffffff !important;
+    color: inherit !important;
   }
   
-  .dark .text-slate-500 {
-    color: #ffffff !important;
-  }
-  
+  /* Allow icons to have their colors */
   .dark svg {
-    color: #ffffff !important;
+    color: inherit !important;
   }
 }
 
