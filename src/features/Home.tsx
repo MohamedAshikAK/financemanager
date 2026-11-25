@@ -41,8 +41,6 @@ function Home() {
     })
     .reduce((sum, e) => sum + e.amount, 0);
 
-  const balance = monthlyIncome - monthlyExpenses;
-
   const pendingDebts = debts.filter(d => !d.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
   
