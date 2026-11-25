@@ -39,6 +39,7 @@ export default function DebtForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -127,14 +128,31 @@ export default function DebtForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">Type *</label>
-          <select
-            {...register('type', { required: 'Type is required' })}
-            className="input-field"
-            disabled={isSubmitting}
-          >
-            <option value="owed-to-me">Owed to Me</option>
-            <option value="owed-by-me">Owed by Me</option>
-          </select>
+          <div className="flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1">
+            <button
+              type="button"
+              onClick={() => setValue('type', 'owed-to-me')}
+              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
+                watch('type') === 'owed-to-me'
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400'
+              }`}
+            >
+              Owed to Me
+            </button>
+            <button
+              type="button"
+              onClick={() => setValue('type', 'owed-by-me')}
+              className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all ${
+                watch('type') === 'owed-by-me'
+                  ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400'
+              }`}
+            >
+              Owed by Me
+            </button>
+          </div>
+          <input type="hidden" {...register('type', { required: 'Type is required' })} />
           {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
         </div>
 
