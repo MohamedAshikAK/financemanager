@@ -91,7 +91,7 @@ export default function DebtContactDetail() {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center justify-between mt-2">
                   {debt.dueDate && (
                     <span className={`text-sm font-medium ${overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'}`}>
                       {overdue ? `Overdue: ${formatDate(debt.dueDate)}` : dueSoon ? `Due: ${formatDate(debt.dueDate)}` : formatDate(debt.dueDate)}

@@ -150,7 +150,7 @@ function FinanceList() {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center justify-between mt-3">
                   <span className={`text-sm font-medium ${
                     isPaid ? 'text-emerald-600' : 'text-slate-500'
                   }`}>

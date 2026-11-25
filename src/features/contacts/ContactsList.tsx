@@ -79,14 +79,12 @@ function ContactsList() {
                   )}
                 </div>
               </div>
-              <div className="flex gap-2 mt-4">
-                <button onClick={() => navigate(`/contacts/form?action=edit&id=${contact.id}`)} className="flex-1 btn-secondary flex items-center justify-center gap-2">
-                  <Edit size={16} />
-                  Edit
+              <div className="flex gap-2 mt-3">
+                <button onClick={() => navigate(`/contacts/form?action=edit&id=${contact.id}`)} className="p-2 hover:bg-slate-100 rounded-xl transition-colors">
+                  <Edit size={18} className="text-slate-600" />
                 </button>
-                <button onClick={() => setShowDeleteConfirm(contact.id)} className="flex-1 btn-danger flex items-center justify-center gap-2">
-                  <Trash2 size={16} />
-                  Delete
+                <button onClick={() => setShowDeleteConfirm(contact.id)} className="p-2 hover:bg-red-50 rounded-xl transition-colors">
+                  <Trash2 size={18} className="text-red-500" />
                 </button>
               </div>
               {showDeleteConfirm === contact.id && (
