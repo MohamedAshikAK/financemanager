@@ -37,14 +37,14 @@ export default function Layout({ children }: LayoutProps) {
                 to={item.path}
                 className={`flex flex-col items-center justify-center w-full h-full rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? 'text-purple-600 bg-gradient-to-t from-purple-100/50 to-transparent scale-105 dark:text-white dark:from-purple-500/20'
+                    ? 'text-blue-600 bg-gradient-to-t from-blue-100/50 to-transparent scale-105 dark:text-white dark:from-blue-500/20'
                     : 'text-slate-400 hover:text-slate-600 hover:bg-slate-50/50 dark:text-[#8e8e93] dark:hover:text-white dark:hover:bg-[#2c2c2e]/50'
                 }`}
                 aria-label={item.label}
                 aria-current={isActive ? 'page' : undefined}
               >
                 <div className={`p-2 rounded-2xl transition-all duration-300 ${
-                  isActive ? 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30' : ''
+                  isActive ? 'bg-blue-600 shadow-lg shadow-blue-500/30' : ''
                 }`}>
                   <Icon size={20} strokeWidth={2.5} className={isActive ? 'text-white' : ''} />
                 </div>

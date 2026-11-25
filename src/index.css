@@ -19,7 +19,7 @@
   }
   
   body.light {
-    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #faf5ff 100%);
+    background: #f1f5f9;
     color: #1c1c1e;
   }
   
@@ -142,7 +142,7 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-purple-500/30 transition-all duration-300 active:scale-95 text-sm backdrop-blur-sm;
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-blue-500/30 transition-all duration-300 active:scale-95 text-sm;
   }
   
   .btn-secondary {
@@ -154,11 +154,11 @@
   }
   
   .btn-danger {
-    @apply bg-gradient-to-r from-rose-500 via-red-500 to-orange-500 hover:from-rose-600 hover:via-red-600 hover:to-orange-600 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-red-500/30 transition-all duration-300 active:scale-95 text-sm backdrop-blur-sm;
+    @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-red-500/30 transition-all duration-300 active:scale-95 text-sm;
   }
   
   .btn-success {
-    @apply bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all duration-300 active:scale-95 text-sm backdrop-blur-sm;
+    @apply bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-5 rounded-2xl shadow-lg shadow-emerald-500/30 transition-all duration-300 active:scale-95 text-sm;
   }
   
   .card {
@@ -178,11 +178,11 @@
   }
   
   .input-field {
-    @apply w-full p-4 bg-white/60 backdrop-blur-sm border border-slate-200/50 rounded-2xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 focus:bg-white/80 transition-all duration-300 text-sm placeholder-slate-400;
+    @apply w-full p-4 bg-white/60 backdrop-blur-sm border border-slate-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 focus:bg-white/80 transition-all duration-300 text-sm placeholder-slate-400;
   }
   
   .dark .input-field {
-    @apply bg-[#1c1c1e] border-[#38383a] text-white placeholder-[#8e8e93] focus:bg-[#2c2c2e] focus:ring-purple-500/50 focus:border-purple-500;
+    @apply bg-[#1c1c1e] border-[#38383a] text-white placeholder-[#8e8e93] focus:bg-[#2c2c2e] focus:ring-blue-500/50 focus:border-blue-500;
   }
   
   .stat-card {
