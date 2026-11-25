@@ -4,11 +4,13 @@ import { persist } from 'zustand/middleware';
 interface SettingsState {
   pin: string | null;
   currency: string;
+  darkMode: boolean;
   isHydrated: boolean;
   
   // Actions
   setPin: (pin: string | null) => void;
   setCurrency: (currency: string) => void;
+  setDarkMode: (darkMode: boolean) => void;
   clearPin: () => void;
   setHydrated: (hydrated: boolean) => void;
 }
@@ -46,6 +48,7 @@ export const useSettingsStore = create<SettingsState>()(
     (set) => ({
       pin: null,
       currency: 'INR',
+      darkMode: false,
       isHydrated: false,
       
       setPin: (pin) => {
@@ -62,6 +65,10 @@ export const useSettingsStore = create<SettingsState>()(
       
       setCurrency: (currency) => {
         set({ currency });
+      },
+      
+      setDarkMode: (darkMode) => {
+        set({ darkMode });
       },
       
       clearPin: () => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database } from 'lucide-react';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { useFinanceStore } from '../../store/financeStore';
 import { useDebtStore } from '../../store/debtStore';
@@ -11,9 +11,11 @@ export default function Settings() {
   const navigate = useNavigate();
   const currency = useSettingsStore((state) => state.currency);
   const pin = useSettingsStore((state) => state.pin);
+  const darkMode = useSettingsStore((state) => state.darkMode);
   const setCurrency = useSettingsStore((state) => state.setCurrency);
   const setPinStore = useSettingsStore((state) => state.setPin);
   const clearPin = useSettingsStore((state) => state.clearPin);
+  const setDarkMode = useSettingsStore((state) => state.setDarkMode);
   
   const addEntry = useFinanceStore((state) => state.addEntry);
   const addDebt = useDebtStore((state) => state.addDebt);
@@ -175,6 +177,29 @@ export default function Settings() {
             <option key={curr.code} value={curr.code}>{curr.name}</option>
           ))}
         </select>
+      </div>
+
+      <div className="card p-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className={`p-3 rounded-xl ${darkMode ? 'bg-purple-100' : 'bg-amber-100'}`}>
+              {darkMode ? <Moon size={18} className="text-purple-600" /> : <Sun size={18} className="text-amber-600" />}
+            </div>
+            <h2 className="font-semibold text-slate-800">Dark Mode</h2>
+          </div>
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className={`relative w-14 h-8 rounded-full transition-colors duration-300 ${
+              darkMode ? 'bg-purple-500' : 'bg-slate-300'
+            }`}
+          >
+            <div
+              className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 ${
+                darkMode ? 'translate-x-7' : 'translate-x-1'
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
       <div className="card p-3">

@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ToastContainer, useToast } from './components/Toast';
+import ThemeProvider from './components/ThemeProvider';
 import AuthGuard from './features/auth/AuthGuard';
 import Home from './features/Home';
 import FinanceList from './features/finance/FinanceList';
@@ -21,25 +22,27 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <AuthGuard>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/finance" element={<FinanceList />} />
-            <Route path="/finance/form" element={<FinanceForm />} />
-            <Route path="/debt" element={<DebtList />} />
-            <Route path="/debt/form" element={<DebtForm />} />
-            <Route path="/debt/contact/:contactId" element={<DebtContactDetail />} />
-            <Route path="/contacts" element={<ContactsList />} />
-            <Route path="/contacts/form" element={<ContactsForm />} />
-            <Route path="/bills" element={<CreditBillsList />} />
-            <Route path="/bills/form" element={<CreditBillsForm />} />
-            <Route path="/backup" element={<Backup />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Layout>
-        <ToastContainer toasts={toasts} onRemove={removeToast} />
-      </AuthGuard>
+      <ThemeProvider>
+        <AuthGuard>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/finance" element={<FinanceList />} />
+              <Route path="/finance/form" element={<FinanceForm />} />
+              <Route path="/debt" element={<DebtList />} />
+              <Route path="/debt/form" element={<DebtForm />} />
+              <Route path="/debt/contact/:contactId" element={<DebtContactDetail />} />
+              <Route path="/contacts" element={<ContactsList />} />
+              <Route path="/contacts/form" element={<ContactsForm />} />
+              <Route path="/bills" element={<CreditBillsList />} />
+              <Route path="/bills/form" element={<CreditBillsForm />} />
+              <Route path="/backup" element={<Backup />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </Layout>
+          <ToastContainer toasts={toasts} onRemove={removeToast} />
+        </AuthGuard>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
