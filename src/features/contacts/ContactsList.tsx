@@ -1,6 +1,6 @@
 import { useState, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Edit, User, Phone, Mail, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, Edit, User, ArrowLeft } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
@@ -66,12 +66,6 @@ function ContactsList() {
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-semibold text-slate-800 truncate">{contact.name}</h3>
-                    {contact.phone && (
-                      <div className="flex items-center gap-1 text-xs text-slate-600">
-                        <Phone size={12} />
-                        <span className="truncate">{contact.phone}</span>
-                      </div>
-                    )}
                   </div>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">
