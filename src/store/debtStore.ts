@@ -10,6 +10,7 @@ export interface DebtRecord {
   dueDate?: string; // ISO string
   note?: string;
   isPaid: boolean;
+  settledAt?: string; // ISO string - when the debt was settled
   createdAt: string;
   updatedAt: string;
 }
@@ -24,8 +25,10 @@ interface DebtState {
   deleteDebt: (id: string) => void;
   getDebt: (id: string) => DebtRecord | undefined;
   markAsPaid: (id: string) => void;
+  settleDebt: (id: string) => void;
   getDebtsByType: (type: 'owed-to-me' | 'owed-by-me') => DebtRecord[];
   getPendingDebts: () => DebtRecord[];
+  getSettledDebts: () => DebtRecord[];
   setHydrated: (hydrated: boolean) => void;
 }
 
@@ -80,12 +83,26 @@ export const useDebtStore = create<DebtState>()(
         }));
       },
       
+      settleDebt: (id) => {
+        set((state) => ({
+          debts: state.debts.map((debt) =>
+            debt.id === id
+              ? { ...debt, isPaid: true, settledAt: new Date().toISOString(), updatedAt: new Date().toISOString() }
+              : debt
+          ),
+        }));
+      },
+      
       getDebtsByType: (type) => {
         return get().debts.filter((debt) => debt.type === type);
       },
       
       getPendingDebts: () => {
         return get().debts.filter((debt) => !debt.isPaid);
+      },
+      
+      getSettledDebts: () => {
+        return get().debts.filter((debt) => debt.isPaid && debt.settledAt);
       },
       
       setHydrated: (hydrated) => {

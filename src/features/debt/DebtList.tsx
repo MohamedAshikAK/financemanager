@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft } from 'lucide-react';
+import { Plus, ArrowDownLeft, ArrowUpRight, ChevronRight, CreditCard, ArrowLeft, History } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatCurrency } from '../../utils/currency';
-import { isOverdue, isDueSoon } from '../../utils/date';
+import { isOverdue, isDueSoon, formatDate } from '../../utils/date';
 import { ListSkeleton } from '../../components/LoadingSkeleton';
 
 export default function DebtList() {
@@ -15,11 +15,12 @@ export default function DebtList() {
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useDebtStore((state) => state.isHydrated);
 
-  const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me'>('all');
+  const [filter, setFilter] = useState<'all' | 'owed-to-me' | 'owed-by-me' | 'history'>('all');
 
   const filteredDebts = useMemo(() => {
     return debts.filter(debt => {
       if (filter === 'all') return !debt.isPaid;
+      if (filter === 'history') return debt.isPaid && debt.settledAt;
       return debt.type === filter && !debt.isPaid;
     });
   }, [debts, filter]);
@@ -74,7 +75,7 @@ export default function DebtList() {
       <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
         <button
           onClick={() => setFilter('all')}
-          className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
             filter === 'all'
               ? 'bg-white text-blue-600 shadow-md'
               : 'text-slate-600 hover:bg-white/50'
@@ -84,7 +85,7 @@ export default function DebtList() {
         </button>
         <button
           onClick={() => setFilter('owed-to-me')}
-          className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
             filter === 'owed-to-me'
               ? 'bg-white text-emerald-600 shadow-md'
               : 'text-slate-600 hover:bg-white/50'
@@ -94,7 +95,7 @@ export default function DebtList() {
         </button>
         <button
           onClick={() => setFilter('owed-by-me')}
-          className={`flex-1 py-2 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
             filter === 'owed-by-me'
               ? 'bg-white text-red-600 shadow-md'
               : 'text-slate-600 hover:bg-white/50'
@@ -102,72 +103,124 @@ export default function DebtList() {
         >
           Owed by Me
         </button>
+        <button
+          onClick={() => setFilter('history')}
+          className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 ${
+            filter === 'history'
+              ? 'bg-white text-slate-600 shadow-md'
+              : 'text-slate-600 hover:bg-white/50'
+          }`}
+        >
+          History
+        </button>
       </div>
 
-      <button
-        onClick={() => navigate('/debt/form?action=add')}
-        className="w-full btn-primary flex items-center justify-center gap-2"
-      >
-        <Plus size={18} />
-        Add Debt
-      </button>
+      {filter !== 'history' && (
+        <button
+          onClick={() => navigate('/debt/form?action=add')}
+          className="w-full btn-primary flex items-center justify-center gap-2"
+        >
+          <Plus size={18} />
+          Add Debt
+        </button>
+      )}
 
-      {Object.keys(groupedDebts).length === 0 ? (
+      {(filter === 'history' ? filteredDebts.length === 0 : Object.keys(groupedDebts).length === 0) ? (
         <div className="text-center py-16">
           <div className="w-20 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={18} className="text-slate-400" />
+            {filter === 'history' ? <History size={18} className="text-slate-400" /> : <CreditCard size={18} className="text-slate-400" />}
           </div>
-          <p className="text-slate-500 mb-1">No debts found</p>
-          <p className="text-sm text-slate-400">Tap "Add Debt" to get started</p>
+          <p className="text-slate-500 mb-1">{filter === 'history' ? 'No settled debts' : 'No debts found'}</p>
+          <p className="text-sm text-slate-400">{filter === 'history' ? 'Settled debts will appear here' : 'Tap "Add Debt" to get started'}</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {Object.values(groupedDebts).map((group) => {
-            const contact = getContact(group.personId);
-            const hasOverdue = group.debts.some(d => d.dueDate && isOverdue(d.dueDate));
-            const hasDueSoon = group.debts.some(d => d.dueDate && isDueSoon(d.dueDate));
-
-            return (
-              <div
-                key={group.personId}
-                onClick={() => navigate(`/debt/contact/${group.personId}`)}
-                className={`card hover:shadow-md transition-all duration-200 p-3 cursor-pointer ${
-                  hasOverdue
-                    ? 'border-red-300'
-                    : hasDueSoon
-                    ? 'border-amber-300'
-                    : ''
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className={`p-2 rounded-xl ${
-                        group.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
-                      }`}>
-                        {group.type === 'owed-to-me' ? (
-                          <ArrowDownLeft size={18} className="text-emerald-600" />
-                        ) : (
-                          <ArrowUpRight size={18} className="text-red-600" />
-                        )}
+          {filter === 'history' ? (
+            // History view - show individual settled debts
+            filteredDebts.map((debt) => {
+              const contact = getContact(debt.personId);
+              return (
+                <div key={debt.id} className="card hover:shadow-md transition-all duration-200 p-3 opacity-75">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className={`p-2 rounded-xl ${
+                          debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
+                        }`}>
+                          {debt.type === 'owed-to-me' ? (
+                            <ArrowDownLeft size={18} className="text-emerald-600" />
+                          ) : (
+                            <ArrowUpRight size={18} className="text-red-600" />
+                          )}
+                        </div>
+                        <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
                       </div>
-                      <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
+                      <div className={`text-xl font-bold ${
+                        debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+                      }`}>
+                        {debt.type === 'owed-to-me' ? '+' : '-'}
+                        {formatCurrency(debt.amount, currency)}
+                      </div>
+                      {debt.settledAt && (
+                        <div className="text-xs text-slate-500 mt-1">
+                          Settled on {formatDate(debt.settledAt)}
+                        </div>
+                      )}
                     </div>
-                    <div className={`text-xl font-bold ${
-                      group.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
-                    }`}>
-                      {group.type === 'owed-to-me' ? '+' : '-'}
-                      {formatCurrency(group.totalAmount, currency)}
-                    </div>
-                    <div className="text-sm text-slate-500 mt-1">
-                      {group.debts.length} debt{group.debts.length !== 1 ? 's' : ''}
-                    </div>
+                    <History size={18} className="text-slate-400" />
                   </div>
-                  <ChevronRight size={18} className="text-slate-400" />
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            // Grouped view for pending debts
+            Object.values(groupedDebts).map((group) => {
+              const contact = getContact(group.personId);
+              const hasOverdue = group.debts.some(d => d.dueDate && isOverdue(d.dueDate));
+              const hasDueSoon = group.debts.some(d => d.dueDate && isDueSoon(d.dueDate));
+
+              return (
+                <div
+                  key={group.personId}
+                  onClick={() => navigate(`/debt/contact/${group.personId}`)}
+                  className={`card hover:shadow-md transition-all duration-200 p-3 cursor-pointer ${
+                    hasOverdue
+                      ? 'border-red-300'
+                      : hasDueSoon
+                      ? 'border-amber-300'
+                      : ''
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className={`p-2 rounded-xl ${
+                          group.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'
+                        }`}>
+                          {group.type === 'owed-to-me' ? (
+                            <ArrowDownLeft size={18} className="text-emerald-600" />
+                          ) : (
+                            <ArrowUpRight size={18} className="text-red-600" />
+                          )}
+                        </div>
+                        <h3 className="font-semibold text-slate-800">{contact?.name || 'Unknown'}</h3>
+                      </div>
+                      <div className={`text-xl font-bold ${
+                        group.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'
+                      }`}>
+                        {group.type === 'owed-to-me' ? '+' : '-'}
+                        {formatCurrency(group.totalAmount, currency)}
+                      </div>
+                      <div className="text-sm text-slate-500 mt-1">
+                        {group.debts.length} debt{group.debts.length !== 1 ? 's' : ''}
+                      </div>
+                    </div>
+                    <ChevronRight size={18} className="text-slate-400" />
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       )}
     </div>

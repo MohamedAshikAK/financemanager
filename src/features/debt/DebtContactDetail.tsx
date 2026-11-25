@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trash2, Edit, Check, ArrowDownLeft, ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowLeft, Trash2, Edit, Check, ArrowDownLeft, ArrowUpRight, Plus, CheckCircle } from 'lucide-react';
 import { useDebtStore } from '../../store/debtStore';
 import { useContactStore } from '../../store/contactStore';
 import { useSettingsStore } from '../../store/settingsStore';
@@ -13,10 +13,12 @@ export default function DebtContactDetail() {
   const debts = useDebtStore((state) => state.debts);
   const deleteDebt = useDebtStore((state) => state.deleteDebt);
   const markAsPaid = useDebtStore((state) => state.markAsPaid);
+  const settleDebt = useDebtStore((state) => state.settleDebt);
   const getContact = useContactStore((state) => state.getContact);
   const currency = useSettingsStore((state) => state.currency);
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [showSettleConfirm, setShowSettleConfirm] = useState<string | null>(null);
 
   const contact = contactId ? getContact(contactId) : null;
   const contactDebts = debts.filter(debt => debt.personId === contactId && !debt.isPaid);
@@ -29,6 +31,11 @@ export default function DebtContactDetail() {
 
   const handleMarkPaid = (id: string) => {
     markAsPaid(id);
+  };
+
+  const handleSettle = (id: string) => {
+    settleDebt(id);
+    setShowSettleConfirm(null);
   };
 
   const handleAddDebt = () => {
@@ -84,8 +91,8 @@ export default function DebtContactDetail() {
                       {formatCurrency(debt.amount, currency)}
                     </div>
                   </div>
-                  <button onClick={() => handleMarkPaid(debt.id)} className="p-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors">
-                    <Check size={18} />
+                  <button onClick={() => setShowSettleConfirm(debt.id)} className="p-3 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-xl transition-colors" title="Settle debt">
+                    <CheckCircle size={18} />
                   </button>
                 </div>
 
@@ -106,6 +113,16 @@ export default function DebtContactDetail() {
                 </div>
 
                 {debt.note && <div className="text-sm text-slate-600 mt-3">{debt.note}</div>}
+
+                {showSettleConfirm === debt.id && (
+                  <div className="mt-4 pt-4 border-t border-slate-100">
+                    <p className="text-sm text-slate-600 mb-3">Settle this debt? It will be moved to history.</p>
+                    <div className="flex gap-2">
+                      <button onClick={() => setShowSettleConfirm(null)} className="flex-1 btn-secondary">Cancel</button>
+                      <button onClick={() => handleSettle(debt.id)} className="flex-1 btn-primary">Settle</button>
+                    </div>
+                  </div>
+                )}
 
                 {showDeleteConfirm === debt.id && (
                   <div className="mt-4 pt-4 border-t border-slate-100">
