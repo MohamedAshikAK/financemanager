@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useContactStore } from '../../store/contactStore';
 import { sanitizeInput, sanitizeEmail, sanitizePhone } from '../../utils/sanitize';
-import { useToast } from '../../components/Toast';
+import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
   name: string;
@@ -19,7 +19,7 @@ export default function ContactsForm() {
   const updateContact = useContactStore((state) => state.updateContact);
   const getContact = useContactStore((state) => state.getContact);
   const isHydrated = useContactStore((state) => state.isHydrated);
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
 
   const action = searchParams.get('action') || 'add';
   const contactId = searchParams.get('id');

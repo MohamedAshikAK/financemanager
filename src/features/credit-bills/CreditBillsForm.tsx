@@ -6,7 +6,7 @@ import { useCreditBillStore } from '../../store/creditBillStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
 import { sanitizeInput } from '../../utils/sanitize';
-import { useToast } from '../../components/Toast';
+import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
   cardName: string;
@@ -22,7 +22,7 @@ export default function CreditBillsForm() {
   const getBill = useCreditBillStore((state) => state.getBill);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useCreditBillStore((state) => state.isHydrated);
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
 
   const action = searchParams.get('action') || 'add';
   const billId = searchParams.get('id');

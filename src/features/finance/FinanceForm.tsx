@@ -6,7 +6,7 @@ import { useFinanceStore } from '../../store/financeStore';
 import { useSettingsStore } from '../../store/settingsStore';
 import { formatDate } from '../../utils/date';
 import { sanitizeInput } from '../../utils/sanitize';
-import { useToast } from '../../components/Toast';
+import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
   title: string;
@@ -26,7 +26,7 @@ export default function FinanceForm() {
   const getEntry = useFinanceStore((state) => state.getEntry);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useFinanceStore((state) => state.isHydrated);
-  const { addToast } = useToast();
+  const { addToast } = useToastStore();
 
   const action = searchParams.get('action') || 'add';
   const entryId = searchParams.get('id');
