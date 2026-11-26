@@ -48,7 +48,7 @@ export default function MonthlyDebtForm() {
       setIsLoading(true);
       const debt = getMonthlyDebt(debtId);
       if (debt) {
-        setValue('amount', debt.amount);
+        setValue('amount', String(debt.amount));
         setValue('type', debt.type);
         setValue('personId', debt.personId);
       } else {

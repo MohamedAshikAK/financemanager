@@ -50,7 +50,7 @@ export default function CreditBillsForm() {
       const bill = getBill(billId);
       if (bill) {
         setValue('cardName', bill.cardName);
-        setValue('currentAmount', bill.currentAmount);
+        setValue('currentAmount', String(bill.currentAmount));
         setValue('dueDate', formatDate(new Date(bill.dueDate), 'yyyy-MM-dd'));
       } else {
         navigate('/bills');

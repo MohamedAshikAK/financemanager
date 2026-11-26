@@ -50,7 +50,7 @@ export default function DebtForm() {
       setIsLoading(true);
       const debt = getDebt(debtId);
       if (debt) {
-        setValue('amount', debt.amount);
+        setValue('amount', String(debt.amount));
         setValue('type', debt.type);
         setValue('personId', debt.personId);
       } else {

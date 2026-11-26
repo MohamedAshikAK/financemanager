@@ -58,7 +58,7 @@ export default function FinanceForm() {
       const entry = getEntry(entryId);
       if (entry) {
         setValue('title', entry.title);
-        setValue('amount', entry.amount);
+        setValue('amount', String(entry.amount));
         setValue('type', entry.type);
         setValue('category', entry.category);
         setValue('date', formatDate(new Date(entry.date), 'yyyy-MM-dd'));
