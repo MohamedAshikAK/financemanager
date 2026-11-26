@@ -134,6 +134,18 @@ function Home() {
             </div>
             <ArrowRight size={18} />
           </button>
+          <button
+            onClick={() => navigate('/monthly-debt/form?action=add')}
+            className="w-full bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-blue-500/30 transition-all duration-200 active:scale-95"
+          >
+            <div className="flex items-center gap-2">
+              <div className="p-2 bg-white/20 rounded-xl">
+                <Plus size={18} />
+              </div>
+              <span>Add Monthly Debt</span>
+            </div>
+            <ArrowRight size={18} />
+          </button>
         </div>
       </div>
 
