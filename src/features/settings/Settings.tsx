@@ -4,6 +4,7 @@ import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database,
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { useFinanceStore } from '../../store/financeStore';
 import { useLoanStore } from '../../store/loansStore';
+import { useMonthlyDebtStore } from '../../store/monthlyDebtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useContactStore } from '../../store/contactStore';
 import { useToastStore } from '../../store/toastStore';
@@ -23,6 +24,8 @@ export default function Settings() {
   
   const addEntry = useFinanceStore((state) => state.addEntry);
   const addLoan = useLoanStore((state) => state.addLoan);
+  const addPayment = useLoanStore((state) => state.addPayment);
+  const addMonthlyDebt = useMonthlyDebtStore((state) => state.addMonthlyDebt);
   const addBill = useCreditBillStore((state) => state.addBill);
   const addContact = useContactStore((state) => state.addContact);
 
@@ -156,8 +159,25 @@ export default function Settings() {
       { title: 'Personal Loan', initialAmount: 20000, type: 'personal', personId: contactIds[1], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
     ];
     
+    const loanIds: string[] = [];
     sampleLoans.forEach(loan => {
-      addLoan(loan);
+      const id = addLoan(loan);
+      loanIds.push(id);
+    });
+
+    // Add sample payments to loans
+    addPayment(loanIds[0], { amount: 10000, date: new Date().toISOString(), note: 'First payment' });
+    addPayment(loanIds[0], { amount: 10000, date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(), note: 'Second payment' });
+    addPayment(loanIds[1], { amount: 5000, date: new Date().toISOString(), note: 'First payment' });
+
+    // Add sample monthly debts
+    const sampleMonthlyDebts = [
+      { amount: 5000, type: 'owed-to-me' as const, personId: contactIds[0], dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), note: 'Monthly installment', isPaid: false },
+      { amount: 3000, type: 'owed-by-me' as const, personId: contactIds[1], dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), note: 'Monthly subscription', isPaid: false },
+    ];
+    
+    sampleMonthlyDebts.forEach(debt => {
+      addMonthlyDebt(debt);
     });
 
     // Add sample credit bills

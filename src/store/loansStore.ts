@@ -29,7 +29,7 @@ interface LoanState {
   isHydrated: boolean;
   
   // Actions
-  addLoan: (loan: Omit<Loan, 'id' | 'createdAt' | 'updatedAt' | 'payments'>) => void;
+  addLoan: (loan: Omit<Loan, 'id' | 'createdAt' | 'updatedAt' | 'payments'>) => string;
   updateLoan: (id: string, loan: Partial<Loan>) => void;
   deleteLoan: (id: string) => void;
   getLoan: (id: string) => Loan | undefined;
@@ -57,6 +57,7 @@ export const useLoanStore = create<LoanState>()(
             updatedAt: new Date().toISOString(),
           };
           set((state) => ({ loans: [...state.loans, newLoan] }));
+          return newLoan.id;
         } catch (error) {
           console.error('Error adding loan:', error);
           throw new Error('Failed to add loan');
