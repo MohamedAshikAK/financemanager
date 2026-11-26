@@ -157,61 +157,61 @@ function Home() {
             onClick={() => navigate('/finance')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
-                <Wallet size={18} className="text-blue-600" />
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="p-2.5 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                <Wallet size={16} className="text-blue-600" />
               </div>
-              <span className="font-semibold text-slate-800">Expense</span>
+              <span className="font-semibold text-slate-800 text-sm truncate">Expense</span>
             </div>
-            <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
           </button>
           <button
             onClick={() => navigate('/loans')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-3 bg-purple-100 rounded-xl group-hover:scale-110 transition-transform">
-                <CreditCard size={18} className="text-purple-600" />
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="p-2.5 bg-purple-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                <CreditCard size={16} className="text-purple-600" />
               </div>
-              <span className="font-semibold text-slate-800">Loan & Chits</span>
+              <span className="font-semibold text-slate-800 text-sm truncate">Loan & Chits</span>
             </div>
-            <ArrowRight size={18} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={16} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
           </button>
           <button
             onClick={() => navigate('/monthly-debt')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
-                <Calendar size={18} className="text-blue-600" />
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="p-2.5 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                <Calendar size={16} className="text-blue-600" />
               </div>
-              <span className="font-semibold text-slate-800">Monthly Debts</span>
+              <span className="font-semibold text-slate-800 text-sm truncate">Monthly Debts</span>
             </div>
-            <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={16} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
           </button>
           <button
             onClick={() => navigate('/bills')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-3 bg-amber-100 rounded-xl group-hover:scale-110 transition-transform">
-                <AlertCircle size={18} className="text-amber-600" />
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="p-2.5 bg-amber-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                <AlertCircle size={16} className="text-amber-600" />
               </div>
-              <span className="font-semibold text-slate-800">Credit Bills</span>
+              <span className="font-semibold text-slate-800 text-sm truncate">Credit Bills</span>
             </div>
-            <ArrowRight size={18} className="text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={16} className="text-slate-400 group-hover:text-amber-600 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
           </button>
           <button
             onClick={() => navigate('/contacts')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
-            <div className="flex items-center gap-2">
-              <div className="p-3 bg-teal-100 rounded-xl group-hover:scale-110 transition-transform">
-                <User size={18} className="text-teal-600" />
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <div className="p-2.5 bg-teal-100 rounded-xl group-hover:scale-110 transition-transform flex-shrink-0">
+                <User size={16} className="text-teal-600" />
               </div>
-              <span className="font-semibold text-slate-800">Contacts</span>
+              <span className="font-semibold text-slate-800 text-sm truncate">Contacts</span>
             </div>
-            <ArrowRight size={18} className="text-slate-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-all" />
+            <ArrowRight size={16} className="text-slate-400 group-hover:text-teal-600 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
           </button>
         </div>
       </div>
