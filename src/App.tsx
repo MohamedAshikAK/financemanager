@@ -19,7 +19,6 @@ import ContactsList from './features/contacts/ContactsList';
 import ContactsForm from './features/contacts/ContactsForm';
 import CreditBillsList from './features/credit-bills/CreditBillsList';
 import CreditBillsForm from './features/credit-bills/CreditBillsForm';
-import Backup from './features/backup/Backup';
 import Settings from './features/settings/Settings';
 import { useToastStore } from './store/toastStore';
 
@@ -47,7 +46,6 @@ function App() {
               <Route path="/contacts/form" element={<ContactsForm />} />
               <Route path="/bills" element={<CreditBillsList />} />
               <Route path="/bills/form" element={<CreditBillsForm />} />
-              <Route path="/backup" element={<Backup />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </Layout>

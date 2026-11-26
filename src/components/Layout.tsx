@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Wallet, CreditCard, FileText, User, Settings, Database, Calendar } from 'lucide-react';
+import { Home, Wallet, CreditCard, FileText, User, Settings, Calendar } from 'lucide-react';
 
 const navItems = [
   { path: '/', label: 'Home', icon: Home },
@@ -8,7 +8,6 @@ const navItems = [
   { path: '/monthly-debt', label: 'Monthly', icon: Calendar },
   { path: '/bills', label: 'Bills', icon: FileText },
   { path: '/contacts', label: 'Contacts', icon: User },
-  { path: '/backup', label: 'Backup', icon: Database },
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 

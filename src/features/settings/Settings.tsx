@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun, Type } from 'lucide-react';
+import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun, Type, Download, Upload } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { useFinanceStore } from '../../store/financeStore';
 import { useLoanStore } from '../../store/loansStore';
@@ -29,11 +29,93 @@ export default function Settings() {
   const addBill = useCreditBillStore((state) => state.addBill);
   const addContact = useContactStore((state) => state.addContact);
 
+  const financeEntries = useFinanceStore((state) => state.entries);
+  const loanEntries = useLoanStore((state) => state.loans);
+  const monthlyDebtEntries = useMonthlyDebtStore((state) => state.monthlyDebts);
+  const creditBills = useCreditBillStore((state) => state.bills);
+  const contacts = useContactStore((state) => state.contacts);
+
+  const setFinanceEntries = useFinanceStore((state) => state.setEntries);
+  const setLoanEntries = useLoanStore((state) => state.setLoans);
+  const setMonthlyDebtEntries = useMonthlyDebtStore((state) => state.setMonthlyDebts);
+  const setCreditBills = useCreditBillStore((state) => state.setBills);
+  const setContacts = useContactStore((state) => state.setContacts);
+
   const [showPinChange, setShowPinChange] = useState(false);
   const [showPinEnable, setShowPinEnable] = useState(false);
   const [showPinDisable, setShowPinDisable] = useState(false);
   const [showClearData, setShowClearData] = useState(false);
   const [showSampleData, setShowSampleData] = useState(false);
+  const [showImportConfirm, setShowImportConfirm] = useState(false);
+  const [importData, setImportData] = useState<any>(null);
+
+  const handleExport = () => {
+    const data = {
+      version: '1.0',
+      exportDate: new Date().toISOString(),
+      finance: financeEntries,
+      loans: loanEntries,
+      monthlyDebts: monthlyDebtEntries,
+      creditBills: creditBills,
+      contacts: contacts,
+      settings: { currency, pin },
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pocketfinance-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addToast('success', 'Backup exported successfully');
+  };
+
+  const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target?.result as string);
+        if (!data.finance || !data.loans || !data.creditBills || !data.contacts || !data.settings) {
+          addToast('error', 'Invalid backup file format');
+          return;
+        }
+        setImportData(data);
+        setShowImportConfirm(true);
+      } catch (error) {
+        addToast('error', 'Failed to read backup file');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const confirmImport = () => {
+    if (!importData) return;
+
+    try {
+      setFinanceEntries(importData.finance || []);
+      setLoanEntries(importData.loans || []);
+      setMonthlyDebtEntries(importData.monthlyDebts || []);
+      setCreditBills(importData.creditBills || []);
+      setContacts(importData.contacts || []);
+      
+      if (importData.settings?.currency) {
+        setCurrency(importData.settings.currency);
+      }
+      if (importData.settings?.pin) {
+        setPinStore(importData.settings.pin);
+      }
+
+      setShowImportConfirm(false);
+      setImportData(null);
+      addToast('success', 'Backup imported successfully');
+    } catch (error) {
+      addToast('error', 'Failed to import backup');
+    }
+  };
   const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -224,6 +306,28 @@ export default function Settings() {
             <option key={curr.code} value={curr.code}>{curr.name}</option>
           ))}
         </select>
+      </div>
+
+      <div className="card p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="p-3 bg-blue-100 rounded-xl">
+            <Database size={18} className="text-blue-600" />
+          </div>
+          <h2 className="font-semibold text-slate-800 dark:text-white">Backup & Restore</h2>
+        </div>
+        <div className="space-y-2">
+          <button onClick={handleExport} className="w-full btn-secondary flex items-center justify-center gap-2">
+            <Download size={18} />
+            Export Backup
+          </button>
+          <div className="relative">
+            <input type="file" accept=".json" onChange={handleImport} className="hidden" id="import-file" />
+            <label htmlFor="import-file" className="w-full btn-secondary flex items-center justify-center gap-2 cursor-pointer">
+              <Upload size={18} />
+              Import Backup
+            </label>
+          </div>
+        </div>
       </div>
 
       <div className="card p-3">
@@ -433,6 +537,26 @@ export default function Settings() {
             <div className="flex gap-2">
               <button onClick={() => setShowSampleData(false)} className="flex-1 btn-secondary">Cancel</button>
               <button onClick={handleLoadSampleData} className="flex-1 btn-primary">Load Data</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showImportConfirm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-start gap-2 mb-4">
+              <div className="p-3 bg-blue-100 rounded-xl flex-shrink-0">
+                <Database size={18} className="text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Import Backup?</h3>
+                <p className="text-sm text-slate-600">This will replace all your current data with the backup. This action cannot be undone.</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setShowImportConfirm(false)} className="flex-1 btn-secondary">Cancel</button>
+              <button onClick={confirmImport} className="flex-1 btn-primary">Import</button>
             </div>
           </div>
         </div>
