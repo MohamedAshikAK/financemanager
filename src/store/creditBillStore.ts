@@ -71,16 +71,22 @@ export const useCreditBillStore = create<CreditBillState>()(
       
       settleBill: (id) => {
         set((state) => ({
-          bills: state.bills.map((bill) =>
-            bill.id === id
-              ? { 
-                  ...bill, 
-                  currentAmount: null, 
-                  isPaid: true, 
-                  updatedAt: new Date().toISOString() 
-                }
-              : bill
-          ),
+          bills: state.bills.map((bill) => {
+            if (bill.id !== id) return bill;
+            
+            // Calculate next month's due date
+            const currentDueDate = new Date(bill.dueDate);
+            const nextDueDate = new Date(currentDueDate);
+            nextDueDate.setMonth(nextDueDate.getMonth() + 1);
+            
+            return { 
+              ...bill, 
+              currentAmount: null, 
+              isPaid: true, 
+              dueDate: nextDueDate.toISOString(),
+              updatedAt: new Date().toISOString() 
+            };
+          }),
         }));
       },
       
