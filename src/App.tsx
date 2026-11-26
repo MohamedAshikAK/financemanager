@@ -8,9 +8,10 @@ import AuthGuard from './features/auth/AuthGuard';
 import Home from './features/Home';
 import FinanceList from './features/finance/FinanceList';
 import FinanceForm from './features/finance/FinanceForm';
-import DebtList from './features/debt/DebtList';
-import DebtForm from './features/debt/DebtForm';
-import DebtContactDetail from './features/debt/DebtContactDetail';
+import LoansList from './features/loans/LoansList';
+import LoanForm from './features/loans/LoanForm';
+import LoanDetail from './features/loans/LoanDetail';
+import PaymentForm from './features/loans/PaymentForm';
 import MonthlyDebtList from './features/monthly-debt/MonthlyDebtList';
 import MonthlyDebtForm from './features/monthly-debt/MonthlyDebtForm';
 import MonthlyDebtContactDetail from './features/monthly-debt/MonthlyDebtContactDetail';
@@ -35,9 +36,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/finance" element={<FinanceList />} />
               <Route path="/finance/form" element={<FinanceForm />} />
-              <Route path="/debt" element={<DebtList />} />
-              <Route path="/debt/form" element={<DebtForm />} />
-              <Route path="/debt/contact/:contactId" element={<DebtContactDetail />} />
+              <Route path="/loans" element={<LoansList />} />
+              <Route path="/loans/form" element={<LoanForm />} />
+              <Route path="/loans/:id" element={<LoanDetail />} />
+              <Route path="/loans/:id/payment" element={<PaymentForm />} />
               <Route path="/monthly-debt" element={<MonthlyDebtList />} />
               <Route path="/monthly-debt/form" element={<MonthlyDebtForm />} />
               <Route path="/monthly-debt/contact/:contactId" element={<MonthlyDebtContactDetail />} />

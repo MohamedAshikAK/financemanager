@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Download, Upload, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { useFinanceStore } from '../../store/financeStore';
-import { useDebtStore } from '../../store/debtStore';
+import { useLoanStore } from '../../store/loansStore';
 import { useMonthlyDebtStore } from '../../store/monthlyDebtStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useContactStore } from '../../store/contactStore';
@@ -15,7 +15,7 @@ export default function Backup() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const financeEntries = useFinanceStore((state) => state.entries);
-  const debtEntries = useDebtStore((state) => state.debts);
+  const loanEntries = useLoanStore((state) => state.loans);
   const monthlyDebtEntries = useMonthlyDebtStore((state) => state.monthlyDebts);
   const creditBills = useCreditBillStore((state) => state.bills);
   const contacts = useContactStore((state) => state.contacts);
@@ -23,7 +23,7 @@ export default function Backup() {
   const pin = useSettingsStore((state) => state.pin);
 
   const setFinanceEntries = useFinanceStore((state) => state.setEntries);
-  const setDebtEntries = useDebtStore((state) => state.setDebts);
+  const setLoanEntries = useLoanStore((state) => state.setLoans);
   const setMonthlyDebtEntries = useMonthlyDebtStore((state) => state.setMonthlyDebts);
   const setCreditBills = useCreditBillStore((state) => state.setBills);
   const setContacts = useContactStore((state) => state.setContacts);
@@ -35,7 +35,7 @@ export default function Backup() {
       version: '1.0',
       exportDate: new Date().toISOString(),
       finance: financeEntries,
-      debts: debtEntries,
+      loans: loanEntries,
       monthlyDebts: monthlyDebtEntries,
       creditBills: creditBills,
       contacts: contacts,
@@ -64,7 +64,7 @@ export default function Backup() {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target?.result as string);
-        if (!data.finance || !data.debts || !data.creditBills || !data.contacts || !data.settings) {
+        if (!data.finance || !data.loans || !data.creditBills || !data.contacts || !data.settings) {
           setMessage({ type: 'error', text: 'Invalid backup file format' });
           setTimeout(() => setMessage(null), 3000);
           return;
@@ -84,7 +84,7 @@ export default function Backup() {
 
     try {
       setFinanceEntries(importData.finance || []);
-      setDebtEntries(importData.debts || []);
+      setLoanEntries(importData.loans || []);
       setMonthlyDebtEntries(importData.monthlyDebts || []);
       setCreditBills(importData.creditBills || []);
       setContacts(importData.contacts || []);

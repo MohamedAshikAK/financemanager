@@ -69,7 +69,7 @@ function FinanceList() {
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
         <div>
-          <h1 className="text-xl font-bold text-slate-800">Monthly Expenses</h1>
+          <h1 className="text-xl font-bold text-slate-800">Expense</h1>
           <p className="text-sm text-slate-500">{currentMonthDisplay}</p>
         </div>
       </div>

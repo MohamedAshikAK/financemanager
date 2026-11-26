@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
-import { useDebtStore } from '../store/debtStore';
+import { useLoanStore } from '../store/loansStore';
 import { useMonthlyDebtStore } from '../store/monthlyDebtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
 import { useSettingsStore } from '../store/settingsStore';
@@ -10,22 +10,18 @@ import { isDueSoon, isOverdue } from '../utils/date';
 
 function Home() {
   const navigate = useNavigate();
-  const debts = useDebtStore((state) => state.debts);
+  const loans = useLoanStore((state) => state.loans);
   const monthlyDebts = useMonthlyDebtStore((state) => state.monthlyDebts);
   const bills = useCreditBillStore((state) => state.bills);
   const currency = useSettingsStore((state) => state.currency);
-  const isHydrated = useDebtStore((state) => state.isHydrated);
+  const isHydrated = useLoanStore((state) => state.isHydrated);
 
-  const pendingDebts = debts.filter(d => !d.isPaid);
+  const pendingLoans = loans.filter(l => !l.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
   
-  const owedToMe = pendingDebts
-    .filter(d => d.type === 'owed-to-me')
-    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
-  const owedByMe = pendingDebts
-    .filter(d => d.type === 'owed-by-me')
-    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
-  const netBalance = owedToMe - owedByMe;
+  const totalInitialAmount = pendingLoans.reduce((sum, l) => sum + l.initialAmount, 0);
+  const totalPaid = pendingLoans.reduce((sum, l) => sum + l.payments.reduce((pSum, p) => pSum + p.amount, 0), 0);
+  const netBalance = totalInitialAmount - totalPaid;
   
   const upcomingBills = bills.filter(b => !b.isPaid && isDueSoon(b.dueDate)).length;
   const overdueBills = bills.filter(b => !b.isPaid && isOverdue(b.dueDate)).length;
@@ -52,7 +48,7 @@ function Home() {
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-white/80">Monthly Debt Balance</span>
+            <span className="text-sm font-medium text-white/80">Loan Balance</span>
             <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
               <CreditCard size={18} />
             </div>
@@ -66,8 +62,8 @@ function Home() {
                 <TrendingUp size={16} />
               </div>
               <div>
-                <div className="text-xs text-white/70">Owed to Me</div>
-                <div className="font-semibold">{formatCurrency(owedToMe, currency)}</div>
+                <div className="text-xs text-white/70">Initial</div>
+                <div className="font-semibold">{formatCurrency(totalInitialAmount, currency)}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -75,8 +71,8 @@ function Home() {
                 <TrendingDown size={16} />
               </div>
               <div>
-                <div className="text-xs text-white/70">Owed by Me</div>
-                <div className="font-semibold">{formatCurrency(owedByMe, currency)}</div>
+                <div className="text-xs text-white/70">Paid</div>
+                <div className="font-semibold">{formatCurrency(totalPaid, currency)}</div>
               </div>
             </div>
           </div>
@@ -90,10 +86,10 @@ function Home() {
             <div className="p-3 bg-orange-100 rounded-xl">
               <CreditCard size={18} className="text-orange-600" />
             </div>
-            <span className="text-sm font-medium text-slate-600">Monthly Debts</span>
+            <span className="text-sm font-medium text-slate-600">Loans</span>
           </div>
           <div className="text-3xl font-bold text-slate-800">
-            {pendingDebts.length}
+            {pendingLoans.length}
           </div>
         </div>
         <div className="stat-card hover:shadow-md transition-shadow duration-200">
@@ -101,7 +97,7 @@ function Home() {
             <div className="p-3 bg-blue-100 rounded-xl">
               <Calendar size={18} className="text-blue-600" />
             </div>
-            <span className="text-sm font-medium text-slate-600">Debts</span>
+            <span className="text-sm font-medium text-slate-600">Monthly Debts</span>
           </div>
           <div className="text-3xl font-bold text-slate-800">
             {pendingMonthlyDebts.length}
@@ -127,14 +123,14 @@ function Home() {
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h2>
         <div className="space-y-3">
           <button
-            onClick={() => navigate('/debt/form?action=add')}
+            onClick={() => navigate('/loans/form?action=add')}
             className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-purple-500/30 transition-all duration-200 active:scale-95"
           >
             <div className="flex items-center gap-2">
               <div className="p-2 bg-white/20 rounded-xl">
                 <Plus size={18} />
               </div>
-              <span>Add Monthly Debt</span>
+              <span>Add Loan</span>
             </div>
             <ArrowRight size={18} />
           </button>
@@ -153,19 +149,19 @@ function Home() {
               <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
                 <Wallet size={18} className="text-blue-600" />
               </div>
-              <span className="font-semibold text-slate-800">Finance</span>
+              <span className="font-semibold text-slate-800">Expense</span>
             </div>
             <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
           </button>
           <button
-            onClick={() => navigate('/debt')}
+            onClick={() => navigate('/loans')}
             className="w-full card hover:shadow-md transition-all duration-200 p-3 flex items-center justify-between group"
           >
             <div className="flex items-center gap-2">
               <div className="p-3 bg-purple-100 rounded-xl group-hover:scale-110 transition-transform">
                 <CreditCard size={18} className="text-purple-600" />
               </div>
-              <span className="font-semibold text-slate-800">Monthly Debts</span>
+              <span className="font-semibold text-slate-800">Loans</span>
             </div>
             <ArrowRight size={18} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
           </button>
@@ -177,7 +173,7 @@ function Home() {
               <div className="p-3 bg-blue-100 rounded-xl group-hover:scale-110 transition-transform">
                 <Calendar size={18} className="text-blue-600" />
               </div>
-              <span className="font-semibold text-slate-800">Debts</span>
+              <span className="font-semibold text-slate-800">Monthly Debts</span>
             </div>
             <ArrowRight size={18} className="text-slate-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
           </button>

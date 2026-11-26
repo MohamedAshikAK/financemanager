@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DollarSign, Lock, LockOpen, Trash2, AlertTriangle, ArrowLeft, Database, Moon, Sun, Type } from 'lucide-react';
 import { useSettingsStore, verifyPin } from '../../store/settingsStore';
 import { useFinanceStore } from '../../store/financeStore';
-import { useDebtStore } from '../../store/debtStore';
+import { useLoanStore } from '../../store/loansStore';
 import { useCreditBillStore } from '../../store/creditBillStore';
 import { useContactStore } from '../../store/contactStore';
 import { useToastStore } from '../../store/toastStore';
@@ -22,7 +22,7 @@ export default function Settings() {
   const addToast = useToastStore((state) => state.addToast);
   
   const addEntry = useFinanceStore((state) => state.addEntry);
-  const addDebt = useDebtStore((state) => state.addDebt);
+  const addLoan = useLoanStore((state) => state.addLoan);
   const addBill = useCreditBillStore((state) => state.addBill);
   const addContact = useContactStore((state) => state.addContact);
 
@@ -150,15 +150,14 @@ export default function Settings() {
       addEntry(entry);
     });
 
-    // Add sample debts
-    const sampleDebts = [
-      { amount: 5000, type: 'owed-to-me' as const, personId: contactIds[0], dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), note: 'Loan for emergency', isPaid: false },
-      { amount: 2000, type: 'owed-by-me' as const, personId: contactIds[1], dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), note: 'Borrowed for dinner', isPaid: false },
-      { amount: 8000, type: 'owed-to-me' as const, personId: contactIds[0], dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), note: 'Shared expenses', isPaid: false },
+    // Add sample loans
+    const sampleLoans = [
+      { title: 'Gold Loan', initialAmount: 50000, type: 'gold', personId: contactIds[0], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+      { title: 'Personal Loan', initialAmount: 20000, type: 'personal', personId: contactIds[1], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
     ];
     
-    sampleDebts.forEach(debt => {
-      addDebt(debt);
+    sampleLoans.forEach(loan => {
+      addLoan(loan);
     });
 
     // Add sample credit bills

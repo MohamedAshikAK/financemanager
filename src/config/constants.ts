@@ -10,7 +10,7 @@ export const CONFIG = {
   STORAGE: {
     KEYS: {
       FINANCE: 'pocket-finances-finance',
-      DEBTS: 'pocket-finances-debts',
+      LOANS: 'pocket-finances-loans',
       BILLS: 'pocket-finances-bills',
       CONTACTS: 'pocket-finances-contacts',
       SETTINGS: 'pocket-finances-settings',
