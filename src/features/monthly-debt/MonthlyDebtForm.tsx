@@ -7,7 +7,7 @@ import { useContactStore } from '../../store/contactStore';
 import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
-  amount: number;
+  amount: string;
   type: 'owed-to-me' | 'owed-by-me';
   personId: string;
 }
@@ -37,7 +37,7 @@ export default function MonthlyDebtForm() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      amount: 0,
+      amount: '',
       type: 'owed-by-me',
       personId: prefillPersonId,
     },
@@ -69,7 +69,7 @@ export default function MonthlyDebtForm() {
     
     try {
       const sanitizedData = {
-        amount: data.amount,
+        amount: Number(data.amount) || 0,
         type: data.type,
         personId: data.personId,
       };

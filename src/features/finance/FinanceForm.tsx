@@ -10,7 +10,7 @@ import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
   title: string;
-  amount: number;
+  amount: string;
   type: 'income' | 'expense';
   category: string;
   date: string;
@@ -43,7 +43,7 @@ export default function FinanceForm() {
   } = useForm<FormData>({
     defaultValues: {
       title: '',
-      amount: 0,
+      amount: '',
       type: prefillType || 'expense',
       category: '',
       date: formatDate(new Date(), 'yyyy-MM-dd'),
@@ -83,7 +83,7 @@ export default function FinanceForm() {
     try {
       const sanitizedData = {
         title: sanitizeInput(data.title),
-        amount: data.amount,
+        amount: Number(data.amount) || 0,
         type: data.type,
         category: sanitizeInput(data.category),
         date: new Date(data.date).toISOString(),

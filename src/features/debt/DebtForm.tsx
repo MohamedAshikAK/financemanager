@@ -8,7 +8,7 @@ import { useSettingsStore } from '../../store/settingsStore';
 import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
-  amount: number;
+  amount: string;
   type: 'owed-to-me' | 'owed-by-me';
   personId: string;
 }
@@ -39,7 +39,7 @@ export default function DebtForm() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      amount: 0,
+      amount: '',
       type: 'owed-by-me',
       personId: prefillPersonId,
     },
@@ -71,7 +71,7 @@ export default function DebtForm() {
     
     try {
       const sanitizedData = {
-        amount: data.amount,
+        amount: Number(data.amount) || 0,
         type: data.type,
         personId: data.personId,
       };

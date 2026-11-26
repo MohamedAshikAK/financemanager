@@ -10,7 +10,7 @@ import { useToastStore } from '../../store/toastStore';
 
 interface FormData {
   cardName: string;
-  currentAmount: number;
+  currentAmount: string;
   dueDate: string;
 }
 
@@ -38,7 +38,7 @@ export default function CreditBillsForm() {
   } = useForm<FormData>({
     defaultValues: {
       cardName: '',
-      currentAmount: 0,
+      currentAmount: '',
       dueDate: formatDate(new Date(), 'yyyy-MM-dd'),
     },
   });
@@ -65,7 +65,7 @@ export default function CreditBillsForm() {
     try {
       const sanitizedData = {
         cardName: sanitizeInput(data.cardName),
-        currentAmount: data.currentAmount,
+        currentAmount: Number(data.currentAmount) || 0,
         dueDate: new Date(data.dueDate).toISOString(),
       };
 
