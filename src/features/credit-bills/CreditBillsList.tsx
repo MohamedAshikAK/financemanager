@@ -75,7 +75,7 @@ function CreditBillsList() {
                 key={bill.id}
                 className={`card hover:shadow-md transition-all duration-200 p-3 ${
                   overdue ? 'border-red-300' : dueSoon ? 'border-amber-300' : ''
-                }`}
+                } ${bill.isPaid ? 'opacity-50' : ''}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
@@ -94,9 +94,9 @@ function CreditBillsList() {
                         </div>
                       )}
                       <div className={`text-sm font-bold ${
-                        bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
+                        bill.isPaid ? 'text-slate-400' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                       }`}>
-                        {bill.isPaid ? 'Settled' : formatCurrency(bill.currentAmount, currency)}
+                        {formatCurrency(bill.currentAmount, currency)}
                       </div>
                     </div>
                   </div>
