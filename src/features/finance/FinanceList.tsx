@@ -128,12 +128,14 @@ function FinanceList() {
                       {entry.isRecurring && (
                         <Repeat size={14} className="text-blue-500 flex-shrink-0" aria-label="Recurring" />
                       )}
-                      <div className={`text-sm font-medium flex-shrink-0 ${
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className={`text-sm font-medium ${
                         isPaid ? 'text-emerald-600' : 'text-slate-500'
                       }`}>
                         {isPaid ? '✓ Paid' : '○ Unpaid'}
                       </div>
-                      <div className={`text-lg font-bold flex-shrink-0 ${
+                      <div className={`text-sm font-bold ${
                         isPaid ? 'text-emerald-600' : 'text-slate-800'
                       }`}>
                         {formatCurrency(entry.amount, currency)}

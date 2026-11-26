@@ -227,16 +227,18 @@ function MonthlyDebtList() {
                         {contact?.name?.charAt(0).toUpperCase() || '?'}
                       </div>
                       <h3 className="font-semibold text-slate-800 truncate">{contact?.name || 'Unknown'}</h3>
-                      <div className="text-xs text-slate-500 flex-shrink-0">
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="text-xs text-slate-500">
                         {contactDebts.length} debt{contactDebts.length !== 1 ? 's' : ''}
                       </div>
-                      <div className={`text-lg font-bold flex-shrink-0 ${
+                      <div className={`text-sm font-bold ${
                         netBalance > 0 ? 'text-emerald-600' : 
                         netBalance < 0 ? 'text-red-600' : 'text-slate-800'
                       }`}>
                         {netBalance > 0 ? '+' : ''}{formatCurrency(Math.abs(netBalance), currency)}
                       </div>
-                      <div className="text-xs text-slate-500 flex-shrink-0">
+                      <div className="text-xs text-slate-500">
                         {formatDate(lastDate.createdAt)}
                       </div>
                     </div>

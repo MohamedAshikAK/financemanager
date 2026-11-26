@@ -84,14 +84,16 @@ function CreditBillsList() {
                         <CreditCard size={16} className="text-blue-600" />
                       </div>
                       <h3 className="font-semibold text-slate-800 truncate">{bill.cardName}</h3>
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
                       {bill.dueDate && (
-                        <div className={`text-xs font-medium flex-shrink-0 ${
+                        <div className={`text-xs font-medium ${
                           overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-500'
                         }`}>
                           {overdue ? `Overdue: ${formatDate(bill.dueDate)}` : dueSoon ? `Due: ${formatDate(bill.dueDate)}` : formatDate(bill.dueDate)}
                         </div>
                       )}
-                      <div className={`text-lg font-bold flex-shrink-0 ${
+                      <div className={`text-sm font-bold ${
                         bill.isPaid ? 'text-emerald-600' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                       }`}>
                         {bill.isPaid ? 'Settled' : formatCurrency(bill.currentAmount, currency)}
