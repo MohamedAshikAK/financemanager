@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icon-192.png', 'icon-512.png', 'icon-192.svg', 'icon-512.svg'],
       manifest: {
-        name: 'Pocket Finances',
-        short_name: 'Pocket Finances',
+        name: 'PocketFinance',
+        short_name: 'PocketFinance',
         description: 'Personal finance manager PWA',
         theme_color: '#2563eb',
         background_color: '#f1f5f9',
