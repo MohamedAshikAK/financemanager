@@ -96,13 +96,13 @@ function CreditBillsList() {
                       <div className={`text-sm font-bold ${
                         bill.isPaid ? 'text-slate-400' : overdue ? 'text-red-600' : dueSoon ? 'text-amber-600' : 'text-slate-800'
                       }`}>
-                        {formatCurrency(bill.currentAmount, currency)}
+                        {bill.currentAmount !== null ? formatCurrency(bill.currentAmount, currency) : 'Not set'}
                       </div>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-2 flex-shrink-0 ml-3">
-                    {!bill.isPaid && bill.currentAmount > 0 && (
+                    {!bill.isPaid && bill.currentAmount !== null && bill.currentAmount > 0 && (
                       <button onClick={() => handleSettle(bill.id)} className="p-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-600 rounded-xl transition-colors flex-shrink-0">
                         <Check size={16} />
                       </button>

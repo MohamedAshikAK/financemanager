@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 export interface CreditBill {
   id: string;
   cardName: string;
-  currentAmount: number;
+  currentAmount: number | null;
   dueDate: string;
   isPaid: boolean;
   createdAt: string;
@@ -75,7 +75,7 @@ export const useCreditBillStore = create<CreditBillState>()(
             bill.id === id
               ? { 
                   ...bill, 
-                  currentAmount: 0, 
+                  currentAmount: null, 
                   isPaid: true, 
                   updatedAt: new Date().toISOString() 
                 }
