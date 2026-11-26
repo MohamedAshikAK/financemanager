@@ -4,7 +4,7 @@ import { Home, Wallet, CreditCard, FileText, User, Settings, Database, Calendar 
 const navItems = [
   { path: '/', label: 'Home', icon: Home },
   { path: '/finance', label: 'Expense', icon: Wallet },
-  { path: '/loans', label: 'Loan and Chits', icon: CreditCard },
+  { path: '/loans', label: 'Loan & Chits', icon: CreditCard },
   { path: '/monthly-debt', label: 'Monthly', icon: Calendar },
   { path: '/bills', label: 'Bills', icon: FileText },
   { path: '/contacts', label: 'Contacts', icon: User },

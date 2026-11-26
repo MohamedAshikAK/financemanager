@@ -41,7 +41,7 @@ export default function LoansList() {
         >
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-xl font-bold text-slate-800">Loan and Chits</h1>
+        <h1 className="text-xl font-bold text-slate-800">Loan & Chits</h1>
       </div>
 
       <button onClick={() => navigate('/loans/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2" aria-label="Add new loan">
