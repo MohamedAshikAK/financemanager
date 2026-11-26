@@ -70,7 +70,11 @@ export default function CreditBillsForm() {
       };
 
       if (action === 'edit' && billId) {
-        updateBill(billId, sanitizedData);
+        // If editing and amount is provided, reset isPaid to false to activate the bill again
+        const updateData = Number(data.currentAmount) > 0 
+          ? { ...sanitizedData, isPaid: false }
+          : sanitizedData;
+        updateBill(billId, updateData);
       } else {
         addBill({
           ...sanitizedData,
