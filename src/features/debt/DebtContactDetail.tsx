@@ -106,7 +106,6 @@ export default function DebtContactDetail() {
                       <div className={`p-1.5 rounded-xl flex-shrink-0 ${debt.type === 'owed-to-me' ? 'bg-emerald-100' : 'bg-red-100'}`}>
                         {debt.type === 'owed-to-me' ? <ArrowDownLeft size={16} className="text-emerald-600" /> : <ArrowUpRight size={16} className="text-red-600" />}
                       </div>
-                      <h3 className="font-semibold text-slate-800 truncate">{debt.type === 'owed-to-me' ? 'Owed to me' : 'Owed by me'}</h3>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className={`text-sm font-bold ${debt.type === 'owed-to-me' ? 'text-emerald-600' : 'text-red-600'}`}>
