@@ -155,8 +155,8 @@ export default function Settings() {
 
     // Add sample loans
     const sampleLoans = [
-      { title: 'Gold Loan', initialAmount: 50000, type: 'gold', personId: contactIds[0], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
-      { title: 'Personal Loan', initialAmount: 20000, type: 'personal', personId: contactIds[1], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+      { title: 'Gold Loan', initialAmount: 50000, type: 'loan' as const, personId: contactIds[0], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
+      { title: 'KSFE Chit', initialAmount: 20000, type: 'chit' as const, personId: contactIds[1], startDate: new Date().toISOString(), dueDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), isPaid: false },
     ];
     
     const loanIds: string[] = [];

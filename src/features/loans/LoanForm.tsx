@@ -9,7 +9,7 @@ import { useToastStore } from '../../store/toastStore';
 interface FormData {
   title: string;
   initialAmount: string;
-  type: string;
+  type: 'loan' | 'chit' | 'other';
   personId: string;
   startDate: string;
   dueDate: string;
@@ -35,12 +35,13 @@ export default function LoanForm() {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       title: '',
       initialAmount: '',
-      type: 'personal',
+      type: 'loan',
       personId: '',
       startDate: new Date().toISOString().split('T')[0],
       dueDate: '',
@@ -157,19 +158,46 @@ export default function LoanForm() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Loan Type</label>
-            <select
-              {...register('type', { required: 'Loan type is required' })}
-              className="input-field"
-              disabled={isSubmitting}
-            >
-              <option value="personal">Personal Loan</option>
-              <option value="gold">Gold Loan</option>
-              <option value="home">Home Loan</option>
-              <option value="car">Car Loan</option>
-              <option value="education">Education Loan</option>
-              <option value="other">Other</option>
-            </select>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Type</label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setValue('type', 'loan')}
+                className={`flex-1 py-2 px-4 rounded-xl font-semibold transition-all ${
+                  watch('type') === 'loan'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+                disabled={isSubmitting}
+              >
+                Loan
+              </button>
+              <button
+                type="button"
+                onClick={() => setValue('type', 'chit')}
+                className={`flex-1 py-2 px-4 rounded-xl font-semibold transition-all ${
+                  watch('type') === 'chit'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+                disabled={isSubmitting}
+              >
+                Chit
+              </button>
+              <button
+                type="button"
+                onClick={() => setValue('type', 'other')}
+                className={`flex-1 py-2 px-4 rounded-xl font-semibold transition-all ${
+                  watch('type') === 'other'
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+                disabled={isSubmitting}
+              >
+                Other
+              </button>
+            </div>
+            <input type="hidden" {...register('type', { required: 'Type is required' })} />
             {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
           </div>
 

@@ -86,7 +86,7 @@ function Home() {
             <div className="p-3 bg-orange-100 rounded-xl">
               <CreditCard size={18} className="text-orange-600" />
             </div>
-            <span className="text-sm font-medium text-slate-600">Loans</span>
+            <span className="text-sm font-medium text-slate-600">Loan and Chits</span>
           </div>
           <div className="text-3xl font-bold text-slate-800">
             {pendingLoans.length}
@@ -130,7 +130,7 @@ function Home() {
               <div className="p-2 bg-white/20 rounded-xl">
                 <Plus size={18} />
               </div>
-              <span>Add Loan</span>
+              <span>Add Loan/Chit</span>
             </div>
             <ArrowRight size={18} />
           </button>
@@ -173,7 +173,7 @@ function Home() {
               <div className="p-3 bg-purple-100 rounded-xl group-hover:scale-110 transition-transform">
                 <CreditCard size={18} className="text-purple-600" />
               </div>
-              <span className="font-semibold text-slate-800">Loans</span>
+              <span className="font-semibold text-slate-800">Loan and Chits</span>
             </div>
             <ArrowRight size={18} className="text-slate-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
           </button>

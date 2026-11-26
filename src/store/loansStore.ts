@@ -14,7 +14,7 @@ export interface Loan {
   id: string;
   title: string;
   initialAmount: number;
-  type: string;
+  type: 'loan' | 'chit' | 'other';
   personId: string;
   startDate: string;
   dueDate?: string;

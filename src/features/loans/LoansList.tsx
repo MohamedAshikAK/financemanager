@@ -41,7 +41,7 @@ export default function LoansList() {
         >
           <ArrowLeft size={18} aria-hidden="true" />
         </button>
-        <h1 className="text-xl font-bold text-slate-800">Loans</h1>
+        <h1 className="text-xl font-bold text-slate-800">Loan and Chits</h1>
       </div>
 
       <button onClick={() => navigate('/loans/form?action=add')} className="w-full btn-primary flex items-center justify-center gap-2" aria-label="Add new loan">
@@ -81,7 +81,10 @@ export default function LoansList() {
                       <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                         {contact?.name?.charAt(0).toUpperCase() || '?'}
                       </div>
-                      <h3 className="font-semibold text-slate-800 truncate">{loan.title}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-slate-800 truncate">{loan.title}</h3>
+                        <div className="text-xs text-slate-500 capitalize">{loan.type}</div>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <div className="text-xs text-slate-500">
