@@ -19,9 +19,13 @@ function Home() {
   const pendingLoans = loans.filter(l => !l.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
   
-  const totalInitialAmount = pendingLoans.reduce((sum, l) => sum + l.initialAmount, 0);
-  const totalPaid = pendingLoans.reduce((sum, l) => sum + l.payments.reduce((pSum, p) => pSum + p.amount, 0), 0);
-  const netBalance = totalInitialAmount - totalPaid;
+  const owedToMe = pendingMonthlyDebts
+    .filter(d => d.type === 'owed-to-me')
+    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+  const owedByMe = pendingMonthlyDebts
+    .filter(d => d.type === 'owed-by-me')
+    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0);
+  const netBalance = owedToMe - owedByMe;
   
   const upcomingBills = bills.filter(b => !b.isPaid && isDueSoon(b.dueDate)).length;
   const overdueBills = bills.filter(b => !b.isPaid && isOverdue(b.dueDate)).length;
@@ -48,7 +52,7 @@ function Home() {
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
         <div className="relative">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm font-medium text-white/80">Loan Balance</span>
+            <span className="text-sm font-medium text-white/80">Monthly Debt Balance</span>
             <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
               <CreditCard size={18} />
             </div>
@@ -62,8 +66,8 @@ function Home() {
                 <TrendingUp size={16} />
               </div>
               <div>
-                <div className="text-xs text-white/70">Initial</div>
-                <div className="font-semibold">{formatCurrency(totalInitialAmount, currency)}</div>
+                <div className="text-xs text-white/70">Owed to Me</div>
+                <div className="font-semibold">{formatCurrency(owedToMe, currency)}</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -71,8 +75,8 @@ function Home() {
                 <TrendingDown size={16} />
               </div>
               <div>
-                <div className="text-xs text-white/70">Paid</div>
-                <div className="font-semibold">{formatCurrency(totalPaid, currency)}</div>
+                <div className="text-xs text-white/70">Owed by Me</div>
+                <div className="font-semibold">{formatCurrency(owedByMe, currency)}</div>
               </div>
             </div>
           </div>
