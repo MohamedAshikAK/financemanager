@@ -1,9 +1,10 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
+import { CreditCard, AlertCircle, Plus, ArrowRight, User, Calendar, TrendingUp, TrendingDown, Wallet, X } from 'lucide-react';
 import { useLoanStore } from '../store/loansStore';
 import { useMonthlyDebtStore } from '../store/monthlyDebtStore';
 import { useCreditBillStore } from '../store/creditBillStore';
+import { useContactStore } from '../store/contactStore';
 import { useSettingsStore } from '../store/settingsStore';
 import { formatCurrency } from '../utils/currency';
 import { isDueSoon, isOverdue } from '../utils/date';
@@ -15,6 +16,9 @@ function Home() {
   const bills = useCreditBillStore((state) => state.bills);
   const currency = useSettingsStore((state) => state.currency);
   const isHydrated = useLoanStore((state) => state.isHydrated);
+  const contacts = useContactStore((state) => state.contacts);
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const pendingLoans = loans.filter(l => !l.isPaid);
   const pendingMonthlyDebts = monthlyDebts.filter(d => !d.isPaid);
@@ -127,14 +131,14 @@ function Home() {
         <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h2>
         <div className="space-y-3">
           <button
-            onClick={() => navigate('/loans/form?action=add')}
+            onClick={() => setShowPaymentModal(true)}
             className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white py-2 rounded-xl font-semibold flex items-center justify-between px-6 shadow-lg shadow-purple-500/30 transition-all duration-200 active:scale-95"
           >
             <div className="flex items-center gap-2">
               <div className="p-2 bg-white/20 rounded-xl">
                 <Plus size={18} />
               </div>
-              <span>Add Loan/Chit</span>
+              <span>Add Payment</span>
             </div>
             <ArrowRight size={18} />
           </button>
@@ -219,6 +223,67 @@ function Home() {
           </button>
         </div>
       </div>
+
+      {showPaymentModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 z-50">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl max-h-[80vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-slate-800">Select Loan/Chit</h3>
+              <button onClick={() => setShowPaymentModal(false)} className="p-2 hover:bg-slate-100 rounded-xl">
+                <X size={18} className="text-slate-600" />
+              </button>
+            </div>
+            
+            {pendingLoans.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-slate-500 mb-4">No pending loans/chits</p>
+                <button
+                  onClick={() => { setShowPaymentModal(false); navigate('/loans'); }}
+                  className="btn-primary"
+                >
+                  Go to Loan & Chits
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2 overflow-y-auto flex-1">
+                {pendingLoans.map((loan) => {
+                  const contact = contacts.find((c) => c.id === loan.personId);
+                  const totalPaid = loan.payments.reduce((sum, p) => sum + p.amount, 0);
+                  const remainingBalance = loan.initialAmount - totalPaid;
+                  const progressPercent = (totalPaid / loan.initialAmount) * 100;
+
+                  return (
+                    <button
+                      key={loan.id}
+                      onClick={() => { setShowPaymentModal(false); navigate(`/loans/${loan.id}/payment`); }}
+                      className="w-full card p-3 text-left hover:shadow-md transition-all"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-sm">
+                            {contact?.name?.charAt(0).toUpperCase() || '?'}
+                          </div>
+                          <div>
+                            <p className="font-semibold text-slate-800 text-sm">{loan.title}</p>
+                            <p className="text-xs text-slate-500 capitalize">{loan.type}</p>
+                          </div>
+                        </div>
+                        <p className="text-sm font-bold text-slate-800">{formatCurrency(remainingBalance, currency)}</p>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-1.5">
+                        <div 
+                          className="bg-purple-600 h-1.5 rounded-full transition-all duration-300"
+                          style={{ width: `${Math.min(progressPercent, 100)}%` }}
+                        />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
