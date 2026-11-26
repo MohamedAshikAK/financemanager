@@ -42,8 +42,22 @@ export default function Settings() {
     { code: 'EUR', name: 'Euro (€)' },
     { code: 'GBP', name: 'British Pound (£)' },
     { code: 'JPY', name: 'Japanese Yen (¥)' },
+    { code: 'CNY', name: 'Chinese Yuan (¥)' },
     { code: 'AUD', name: 'Australian Dollar (A$)' },
     { code: 'CAD', name: 'Canadian Dollar (C$)' },
+    { code: 'CHF', name: 'Swiss Franc (Fr)' },
+    { code: 'SGD', name: 'Singapore Dollar (S$)' },
+    { code: 'AED', name: 'UAE Dirham (د.إ)' },
+    { code: 'SAR', name: 'Saudi Riyal (﷼)' },
+    { code: 'MYR', name: 'Malaysian Ringgit (RM)' },
+    { code: 'THB', name: 'Thai Baht (฿)' },
+    { code: 'KRW', name: 'South Korean Won (₩)' },
+    { code: 'HKD', name: 'Hong Kong Dollar (HK$)' },
+    { code: 'NZD', name: 'New Zealand Dollar (NZ$)' },
+    { code: 'BRL', name: 'Brazilian Real (R$)' },
+    { code: 'MXN', name: 'Mexican Peso ($)' },
+    { code: 'RUB', name: 'Russian Ruble (₽)' },
+    { code: 'ZAR', name: 'South African Rand (R)' },
   ];
 
   const handlePinEnable = () => {
